@@ -1,0 +1,39 @@
+package fr.polytech.pfe.multicapteurs.model.structural;
+
+import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
+import fr.polytech.pfe.multicapteurs.model.language.Visitable;
+import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+
+/**
+ * Created by fofo on 21/02/16.
+ */
+public class Output implements Visitable {
+
+    private String path;
+    private LinkedHashMap<String, MeasureUse> printedMeasures ;
+
+
+    public LinkedHashMap<String, MeasureUse> getPrintedMeasures() {
+        return printedMeasures;
+    }
+
+    public void setPrintedMeasures(LinkedHashMap<String, MeasureUse> printedMeasures) {
+        this.printedMeasures = printedMeasures;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    @Override
+    public void accept(Visitor visitor) {
+        visitor.output(this);
+    }
+}
