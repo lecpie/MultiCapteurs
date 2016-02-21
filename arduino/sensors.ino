@@ -96,29 +96,12 @@ void put_endl     () { put_char(endline);   }
 
 BufferedGPS gps(RX, TX, REFRESHDELAY);
 
-float longitude;
-float latitude;
-
-/* Light sensor */
-
-int light;
-
 /* DHT temperature / Humidity sensor */
 
 #define DHTPIN     A0
 #define DHTTYPE DHT11
 
 DHT dht(DHTPIN, DHTTYPE);
-
-int temperature;
-int humidity;
-
-
-// HP20x Barometer
-
-float hp_temperature;
-float hp_pressure;
-float hp_altitude;
 
 
 void setup()
@@ -194,45 +177,33 @@ void loop()
 {
     // Update all measures
 
-    latitude    = gps.getLatitude();
-    longitude   = gps.getLongitude();
-
-    light       = TSL2561.readVisibleLux();
-
-    temperature = dht.readTemperature();
-    humidity    = dht.readHumidity();
-
-    hp_temperature = HP20x.ReadTemperature() / 100.0;
-    hp_pressure    = HP20x.ReadPressure   () / 100.0;
-    hp_altitude    = HP20x.ReadAltitude   () / 100.0;
-
     #if SDOUTPUT
     // Write them on output
     datafile = SD.open(OUTPUTFILE, FILE_WRITE);
     #endif
 
-    put_float(latitude);
+    put_float(gps.getLatitude());
     put_separator();
 
-    put_float(longitude);
+    put_float(gps.getLongitude());
     put_separator();
 
-    put_int(temperature);
+    put_int(dht.readTemperature());
     put_separator();
 
-    put_int(humidity);
+    put_int(dht.readHumidity());
     put_separator();
 
-    put_int(light);
+    put_int(TSL2561.readVisibleLux());
     put_separator();
 
-    put_float(hp_temperature);
+    put_float(HP20x.ReadTemperature() / 100.0);
     put_endl();
 
-    put_float(hp_pressure);
+    put_float(HP20x.ReadPressure   () / 100.0);
     put_endl();
 
-    put_float(hp_altitude);
+    put_float(HP20x.ReadAltitude   () / 100.0);
     put_endl();
 
 
