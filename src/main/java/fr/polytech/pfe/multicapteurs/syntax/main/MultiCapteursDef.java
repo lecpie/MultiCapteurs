@@ -9,5 +9,6 @@ import java.io.File;
  */
 public class MultiCapteursDef {
     public static void main(String[] args) {
+        System.out.println("!\n");
     }
 }
