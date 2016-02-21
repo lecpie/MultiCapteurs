@@ -1,5 +1,6 @@
 package fr.polytech.pfe.multicapteurs.model.generator;
 
+import fr.polytech.pfe.multicapteurs.App;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
@@ -13,6 +14,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void include(Library library) {
+
+	}
+
+	@Override
+	public void visit(App app) {
 
 	}
 
