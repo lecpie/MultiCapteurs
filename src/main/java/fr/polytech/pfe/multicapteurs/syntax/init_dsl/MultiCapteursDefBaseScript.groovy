@@ -12,8 +12,6 @@ public abstract class MultiCapteursDefBaseScript extends Script {
 
     boolean isLib = true
 
-    //FIXME : NOM UNIQUE AUX LIBRARY + MEASURE A L'AJOUT????
-
     def library(String name) {
         current_librairy = new Library()
         current_librairy.setName(name)
