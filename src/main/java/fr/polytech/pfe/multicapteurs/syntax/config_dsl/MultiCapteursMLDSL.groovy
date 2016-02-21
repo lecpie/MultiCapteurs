@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.syntax.dsl
+package fr.polytech.pfe.multicapteurs.syntax.config_dsl
 
 import org.codehaus.groovy.control.CompilerConfiguration
 
@@ -11,7 +11,7 @@ class MultiCapteursMLDSL {
         binding = new MultiCapteursMLBinding()
         binding.setMultiCapteursMLModel(new MultiCapteursMLModel(binding));
         configuration = new CompilerConfiguration()
-        configuration.setScriptBaseClass("main.groovy.groovuinoml.dsl.GroovuinoMLBasescript")
+        configuration.setScriptBaseClass("main.groovy.groovuinoml.config_dsl.GroovuinoMLBasescript")
         shell = new GroovyShell(configuration)
 
         binding.setVariable("high", SIGNAL.HIGH)

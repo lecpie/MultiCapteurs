@@ -1,6 +1,5 @@
-package fr.polytech.pfe.multicapteurs.syntax.dsl;
+package fr.polytech.pfe.multicapteurs.syntax.config_dsl;
 
-import fr.polytech.pfe.multicapteurs.syntax.main.MultiCapteursML;
 import groovy.lang.Binding;
 import groovy.lang.Script;
 

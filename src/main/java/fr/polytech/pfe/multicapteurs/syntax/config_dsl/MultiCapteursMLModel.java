@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.syntax.dsl;
+package fr.polytech.pfe.multicapteurs.syntax.config_dsl;
 
 /**
  * Created by lecpie on 2/21/16.
