@@ -6,8 +6,6 @@ package fr.polytech.pfe.multicapteurs.model.structural;
 public class Frequency {
 
 
-
-    private Frequency freq;
     private Time unity;
     private int value;
 
@@ -28,11 +26,4 @@ public class Frequency {
         this.unity = unity;
     }
 
-    public Frequency getFreq() {
-        return freq;
-    }
-
-    public void setFreq(Frequency freq) {
-        this.freq = freq;
-    }
 }
