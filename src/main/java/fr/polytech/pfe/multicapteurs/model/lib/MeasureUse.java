@@ -16,9 +16,11 @@ import java.util.Map;
  */
 public class MeasureUse implements Global, Updatable, Expression, Setupable {
 
+    private String name;
     private Measure measure;
     private LibraryUse libraryUse;
     private Frequency customFrequency;
+
 
     private Map <String, String> argsValues = new LinkedHashMap<>();
 
@@ -86,5 +88,13 @@ public class MeasureUse implements Global, Updatable, Expression, Setupable {
 
     public void setCustomFrequency(Frequency customFrequency) {
         this.customFrequency = customFrequency;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
