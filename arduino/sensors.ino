@@ -9,7 +9,7 @@
 #include <HP20x_dev.h>
 
 #define SERIALOUTPUT 1
-#define SDOUTPUT     1
+#define SDOUTPUT     0
 
 
 #if SDOUTPUT
@@ -19,8 +19,7 @@
 #define SDCHIPSELECT 4
 #define SDPIN        10
 
-#define OUTPUTFILE "measures.txt"
-
+char output[] = "measures.txt";
 File datafile;
 
 #endif
@@ -103,6 +102,10 @@ BufferedGPS gps(RX, TX, REFRESHDELAY);
 
 DHT dht(DHTPIN, DHTTYPE);
 
+// Frequencies
+
+long last_f1;
+long last_f2;
 
 void setup()
 {
@@ -133,12 +136,14 @@ void setup()
     HP20x.begin();
     delay(100);
 
-    // Init CSV
-    if (not SD.exists(OUTPUTFILE))
+#if SDOUTPUT
+    // Init CSV file
+    if (not SD.exists(output))
+#endif
     {
         #if SDOUTPUT
         // Write csv header
-        datafile = SD.open(OUTPUTFILE, FILE_WRITE);
+        datafile = SD.open(output, FILE_WRITE);
         #endif
 
         put_data("latitude",     8);
@@ -171,16 +176,24 @@ void setup()
         datafile.close();
         #endif
     }
+
+    // init frequency
+
+    last_f1 = last_f2 = 0;
 }
 
 void loop()
 {
-    // Update all measures
+    long now = millis();
+    uint8_t update_f1 = now > last_f1 + 10000;
+    uint8_t update_f2 = now > last_f2 + 100;
 
     #if SDOUTPUT
     // Write them on output
-    datafile = SD.open(OUTPUTFILE, FILE_WRITE);
+    datafile = SD.open(output, FILE_WRITE);
     #endif
+
+    // No frequency : ASAP
 
     put_float(gps.getLatitude());
     put_separator();
@@ -188,26 +201,51 @@ void loop()
     put_float(gps.getLongitude());
     put_separator();
 
-    put_int(dht.readTemperature());
+    if (update_f1) {
+        put_int(dht.readTemperature());
+    }
+
     put_separator();
 
-    put_int(dht.readHumidity());
+    if (update_f1) {
+        put_int(dht.readHumidity());
+    }
+
     put_separator();
 
-    put_int(TSL2561.readVisibleLux());
+    if (update_f1) {
+        put_int(TSL2561.readVisibleLux());
+    }
+
     put_separator();
 
-    put_float(HP20x.ReadTemperature() / 100.0);
+    if (update_f2) {
+        put_float(HP20x.ReadTemperature() / 100.0);
+    }
+
+    put_separator();
+
+    if (update_f2) {
+        put_float(HP20x.ReadPressure   () / 100.0);
+    }
+
+    put_separator();
+
+    if (update_f2) {
+        put_float(HP20x.ReadAltitude   () / 100.0);
+    }
+
+    put_separator();
+
     put_endl();
 
-    put_float(HP20x.ReadPressure   () / 100.0);
-    put_endl();
+    if (update_f1) {
+        last_f1 = now;
+    }
 
-    put_float(HP20x.ReadAltitude   () / 100.0);
-    put_endl();
-
-
-    put_endl();
+    if (update_f2) {
+        last_f2 = now;
+    }
 
     #if SDOUTPUT
     datafile.close();
