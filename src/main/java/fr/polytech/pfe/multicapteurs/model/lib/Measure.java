@@ -1,7 +1,6 @@
 package fr.polytech.pfe.multicapteurs.model.lib;
 
 import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
-import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
 import java.util.ArrayList;
@@ -24,15 +23,15 @@ public class Measure {
     private List <String> setupInstructions = new ArrayList<>();
     private List <String> updateInstructions = new ArrayList<>();
     private List <String> variables = new ArrayList<>();
-    private Frequency frequency = new Frequency();
+    private Frequency sensorFrequency = new Frequency();
     private String readExpressionString;
 
-    public Frequency getFrequency() {
-        return frequency;
+    public Frequency getSensorFrequency() {
+        return sensorFrequency;
     }
 
-    public void setFrequency(Frequency frequency) {
-        this.frequency = frequency;
+    public void setSensorFrequency(Frequency sensorFrequency) {
+        this.sensorFrequency = sensorFrequency;
     }
 
     public Type getType() {

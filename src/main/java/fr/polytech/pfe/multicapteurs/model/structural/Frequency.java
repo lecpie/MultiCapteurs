@@ -5,17 +5,12 @@ package fr.polytech.pfe.multicapteurs.model.structural;
  */
 public class Frequency {
 
-    private FrenquencyType type;
+
+
+    private Frequency freq;
     private Time unity;
     private int value;
 
-    public FrenquencyType getType() {
-        return type;
-    }
-
-    public void setType(FrenquencyType type) {
-        this.type = type;
-    }
 
     public int getValue() {
         return value;
@@ -31,5 +26,13 @@ public class Frequency {
 
     public void setUnity(Time unity) {
         this.unity = unity;
+    }
+
+    public Frequency getFreq() {
+        return freq;
+    }
+
+    public void setFreq(Frequency freq) {
+        this.freq = freq;
     }
 }

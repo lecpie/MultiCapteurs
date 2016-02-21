@@ -5,6 +5,7 @@ import fr.polytech.pfe.multicapteurs.model.language.Expression;
 import fr.polytech.pfe.multicapteurs.model.language.Global;
 import fr.polytech.pfe.multicapteurs.model.language.Setupable;
 import fr.polytech.pfe.multicapteurs.model.language.Updatable;
+import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ public class MeasureUse implements Global, Updatable, Expression, Setupable {
 
     private Measure measure;
     private LibraryUse libraryUse;
+    private Frequency customFrequency;
 
     private Map <String, String> argsValues = new LinkedHashMap<>();
 
@@ -76,5 +78,13 @@ public class MeasureUse implements Global, Updatable, Expression, Setupable {
 
     public void setArgsValues(Map<String, String> argsValues) {
         this.argsValues = argsValues;
+    }
+
+    public Frequency getCustomFrequency() {
+        return customFrequency;
+    }
+
+    public void setCustomFrequency(Frequency customFrequency) {
+        this.customFrequency = customFrequency;
     }
 }
