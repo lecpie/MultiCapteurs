@@ -16,7 +16,7 @@ public class MultiCapteursDefDSL {
     private MultiCapteursDefBinding binding;
     private MultiCapteursDefModel model;
 
-    MultiCapteursDefDSL() {
+    public MultiCapteursDefDSL() {
         binding = new MultiCapteursDefBinding();
         binding.setInitialisationModel(model = new MultiCapteursDefModel(binding));
         configuration = new CompilerConfiguration();
@@ -27,14 +27,14 @@ public class MultiCapteursDefDSL {
         binding.setVariable("digital", Type.DIGITAL);
     }
 
-    void eval(File scriptFile) throws IOException {
+    public void eval(File scriptFile) throws IOException {
         Script script = shell.parse(scriptFile);
         binding.setScript(script);
         script.setBinding(binding);
         script.run();
     }
 
-    MultiCapteursDefModel getModel() {
+    public MultiCapteursDefModel getModel() {
         return model;
     }
 }

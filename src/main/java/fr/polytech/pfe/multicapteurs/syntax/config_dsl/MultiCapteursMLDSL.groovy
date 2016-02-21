@@ -11,7 +11,7 @@ class MultiCapteursMLDSL {
         binding = new MultiCapteursMLBinding()
         binding.setMultiCapteursMLModel(new MultiCapteursMLModel(binding));
         configuration = new CompilerConfiguration()
-        configuration.setScriptBaseClass("main.groovy.groovuinoml.config_dsl.GroovuinoMLBasescript")
+        configuration.setScriptBaseClass("main.java.fr.polytech.pfe.multicapteurs.syntax.config_dsl.MultiCapteursMLBasescript")
         shell = new GroovyShell(configuration)
 
         binding.setVariable("high", SIGNAL.HIGH)

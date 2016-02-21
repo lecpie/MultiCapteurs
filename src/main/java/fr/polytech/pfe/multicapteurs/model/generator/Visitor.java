@@ -9,6 +9,8 @@ import fr.polytech.pfe.multicapteurs.model.structural.Output;
 
 public abstract class Visitor<T> {
 
+	protected T result;
+
 	public abstract void include (Library library);
 	public abstract void visit(App app);
 	public abstract void setup(LibraryUse libraryUse);
@@ -18,5 +20,8 @@ public abstract class Visitor<T> {
 	public abstract void global     (MeasureUse measureUse);
 	public abstract void update     (MeasureUse measureUse);
 	public abstract void expression (MeasureUse measureUse);
+	public T getResult() {
+		return result;
+	}
 }
 
