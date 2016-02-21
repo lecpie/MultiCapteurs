@@ -23,7 +23,7 @@ public class Measure {
     private List <String> setupInstructions = new ArrayList<>();
     private List <String> updateInstructions = new ArrayList<>();
     private List <String> variables = new ArrayList<>();
-    private Frequency sensorFrequency = new Frequency();
+    private Frequency sensorFrequency;
     private String readExpressionString;
 
     public Frequency getSensorFrequency() {

@@ -5,25 +5,28 @@ package fr.polytech.pfe.multicapteurs.model.structural;
  */
 public class Frequency {
 
+    private int rate;
+    private Time unit;
 
-    private Time unity;
-    private int value;
-
-
-    public int getValue() {
-        return value;
+    public Frequency(int rate, Time unit){
+        this.rate = rate;
+        this.unit = unit;
     }
 
-    public void setValue(int value) {
-        this.value = value;
+    public int getRate() {
+        return rate;
     }
 
-    public Time getUnity() {
-        return unity;
+    public void setRate(int rate) {
+        this.rate = rate;
     }
 
-    public void setUnity(Time unity) {
-        this.unity = unity;
+    public Time getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Time unit) {
+        this.unit = unit;
     }
 
 }
