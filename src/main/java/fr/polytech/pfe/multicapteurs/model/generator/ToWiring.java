@@ -3,6 +3,7 @@ package fr.polytech.pfe.multicapteurs.model.generator;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
+import fr.polytech.pfe.multicapteurs.model.structural.Output;
 
 /**
  * Quick and dirty visitor to support the generation of Wiring code
@@ -22,6 +23,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void global(LibraryUse libraryUse) {
+
+	}
+
+	@Override
+	public void output(Output output) {
 
 	}
 
