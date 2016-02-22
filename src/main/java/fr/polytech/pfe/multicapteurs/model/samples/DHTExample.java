@@ -114,7 +114,7 @@ public class DHTExample {
 
         // Type and pin for one dht sensor using one instance of the DHT library
 
-        usedht.getArgsValues().put("dht_pin", "9");
+        usedht.getArgsValues().put("dht_pin", "A0");
         usedht.getArgsValues().put("dht_type", "DHT11");
 
         //For output management

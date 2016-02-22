@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class ToWiring extends Visitor<StringBuffer> {
 
-    private static final boolean SDOUTPUT     = true;
+    private static final boolean SDOUTPUT     = false;
     private static final boolean SERIALOUTPUT = true;
 
     private Map <LibraryUse, Map<String, String>> librarysym = new HashMap<>();
@@ -110,7 +110,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("\t\t\tidatabuf = 0;");
         w("\t\t}");
         w("\t}");
-        w("\t");
         w("}");
 
         w("char conversionbuffer[64];");
@@ -190,9 +189,12 @@ public class ToWiring extends Visitor<StringBuffer> {
 
         comment("Frequencies");
 
-        Set <Integer> frequencies = new HashSet<>();
+        List <Integer> frequencies = new ArrayList<>();
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
-            frequencies.add(measureUse.getCustomFrequency().getRateintoMS());
+            int frequency = measureUse.getCustomFrequency().getRateintoMS();
+            if (!frequencies.contains(frequency)) {
+                frequencies.add(measureUse.getCustomFrequency().getRateintoMS());
+            }
         }
 
         for (Integer frequency : frequencies) {
@@ -251,10 +253,10 @@ public class ToWiring extends Visitor<StringBuffer> {
             for (Integer frequency : frequencies) {
                 add("last_" + freqname(frequency) + " = ");
             }
-            add("0;");
+            w("0;");
         }
 
-        w("}");
+        w("\t}");
 
 
         w("void loop() {");
@@ -265,6 +267,20 @@ public class ToWiring extends Visitor<StringBuffer> {
             w("\tuint8_t update_" + freqname(frequency) + " = now > last_" + freqname(frequency) + " + " + frequency + ";");
         }
 
+        if (frequencies.size() > 0) {
+            add("\tif (");
+
+            add("update_" + freqname(frequencies.get(0)));
+
+            for (int i = 1; i < frequencies.size(); ++i) {
+                add(" || update_" + freqname(frequencies.get(i)));
+            }
+
+            w(")");
+            w("\t{");
+        }
+
+
         if (SDOUTPUT) {
             w("\tdatafile = SD.open(output, FILE_WRITE);");
         }
@@ -272,9 +288,9 @@ public class ToWiring extends Visitor<StringBuffer> {
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
 
             if (measureUse.getCustomFrequency() != null) {
-                w("if (update_" + freqname(measureUse.getCustomFrequency().getRateintoMS()) + ")");
+                w("\tif (update_" + freqname(measureUse.getCustomFrequency().getRateintoMS()) + ")");
             }
-            w("{");
+            w("\t{");
 
             String ctype = getCType(measureUse.getType());
 
@@ -295,13 +311,17 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("\tput_endl();");
 
         for (Integer frequency : frequencies) {
-            w("if (update_" + freqname(frequency) + ") {");
+            w("\tif (update_" + freqname(frequency) + ") {");
             w("\t\tlast_" + freqname(frequency) + " = now;");
-            w("}");
+            w("\t}");
         }
 
         if (SDOUTPUT) {
             w("\tdatafile.close();");
+        }
+
+        if (frequencies.size() > 0) {
+            w("\t}");
         }
 
         w("}");

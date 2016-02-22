@@ -17,11 +17,11 @@ public class Frequency {
 
             switch (this.unit){
                 case HOUR:
-                    return (this.rate/3600000);
+                    return (this.rate * 60 * 60 * 1000);
                 case MIN:
-                    return (this.rate/60000);
+                    return (this.rate * 60 * 1000);
                 case SEC:
-                    return (this.rate/1000);
+                    return (this.rate * 1000);
                 case MS:
                     return (this.rate);
                 default :
