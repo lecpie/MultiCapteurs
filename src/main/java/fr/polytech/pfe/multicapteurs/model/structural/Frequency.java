@@ -13,6 +13,22 @@ public class Frequency {
         this.unit = unit;
     }
 
+    public int getRateintoMS (){
+
+            switch (this.unit){
+                case HOUR:
+                    return (this.rate/3600000);
+                case MIN:
+                    return (this.rate/60000);
+                case SEC:
+                    return (this.rate/1000);
+                case MS:
+                    return (this.rate);
+                default :
+                    return (this.rate);
+            }
+    }
+
     public int getRate() {
         return rate;
     }

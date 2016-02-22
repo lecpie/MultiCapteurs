@@ -5,6 +5,7 @@ package fr.polytech.pfe.multicapteurs.model.structural;
  */
 
 public enum Time {
+    MS,
     SEC,
     MIN,
     HOUR
