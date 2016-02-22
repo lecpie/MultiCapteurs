@@ -19,7 +19,7 @@ public class App implements NamedElement, Visitable {
     private String name;
     private Map<String, Library> loadedLibraries = new HashMap<>();
     private List <LibraryUse> usedLibraries = new ArrayList<>();
-    private Output output = new Output();
+    private Output output = new Output("output/data");
 
 
     @Override

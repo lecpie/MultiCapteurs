@@ -8,6 +8,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
+import fr.polytech.pfe.multicapteurs.model.structural.Output;
 import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
@@ -116,13 +117,16 @@ public class DHTExample {
         usedht.getArgsValues().put("dht_pin", "9");
         usedht.getArgsValues().put("dht_type", "DHT11");
 
-        // Used measures for this dht
+        //For output management
+        Output out = new Output("output/data");
 
+        // Used measures for this dht
         MeasureUse tempcelc = new MeasureUse();
         tempcelc.setName("temperature_celcius");
         tempcelc.setLibraryUse(usedht);
         tempcelc.setMeasure(dhtloaded.getMeasures().get("temperature"));
         tempcelc.setCustomFrequency(new Frequency(4, Time.SEC));
+        out.addMeasureUse("temperature_celcius", tempcelc);
 
         MeasureUse tempfahr = new MeasureUse();
         tempfahr.setName("temperature_fahr");
@@ -130,12 +134,14 @@ public class DHTExample {
         tempfahr.setMeasure(dhtloaded.getMeasures().get("temperature"));
         tempfahr.getArgsValues().put("format", "dht_temp_format_fahr");
         tempfahr.setCustomFrequency(new Frequency(5, Time.SEC));
+        out.addMeasureUse("temperature_fahr", tempfahr);
 
         MeasureUse hum = new MeasureUse();
         hum.setName("humidity");
         hum.setLibraryUse(usedht);
         hum.setMeasure(dhtloaded.getMeasures().get("humidity"));
         hum.setCustomFrequency(new Frequency(7, Time.SEC));
+        out.addMeasureUse("humidity", hum);
 
         // Building the App
         DHTApp.setName("DHTApp");
@@ -143,6 +149,8 @@ public class DHTExample {
         // Generating Code
         Visitor codeGenerator = new ToWiring();
         DHTApp.accept(codeGenerator);
+
+        //Fill Output object
 
         // Printing the generated code on the console
         System.out.println(codeGenerator.getResult());
