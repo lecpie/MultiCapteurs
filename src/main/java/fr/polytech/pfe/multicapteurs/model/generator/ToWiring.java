@@ -35,9 +35,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         result.append(String.format("%s\n",s));
     }
 
-    // Let's try to hide this here
-    private static final String ARDUINOML_GEN_ARG1 = "ARDUINOML_GEN_ARG1";
-
     private void def (String name) {
         add("#define " + name);
     }
@@ -46,6 +43,11 @@ public class ToWiring extends Visitor<StringBuffer> {
         def(name);
         w(" " + val);
     }
+
+    private void undef (String name) {
+        w("#undef " + name);
+    }
+
 
     private void include(String included) {
         w("#include <" + included + ">");
@@ -77,6 +79,9 @@ public class ToWiring extends Visitor<StringBuffer> {
             w("File datafile;");
         }
 
+        w("const char separator = ',';");
+        w("const char endline   = '\\n';");
+
         def("DATABUFSIZE", "128");
 
         w("uint8_t databuf[DATABUFSIZE];");
@@ -95,7 +100,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("\t\tif (idatabuf >= DATABUFSIZE) {");
 
         if (SERIALOUTPUT) {
-            w("\t\t\tSerial  .write(databuf, DATABUFSIZE);");
+            w("\t\t\tSerial.write(databuf, DATABUFSIZE);");
         }
 
         if (SDOUTPUT) {
@@ -106,6 +111,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("\t\t}");
         w("\t}");
         w("\t");
+        w("}");
 
         w("char conversionbuffer[64];");
 
@@ -127,7 +133,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("void put_separator() { put_char(separator); }");
         w("void put_endl     () { put_char(endline);   }");
 
-        int ctr = 0;
         for (LibraryUse usedlib : app.getUsedLibraries()) {
             Library lib = usedlib.getLibrary();
 
@@ -156,7 +161,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             usedlib.global(this);
         }
 
-        ctr = 0;
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
             Measure measure = measureUse.getMeasure();
 
@@ -187,9 +191,8 @@ public class ToWiring extends Visitor<StringBuffer> {
         comment("Frequencies");
 
         Set <Integer> frequencies = new HashSet<>();
-        for (MeasureUse measureUse :app.getOutput().getPrintedMeasures().values()) {
-            //TODO
-            //frequencies.add(measureUse.getRateIntoMs());
+        for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
+            frequencies.add(measureUse.getCustomFrequency().getRateintoMS());
         }
 
         for (Integer frequency : frequencies) {
@@ -202,8 +205,8 @@ public class ToWiring extends Visitor<StringBuffer> {
 
         if (SDOUTPUT) {
             comment("SD setup");
-            w("pinMode(SDPIN, OUTPUT);");
-            w("SD.begin(SDCHIPSELECT);");
+            w("\tpinMode(SDPIN, OUTPUT);");
+            w("\tSD.begin(SDCHIPSELECT);");
         }
 
         if (SERIALOUTPUT) {
@@ -220,7 +223,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (SDOUTPUT) {
-            w("\tif (not SD.exists(output);");
+            w("\tif (not SD.exists(output))");
         }
 
         w("\t{");
@@ -237,7 +240,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         w("\t\tput_endl();");
 
         if (SDOUTPUT) {
-            w("datafile.close();");
+            w("\t\tdatafile.close();");
         }
 
         w("\t}");
@@ -263,13 +266,15 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (SDOUTPUT) {
-            w("datafile = SD.open(output, FILE_WRITE);");
+            w("\tdatafile = SD.open(output, FILE_WRITE);");
         }
 
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
 
-            if (measureUse.getCustomFrequency() == null) {
+            if (measureUse.getCustomFrequency() != null) {
+                w("if (update_" + freqname(measureUse.getCustomFrequency().getRateintoMS()) + ")");
             }
+            w("{");
 
             String ctype = getCType(measureUse.getType());
 
@@ -277,10 +282,6 @@ public class ToWiring extends Visitor<StringBuffer> {
                 throw new CompilationError("measure " + measureUse.getName() + " has type " + measureUse.getType()
                                            + "but is not implemented for output writing");
             }
-
-            // TODO
-            //w("if (update_" + measureUse.getCustomFrequency().getRateIntoMs());
-            w("{");
 
             measureUse.update(this);
             add("\tput_" + ctype + "(" );
@@ -300,7 +301,7 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (SDOUTPUT) {
-            w("datafile.close();");
+            w("\tdatafile.close();");
         }
 
         w("}");
@@ -322,14 +323,46 @@ public class ToWiring extends Visitor<StringBuffer> {
         return "f" + frequency;
     }
 
+    @SafeVarargs
+    private final void loadArgs(Map <String, String> ... args) {
+        w("");
+        for (Map <String, String> priorityArgs: args) {
+            for (String arg : priorityArgs.keySet()) {
+                def(arg, priorityArgs.get(arg));
+            }
+        }
+    }
+    @SafeVarargs
+    private final void unloadArgs( Map <String, String> ... args) {
+        for (Map <String, String> priorityArgs: args) {
+            for (String arg : priorityArgs.keySet()) {
+                undef(arg);
+            }
+        }
+    }
+
+    @SafeVarargs
+    private final void instructions(List<String> instructions , Map <String, String>  ... args) {
+        // Try to pollute a bit less
+        if (instructions.size() == 0) return;
+
+        loadArgs(args);
+
+        for (String instruction : instructions) {
+            w(instruction);
+        }
+
+        unloadArgs(args);
+    }
+
 	@Override
 	public void setup(LibraryUse libraryUse) {
-
+        instructions(libraryUse.getLibrary().getSetupInstructions(), libraryUse.getArgsValues());
 	}
 
 	@Override
 	public void global(LibraryUse libraryUse) {
-
+        instructions(libraryUse.getLibrary().getGlobalInstructions(), libraryUse.getArgsValues());
 	}
 
 	@Override
@@ -339,21 +372,30 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void setup(MeasureUse measureUse) {
-
+        instructions(measureUse.getMeasure().getSetupInstructions(), measureUse.getLibraryUse().getArgsValues(),
+                                                                     measureUse                .getArgsValues());
 	}
 
 	@Override
 	public void global(MeasureUse measureUse) {
-
+        instructions(measureUse.getMeasure().getGlobalInstructions(), measureUse.getLibraryUse().getArgsValues(),
+                                                                      measureUse                .getArgsValues());
 	}
 
 	@Override
 	public void update(MeasureUse measureUse) {
-
+        instructions(measureUse.getMeasure().getUpdateInstructions(), measureUse.getLibraryUse().getArgsValues(),
+                                                                      measureUse                .getArgsValues());
 	}
 
 	@Override
 	public void expression(MeasureUse measureUse) {
+        loadArgs(measureUse.getLibraryUse().getArgsValues(),
+                 measureUse                .getArgsValues());
 
+        w(measureUse.getMeasure().getReadExpressionString());
+
+        unloadArgs(measureUse.getLibraryUse().getArgsValues(),
+                   measureUse                .getArgsValues());
 	}
 }

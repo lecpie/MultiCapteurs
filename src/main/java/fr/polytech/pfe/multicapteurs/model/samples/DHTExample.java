@@ -103,14 +103,14 @@ public class DHTExample {
         librariestoload.put("DHT", libdht);
 
         // ArduinoML configuration
-        App DHTApp = new App();
-        DHTApp.setLoadedLibraries(librariestoload);
+        App dhtapp = new App();
+        dhtapp.setLoadedLibraries(librariestoload);
 
-        Library dhtloaded = DHTApp.getLoadedLibraries().get("DHT");
+        Library dhtloaded = dhtapp.getLoadedLibraries().get("DHT");
 
         LibraryUse usedht = new LibraryUse();
         usedht.setLibrary(dhtloaded);
-        DHTApp.getUsedLibraries().add(usedht);
+        dhtapp.getUsedLibraries().add(usedht);
 
         // Type and pin for one dht sensor using one instance of the DHT library
 
@@ -118,7 +118,7 @@ public class DHTExample {
         usedht.getArgsValues().put("dht_type", "DHT11");
 
         //For output management
-        Output out = new Output("output/data");
+        Output out = new Output("measures.csv");
 
         // Used measures for this dht
         MeasureUse tempcelc = new MeasureUse();
@@ -144,11 +144,12 @@ public class DHTExample {
         out.addMeasureUse("humidity", hum);
 
         // Building the App
-        DHTApp.setName("DHTApp");
+        dhtapp.setName("DHTApp");
+        dhtapp.setOutput(out);
 
         // Generating Code
         Visitor codeGenerator = new ToWiring();
-        DHTApp.accept(codeGenerator);
+        dhtapp.accept(codeGenerator);
 
         //Fill Output object
 
