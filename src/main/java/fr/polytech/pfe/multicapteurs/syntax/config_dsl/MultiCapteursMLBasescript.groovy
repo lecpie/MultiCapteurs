@@ -17,13 +17,13 @@ abstract class MultiCapteursMLBasescript extends Script {
         ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel().importlib(path)
     }
 
-    def uselib(String libName){
-        MultiCapteursMLModel model = ((MultiCapteursMLBinding)this.getBinding()).getMultiCapteursMLModel()
+    def uselib(String libName) {
+        MultiCapteursMLModel model = ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel()
 
         LibraryUse libraryUse = new LibraryUse();
-        Library usedLibrary =  model.getLoaded_librairies().get(libName)
+        Library usedLibrary = model.getLoaded_librairies().get(libName)
         libraryUse.setLibrary(usedLibrary)
-        Map <String, String> args = usedLibrary.getDefaultArgs()
+        Map<String, String> args = usedLibrary.getDefaultArgs()
 
         model.getUsedLibraries().add(libraryUse)
         current = libraryUse
@@ -36,12 +36,11 @@ abstract class MultiCapteursMLBasescript extends Script {
                         args.put(key, val)
                         [and: closure]
                 }]
-
         }]
     }
 
     def sensor(String measureName) {
-        MultiCapteursMLModel model = ((MultiCapteursMLBinding)this.getBinding()).getMultiCapteursMLModel()
+        MultiCapteursMLModel model = ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel()
 
         Map<String, String> args = new LinkedHashMap<String, String>()
 
@@ -58,23 +57,22 @@ abstract class MultiCapteursMLBasescript extends Script {
         String previousname = measureName
         binding.setVariable(previousname, measureUse)
 
-        [named: {
+        [named : {
             String name ->
                 measureUse.setName(name)
                 binding.getVariables().remove(previousname)
                 previousname = name
                 binding.setVariable(previousname, measureUse)
                 [freq: freqClosure]
-        },freq: freqClosure = {
+        }, freq: freqClosure = {
             freqVal ->
                 measureUse.setCustomFrequency(new Frequency(freqVal, Time.SEC))
                 [rate: rateClosure]
-        },rate: rateClosure = {
+        }, rate: rateClosure = {
             String unit ->
                 measureUse.setTimeUnit(unit)
         }]
     }
-
 
     // export name
     def export(String name) {
