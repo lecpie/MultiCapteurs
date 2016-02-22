@@ -22,6 +22,10 @@ public class MultiCapteursDefDSL {
         configuration = new CompilerConfiguration();
         configuration.setScriptBaseClass("fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefBaseScript");
         shell = new GroovyShell(configuration);
+
+        binding.setVariable("real",    Type.REAL)
+        binding.setVariable("integer", Type.INTEGER)
+        binding.setVariable("digital", Type.DIGITAL)
     }
 
     public void eval(File scriptFile) throws IOException {

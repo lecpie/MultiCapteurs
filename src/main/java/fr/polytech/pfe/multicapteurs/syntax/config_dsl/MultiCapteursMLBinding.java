@@ -36,7 +36,7 @@ public class MultiCapteursMLBinding extends Binding {
         this.model = model;
     }
 
-    public MultiCapteursMLModel getGroovuinoMLModel() {
+    public MultiCapteursMLModel getMultiCapteursMLModel() {
         return this.model;
     }
 }

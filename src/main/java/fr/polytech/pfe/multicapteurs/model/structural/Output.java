@@ -4,6 +4,7 @@ import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
 import fr.polytech.pfe.multicapteurs.model.language.Visitable;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
@@ -13,14 +14,19 @@ import java.util.LinkedList;
 public class Output implements Visitable {
 
     private String path;
-    private LinkedHashMap<String, MeasureUse> printedMeasures ;
+    private HashMap<String, MeasureUse> printedMeasures ;
 
 
-    public LinkedHashMap<String, MeasureUse> getPrintedMeasures() {
+    public Output(String path){
+        this.path = path;
+        this.printedMeasures = new LinkedHashMap<>();
+    }
+
+    public HashMap<String, MeasureUse> getPrintedMeasures() {
         return printedMeasures;
     }
 
-    public void setPrintedMeasures(LinkedHashMap<String, MeasureUse> printedMeasures) {
+    public void setPrintedMeasures(HashMap<String, MeasureUse> printedMeasures) {
         this.printedMeasures = printedMeasures;
     }
 
@@ -30,6 +36,10 @@ public class Output implements Visitable {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public MeasureUse addMeasureUse(String label, MeasureUse measureUse){
+        return printedMeasures.put(label, measureUse);
     }
 
     @Override

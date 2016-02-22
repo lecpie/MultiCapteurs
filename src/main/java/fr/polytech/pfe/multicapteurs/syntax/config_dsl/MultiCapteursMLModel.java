@@ -8,7 +8,6 @@ import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefDSL;
-import fr.polytech.pfe.multicapteurs.syntax.main.MultiCapteursML;
 import groovy.lang.Binding;
 
 import java.io.File;
