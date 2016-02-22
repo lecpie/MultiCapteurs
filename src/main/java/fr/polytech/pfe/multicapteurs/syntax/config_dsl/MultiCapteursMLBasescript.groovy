@@ -3,6 +3,8 @@ package fr.polytech.pfe.multicapteurs.syntax.config_dsl
 import fr.polytech.pfe.multicapteurs.model.lib.Library
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse
+import fr.polytech.pfe.multicapteurs.model.structural.Frequency
+import fr.polytech.pfe.multicapteurs.model.structural.Time
 import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefBinding
 import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefModel
 
@@ -38,8 +40,8 @@ abstract class MultiCapteursMLBasescript extends Script {
         }]
     }
 
-    def usemeasure(String measureName) {
-        MultiCapteursDefModel model = ((MultiCapteursDefBinding)this.getBinding()).getMultiCapteursMLModel()
+    def sensor(String measureName) {
+        MultiCapteursMLModel model = ((MultiCapteursMLBinding)this.getBinding()).getMultiCapteursMLModel()
 
         Map<String, String> args = new LinkedHashMap<String, String>()
 
@@ -49,7 +51,6 @@ abstract class MultiCapteursMLBasescript extends Script {
         measureUse.setMeasure(current.getLibrary().getMeasures().get(measureName))
 
         model.getUsedMeasure().add(measureUse)
-        model.getBricks()     .add(measureUse)
 
         def nameclosure
         def argsclosure
@@ -57,31 +58,27 @@ abstract class MultiCapteursMLBasescript extends Script {
         String previousname = measureName
         binding.setVariable(previousname, measureUse)
 
-        [with: argsclosure = {
-            String key ->
-                [valued: {
-                    String val ->
-                        args.put(key, val)
-                        [and: argsclosure]
-                }]
-        },
-         named: nameclosure = {
-             String name ->
-                 measureUse.setName(name)
-
-                 binding.getVariables().remove(previousname)
-                 previousname = name
-
-                 binding.setVariable(previousname, measureUse)
-
-                 [with: argsclosure]
-         }]
+        [named: {
+            String name ->
+                measureUse.setName(name)
+                binding.getVariables().remove(previousname)
+                previousname = name
+                binding.setVariable(previousname, measureUse)
+                [freq: freqClosure]
+        },freq: freqClosure = {
+            freqVal ->
+                measureUse.setCustomFrequency(new Frequency(freqVal, Time.SEC))
+                [rate: rateClosure]
+        },rate: rateClosure = {
+            String unit ->
+                measureUse.setTimeUnit(unit)
+        }]
     }
 
 
     // export name
     def export(String name) {
-        println(((MultiCapteursDefBinding) this.getBinding()).getMultiCapteursMLModel().generateCode(name).toString())
+        println(((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel().generateCode(name).toString())
     }
 
 
