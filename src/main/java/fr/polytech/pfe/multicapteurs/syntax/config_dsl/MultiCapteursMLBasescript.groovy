@@ -12,11 +12,11 @@ abstract class MultiCapteursMLBasescript extends Script {
     private LibraryUse current = null
 
     def importlib(String path) {
-        ((MultiCapteursDefBinding) this.getBinding()).getGroovuinoMLModel().importlib(path)
+        ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel().importlib(path)
     }
 
     def uselib(String libName){
-        MultiCapteursDefModel model = ((MultiCapteursDefBinding)this.getBinding()).getGroovuinoMLModel()
+        MultiCapteursMLModel model = ((MultiCapteursMLBinding)this.getBinding()).getMultiCapteursMLModel()
 
         LibraryUse libraryUse = new LibraryUse();
         Library usedLibrary =  model.getLoaded_librairies().get(libName)
@@ -39,7 +39,7 @@ abstract class MultiCapteursMLBasescript extends Script {
     }
 
     def usemeasure(String measureName) {
-        MultiCapteursDefModel model = ((MultiCapteursDefBinding)this.getBinding()).getGroovuinoMLModel()
+        MultiCapteursDefModel model = ((MultiCapteursDefBinding)this.getBinding()).getMultiCapteursMLModel()
 
         Map<String, String> args = new LinkedHashMap<String, String>()
 
@@ -81,7 +81,7 @@ abstract class MultiCapteursMLBasescript extends Script {
 
     // export name
     def export(String name) {
-        println(((MultiCapteursDefBinding) this.getBinding()).getGroovuinoMLModel().generateCode(name).toString())
+        println(((MultiCapteursDefBinding) this.getBinding()).getMultiCapteursMLModel().generateCode(name).toString())
     }
 
 

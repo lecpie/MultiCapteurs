@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class MultiCapteursDef {
     public static void main(String[] args) throws IOException {
+        System.out.println("HEY\n");
         MultiCapteursDefDSL dsl = new MultiCapteursDefDSL();
         if(args.length > 0) {
             dsl.eval(new File(args[0]));
