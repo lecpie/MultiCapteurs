@@ -6,10 +6,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.structural.Output;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fofo on 21/02/16.
@@ -17,9 +14,9 @@ import java.util.Map;
 public class App implements NamedElement, Visitable {
 
     private String name;
-    private Map<String, Library> loadedLibraries = new HashMap<>();
+    private Map<String, Library> loadedLibraries = new LinkedHashMap<>();
     private List <LibraryUse> usedLibraries = new ArrayList<>();
-    private Output output = new Output("output/data");
+    private Output output;
 
 
     @Override

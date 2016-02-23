@@ -7,6 +7,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 /**
  * Created by fofo on 21/02/16.
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 public class Output implements Visitable {
 
     private String path;
-    private HashMap<String, MeasureUse> printedMeasures ;
+    private Map <String, MeasureUse> printedMeasures ;
 
 
     public Output(String path){
@@ -22,11 +23,11 @@ public class Output implements Visitable {
         this.printedMeasures = new LinkedHashMap<>();
     }
 
-    public HashMap<String, MeasureUse> getPrintedMeasures() {
+    public Map <String, MeasureUse> getPrintedMeasures() {
         return printedMeasures;
     }
 
-    public void setPrintedMeasures(HashMap<String, MeasureUse> printedMeasures) {
+    public void setPrintedMeasures(Map <String, MeasureUse> printedMeasures) {
         this.printedMeasures = printedMeasures;
     }
 
@@ -38,8 +39,8 @@ public class Output implements Visitable {
         this.path = path;
     }
 
-    public MeasureUse addMeasureUse(String label, MeasureUse measureUse){
-        return printedMeasures.put(label, measureUse);
+    public void addMeasureUse(String label, MeasureUse measureUse){
+        printedMeasures.put(label, measureUse);
     }
 
     @Override
