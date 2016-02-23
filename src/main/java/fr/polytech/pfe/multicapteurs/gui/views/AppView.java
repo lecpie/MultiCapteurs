@@ -1,6 +1,8 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
+import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
+import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,12 +54,12 @@ public class AppView extends JFrame {
     }
 
     private void initSensorManagementView(){
-        SensorManagementView smv = new SensorManagementView();
+        SensorManagementView smv = new SensorManagementView(new SensorManagementControler());
         centralContainer.add(smv);
     }
 
     private void initMeasurManagementView(){
-        MeasureManagementView mmv = new MeasureManagementView();
+        MeasureManagementView mmv = new MeasureManagementView(new MeasureManagementControler());
         centralContainer.add(mmv);
     }
 

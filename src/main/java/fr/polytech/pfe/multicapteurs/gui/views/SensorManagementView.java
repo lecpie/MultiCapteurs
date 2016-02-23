@@ -1,5 +1,8 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
+import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
+import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -17,18 +20,17 @@ import java.util.ArrayList;
 public class SensorManagementView extends JPanel {
 
     //TODO: Dropdown presets
-    //TODO: Dropdown lib
-    //TODO: Param List (ParamView)
 
+    private SensorManagementControler controler;
     private JTabbedPane sensorMenu;
     private ParamView paramView;
-    private JButton bouton;
     private JPanel addOnglet;
     private JPanel defaultOnglet;
 
 
-    public SensorManagementView(){
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    public SensorManagementView(SensorManagementControler controler){
+        this.controler = controler;
+        this.setLayout(new GridLayout(2,1));
         initTabPanned();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -61,6 +63,7 @@ public class SensorManagementView extends JPanel {
     }
 
     public void initParamView(){
-
+        paramView = new ParamView(new ParamViewControler());
+        this.add(paramView);
     }
 }

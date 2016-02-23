@@ -10,26 +10,19 @@ import java.util.List;
  */
 public class ParamViewControler {
 
-    Library selectedLib;
-   // List<MeasureSetupComponent> msp;
+    private List<String> params;
 
-    public Library getSelectedLib() {
-        return selectedLib;
+    public ParamViewControler(){
     }
 
-    public void setSelectedLib(Library selectedLib) {
-        this.selectedLib = selectedLib;
+    public ParamViewControler(List <String> params){
+        this.params = params;
     }
 
     public List<String> getReqParams(){
         List<String> params = new ArrayList<>();
-        /*
-        for(String arg : selectedLib.getRequiredArgs()){
-            params.add(arg.toString());
-        }*/
         params.add("dht_pin");
         params.add("dht_type");
-
         return params;
     }
 }
