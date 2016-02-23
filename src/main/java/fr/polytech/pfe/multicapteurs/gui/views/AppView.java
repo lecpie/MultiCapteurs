@@ -10,9 +10,10 @@ import java.awt.*;
  */
 public class AppView extends JFrame {
 
-    private JPanel container = new JPanel();
-    private JPanel sensorManagementView;
-    private JPanel measureManagementView;
+    private JPanel mainContainer = new JPanel();
+    private JPanel centralContainer = new JPanel();
+    /*private JPanel sensorManagementView;
+    private JPanel measureManagementView;*/
 
     private AppControler controler;
 
@@ -24,41 +25,47 @@ public class AppView extends JFrame {
         this.setResizable(true);
         initComposant();
         this.controler = controler;
-        this.setContentPane(container);
+        this.setContentPane(mainContainer);
         this.setVisible(true);
     }
 
     private void initComposant(){
-        container.setLayout(new BorderLayout());
+        BorderLayout mainLayout = new BorderLayout();
+        mainContainer.setLayout(mainLayout);
+
+
+        GridLayout centralLayout = new GridLayout(1,2);
+        centralContainer.setLayout(centralLayout);
+
         initHeader();
         initSensorManagementView();
         initMeasurManagementView();
-        //initMeasureList();
         initFooter();
+        mainContainer.add(centralContainer, BorderLayout.CENTER);
     }
 
     private void initHeader(){
         JPanel header = new JPanel();
         JLabel title = new JLabel("Auto-Drone-Multisensors");
         header.add(title);
-        container.add(header, BorderLayout.NORTH);
+        mainContainer.add(header, BorderLayout.NORTH);
     }
 
     private void initSensorManagementView(){
-        sensorManagementView = new SensorManagementView();
-        container.add(sensorManagementView, BorderLayout.WEST);
+        SensorManagementView smv = new SensorManagementView();
+        centralContainer.add(smv);
     }
 
     private void initMeasurManagementView(){
-        measureManagementView = new MeasureManagementView();
-        container.add(measureManagementView, BorderLayout.EAST);
+        MeasureManagementView mmv = new MeasureManagementView();
+        centralContainer.add(mmv);
     }
 
     private void initFooter(){
         JPanel footer = new JPanel();
         JButton generate = new JButton("Generate Code");
         footer.add(generate);
-        container.add(footer, BorderLayout.SOUTH);
+        mainContainer.add(footer, BorderLayout.SOUTH);
     }
 
     //TODO: add/remove item in JList
@@ -73,7 +80,7 @@ public class AppView extends JFrame {
         measuresList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         JScrollPane scrollPane = new JScrollPane(measuresList);
         measurePanel.add(scrollPane);
-        container.add(measurePanel, BorderLayout.WEST);
+        mainContainer.add(measurePanel, BorderLayout.WEST);
     }
 
     private JPanel sensorProp(String type, String pin){
