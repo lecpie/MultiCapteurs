@@ -12,10 +12,24 @@ public class MeasureManagementView extends JPanel {
     //TODO: Measure setup
     //TODO: Param List (ParamView)
 
-    public MeasureManagementView(){
-        this.add(new JLabel("measure management view"));
-        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+    private JTabbedPane measureMenu;
+    private ParamView paramView;
 
+    public MeasureManagementView(){
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        initMeasureMenu();
+        initParamView();
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.setVisible(true);
+    }
+
+    public void initMeasureMenu(){
+        measureMenu = new JTabbedPane();
+        measureMenu.addTab("temp1", new JLabel("temp1"));
+        this.add(measureMenu);
+    }
+
+    public void initParamView(){
+
     }
 }
