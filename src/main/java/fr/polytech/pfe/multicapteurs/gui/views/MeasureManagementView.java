@@ -1,5 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
+import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -21,7 +23,6 @@ public class MeasureManagementView extends JPanel {
         initMeasureMenu();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.setVisible(true);
     }
 
     public void initMeasureMenu(){
@@ -32,6 +33,7 @@ public class MeasureManagementView extends JPanel {
     }
 
     public void initParamView(){
-
+        paramView = new ParamView(new ParamViewControler());
+        this.add(paramView);
     }
 }

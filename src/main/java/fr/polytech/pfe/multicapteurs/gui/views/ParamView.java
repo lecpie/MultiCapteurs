@@ -9,32 +9,37 @@ import java.util.List;
 /**
  * Created by Louis on 22/02/2016.
  */
-public class ParamView extends JFrame{
+public class ParamView extends JPanel{
 
     private ParamViewControler controler;
+    private GridBagLayout layout;
+    GridBagConstraints c;
 
     public ParamView(ParamViewControler controler){
         this.controler = controler;
+
+        layout = new GridBagLayout();
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.NORTHWEST;
+        c.weightx = 100.0;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(1,1,1,1);
+        this.setLayout(new GridBagLayout());
+
+        for(String field : controler.getReqParams()){
+            this.add(createInput(field), c);
+        }
     }
 
-    private JPanel paramsFrame(){
-        JPanel paramsPanel = new JPanel();
-        paramsPanel.setLayout(new BorderLayout());
-
-        JLabel title = new JLabel("Sensor params");
-        paramsPanel.add(title, BorderLayout.NORTH);
-
-        JPanel paramsListPanel = new JPanel();
-        List<String> paramsList = controler.getReqParams();
-        paramsListPanel.setLayout(new GridLayout(paramsList.size(), 2));
-
-        for(String param : paramsList){
-            paramsListPanel.add(new JLabel(param));
-            paramsListPanel.add(new JTextField());
-        }
-
-        paramsPanel.add(paramsListPanel, BorderLayout.CENTER);
-        return paramsPanel;
+    private JPanel createInput(String field){
+        JPanel newParam = new JPanel();
+        JLabel newParamName = new JLabel(field);
+        newParam.add(newParamName);
+        JTextField newParamTextField = new JTextField();
+        newParamTextField.setPreferredSize(new Dimension(120, 20));
+        newParam.add(newParamTextField);
+        return newParam;
     }
 
 
