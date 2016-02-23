@@ -4,15 +4,10 @@ import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+
 
 /**
  * Created by Louis on 23/02/2016.
@@ -40,7 +35,10 @@ public class SensorManagementView extends JPanel {
     public void initTabPanned(){
         sensorMenu = new JTabbedPane();
         addOnglet = new JPanel();
+        addOnglet = addComboBox(addOnglet);
         defaultOnglet = new JPanel();
+        defaultOnglet = addComboBox(defaultOnglet);
+
         sensorMenu.addTab("+", addOnglet);
         sensorMenu.addTab("defaultPanInit", defaultOnglet);
         sensorMenu.setSelectedComponent(defaultOnglet);
@@ -50,8 +48,9 @@ public class SensorManagementView extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 if(sensorMenu.getSelectedIndex() == 0){
                     JPanel newPan = new JPanel();
+                    newPan = addComboBox(newPan);
                     newPan.setName("newPan"+sensorMenu.getTabCount());
-                    addBlockToPanel(newPan);
+                    //addBlockToPanel(newPan);
                     sensorMenu.add(newPan,sensorMenu.getTabCount());
                 }
             }
@@ -60,6 +59,15 @@ public class SensorManagementView extends JPanel {
     }
     public void addBlockToPanel(JPanel panel){
 
+    }
+    public JPanel addComboBox(JPanel panel){
+
+        panel.add(new JLabel("Librairy"));
+        //TODO : LIst toutes les bibliothèques
+        String[] modes = {"DHT","GPS"};
+        JComboBox mode = new JComboBox(modes);
+        panel.add(mode);
+        return panel;
     }
 
     public void initParamView(){
