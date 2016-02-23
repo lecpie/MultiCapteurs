@@ -8,14 +8,14 @@ import java.awt.*;
 /**
  * Created by Louis on 23/02/2016.
  */
-public class MeasureInit extends JPanel {
+public class MeasureInitView extends JPanel {
 
     JPanel name, type, capture;
     GridBagLayout layout;
     GridBagConstraints c;
 
     //FIXME: align textfield with textbox
-    public MeasureInit(){
+    public MeasureInitView(){
         layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;

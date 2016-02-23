@@ -17,8 +17,8 @@ public class SensorManagementControler {
     public SensorManagementControler(){
         libs = new ArrayList<>();
         libUses = new ArrayList<>();
+        //Gets all available libs
         initLibs();
-        initLibUses();
     }
 
     private void initLibs(){
@@ -37,11 +37,4 @@ public class SensorManagementControler {
         this.libs = libs;
     }
 
-    public List<LibraryUse> getLibUses() {
-        return libUses;
-    }
-
-    public void setLibUses(List<LibraryUse> libUses) {
-        this.libUses = libUses;
-    }
 }

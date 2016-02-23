@@ -2,7 +2,6 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
-import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -18,11 +17,13 @@ public class MeasureManagementView extends JPanel {
     //TODO: Measure setup
     //TODO: Param List (ParamView)
 
+    private MeasureManagementControler controler;
+
     private JTabbedPane measureMenu;
     private JPanel addOnglet;
-    private MeasureInit measureInit;
+    private MeasureInitView measureInit;
     private ParamView paramView;
-    private MeasureManagementControler controler;
+
 
     public MeasureManagementView(MeasureManagementControler controler){
         this.controler = controler;
@@ -33,10 +34,10 @@ public class MeasureManagementView extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    public void initMeasureTabPanned(){
+    private void initMeasureTabPanned(){
         measureMenu = new JTabbedPane();
         addOnglet = new JPanel();
-        measureInit = new MeasureInit();
+        measureInit = new MeasureInitView();
         measureMenu.addTab("+", addOnglet);
         measureMenu.addTab("temperature", measureInit);
         measureMenu.setSelectedComponent(measureInit);
@@ -46,7 +47,7 @@ public class MeasureManagementView extends JPanel {
             public void stateChanged(ChangeEvent e) {
                 if(measureMenu.getSelectedIndex() == 0){
                     //newPan.setName("newPan"+measureMenu.getTabCount());
-                    MeasureInit newMeasure = new MeasureInit();
+                    MeasureInitView newMeasure = new MeasureInitView();
                     //TODO: link with measureuse name
                     newMeasure.setName("TODO");
                     measureMenu.add(newMeasure, measureMenu.getTabCount());
@@ -56,8 +57,9 @@ public class MeasureManagementView extends JPanel {
         this.add(measureMenu);
     }
 
-    public void initParamView(){
+    private void initParamView(){
         paramView = new ParamView(new ParamViewControler());
         this.add(paramView);
     }
+
 }
