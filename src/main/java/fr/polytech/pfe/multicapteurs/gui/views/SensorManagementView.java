@@ -22,26 +22,17 @@ public class SensorManagementView extends JPanel {
     private ParamView paramView;
     private JPanel addOnglet;
     private JPanel defaultOnglet;
-    private GridBagLayout layout;
-    private GridBagConstraints c;
-
+    private BoxLayout layout;
 
     public SensorManagementView(SensorManagementControler controler){
         this.controler = controler;
 
-        layout = new GridBagLayout();
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.anchor = GridBagConstraints.NORTHWEST;
-        c.weightx = 1.0;
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.insets = new Insets(1,1,1,1);
+        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
 
         initTabPanned();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.setVisible(true);
     }
 
     public void initTabPanned(){
@@ -67,7 +58,8 @@ public class SensorManagementView extends JPanel {
                 }
             }
         });
-        this.add(sensorMenu, c);
+        sensorMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.add(sensorMenu);
     }
     public void addBlockToPanel(JPanel panel){
 
@@ -84,6 +76,7 @@ public class SensorManagementView extends JPanel {
 
     public void initParamView(){
         paramView = new ParamView(new ParamViewControler());
-        this.add(paramView, c);
+        paramView.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.add(paramView);
     }
 }

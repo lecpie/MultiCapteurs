@@ -27,7 +27,6 @@ public class MeasureManagementView extends JPanel {
 
     public MeasureManagementView(MeasureManagementControler controler){
         this.controler = controler;
-       // this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setLayout(new GridLayout(2,1));
         initMeasureTabPanned();
         initParamView();
