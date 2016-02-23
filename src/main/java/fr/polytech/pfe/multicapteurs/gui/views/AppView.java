@@ -3,9 +3,13 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
+import fr.polytech.pfe.multicapteurs.model.lib.Library;
+import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
+import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 
 /**
  * Created by Louis on 22/02/2016.
@@ -68,10 +72,11 @@ public class AppView extends JFrame {
         JButton generate = new JButton("Generate Code");
         generate.addActionListener(new java.awt.event.ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 JDialog dialog = new JDialog();
-                dialog.add(new TextArea(" aaaaaa "));
                 dialog.setTitle("ArduinoCode");
+                TextArea code = new TextArea();
+                dialog.add(code);
                 dialog.setSize(new Dimension(250,250));
                 dialog.setVisible(true);
             }
@@ -117,5 +122,13 @@ public class AppView extends JFrame {
         JTextField pinTextField = new JTextField();
         params.add(pinTextField);
         return null;
+    }
+
+    private String generateCode(){
+        Library lib = new Library();
+        LibraryUse libUse = new LibraryUse();
+        MeasureUse measureUse = new MeasureUse();
+
+        return controler.generateCode(lib, libUse, measureUse);
     }
 }
