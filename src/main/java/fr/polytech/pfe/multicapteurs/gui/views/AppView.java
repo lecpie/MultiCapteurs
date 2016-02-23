@@ -66,6 +66,16 @@ public class AppView extends JFrame {
     private void initFooter(){
         JPanel footer = new JPanel();
         JButton generate = new JButton("Generate Code");
+        generate.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JDialog dialog = new JDialog();
+                dialog.add(new TextArea(" aaaaaa "));
+                dialog.setTitle("ArduinoCode");
+                dialog.setSize(new Dimension(250,250));
+                dialog.setVisible(true);
+            }
+        });
         footer.add(generate);
         mainContainer.add(footer, BorderLayout.SOUTH);
     }
