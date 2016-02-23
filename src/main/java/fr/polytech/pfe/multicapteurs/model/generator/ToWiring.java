@@ -19,9 +19,7 @@ public class ToWiring extends Visitor<StringBuffer> {
     private static final boolean SDOUTPUT     = false;
     private static final boolean SERIALOUTPUT = true;
 
-    private Map <LibraryUse, Map<String, String>> librarysym = new HashMap<>();
-    private Map <MeasureUse, Map <String, String> > measuresym = new HashMap<>();
-    private int nextsym = 0;
+    private VariableGenerator variableGenerator = new IncrementalVariableGenerator();
 
     public ToWiring() {
         this.result = new StringBuffer();
@@ -144,12 +142,8 @@ public class ToWiring extends Visitor<StringBuffer> {
                 }
             }
 
-            librarysym.put(usedlib, new HashMap<>());
             for (String var : lib.getVariables()) {
-                int isym = nextsym++;
-                String varname = "_aml_library_var_" + isym;
-                librarysym.get(usedlib).put(var, varname);
-                usedlib.getArgsValues().put(var, varname);
+                usedlib.getArgsValues().put(var, variableGenerator.genName());
             }
 
             lib.include(this);
@@ -172,13 +166,8 @@ public class ToWiring extends Visitor<StringBuffer> {
                 }
             }
 
-            measuresym.put(measureUse, new HashMap<>());
             for (String var : measure.getVariables()) {
-                int isym = nextsym++;
-                String varname = "_aml_measure_var_" + isym;
-
-                measuresym.get(measureUse).put(var, varname);
-                measureUse.getArgsValues().put(var, varname);
+                measureUse.getArgsValues().put(var, variableGenerator.genName());
             }
 
         }
