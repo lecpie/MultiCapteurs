@@ -16,7 +16,8 @@ public class MeasureManagementView extends JPanel {
     private ParamView paramView;
 
     public MeasureManagementView(){
-        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+       // this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.setLayout(new GridLayout(2,1));
         initMeasureMenu();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -25,7 +26,8 @@ public class MeasureManagementView extends JPanel {
 
     public void initMeasureMenu(){
         measureMenu = new JTabbedPane();
-        measureMenu.addTab("temp1", new JLabel("temp1"));
+        measureMenu.addTab("temperature", new MeasureInit());
+        measureMenu.addTab("humidity", new MeasureInit());
         this.add(measureMenu);
     }
 
