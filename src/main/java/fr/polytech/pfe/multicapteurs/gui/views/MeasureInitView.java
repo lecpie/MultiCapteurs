@@ -20,7 +20,7 @@ public class MeasureInitView extends JPanel {
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.NORTHWEST;
-        c.weightx = 100.0;
+        c.weightx = 1.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(1,1,1,1);
 
