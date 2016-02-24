@@ -2,6 +2,7 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
+import fr.polytech.pfe.multicapteurs.model.lib.Library;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,6 +10,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -153,7 +155,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         }
     }
 
-    public void updateParamView(String libname){
+    public void updateParamView(String libname) {
         //TODO add tab
         this.remove(paramView);
         this.paramView.setControler(controler.setParamViewControler(libname));

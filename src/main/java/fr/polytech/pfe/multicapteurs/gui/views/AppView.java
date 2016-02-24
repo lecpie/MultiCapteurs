@@ -8,7 +8,6 @@ import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 
 import javax.swing.*;
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,9 +15,10 @@ import java.awt.event.ActionListener;
 /**
  * Created by Louis on 22/02/2016.
  */
-public class AppView extends JFrame {
+public class AppView extends JPanel {
 
-    private JPanel mainContainer = new JPanel();
+    private JFrame appFrame = new JFrame();
+
     private JPanel centralContainer = new JPanel();
     private JPanel header = new JPanel();
     private JPanel sensorManagementView;
@@ -30,20 +30,22 @@ public class AppView extends JFrame {
     private TextArea arduinoCode;
 
     public AppView(AppControler controler){
-        this.setSize(960, 540);
-        this.setTitle("Auto-Drone-Multisensors");
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setResizable(true);
+        appFrame.setSize(960, 540);
+        this.setName("AppView");
+        appFrame.setTitle("Auto-Drone-Multisensors");
+        appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        appFrame.setLocationRelativeTo(null);
+        appFrame.setResizable(true);
         this.controler = controler;
+        this.centralContainer.setName("centralContainer");
         initComposant();
-        this.setContentPane(mainContainer);
-        this.setVisible(true);
+        appFrame.setContentPane(this);
+        appFrame.setVisible(true);
     }
 
     private void initComposant(){
         BorderLayout mainLayout = new BorderLayout();
-        mainContainer.setLayout(mainLayout);
+        this.setLayout(mainLayout);
 
 
         GridLayout centralLayout = new GridLayout(1,2);
@@ -53,13 +55,13 @@ public class AppView extends JFrame {
         initSensorManagementView();
         initMeasurManagementView();
         initFooter();
-        mainContainer.add(centralContainer, BorderLayout.CENTER);
+        this.add(centralContainer, BorderLayout.CENTER);
     }
 
     private void initHeader(){
         JLabel title = new JLabel("Auto-Drone-Multisensors");
         header.add(title);
-        mainContainer.add(header, BorderLayout.NORTH);
+        this.add(header, BorderLayout.NORTH);
     }
 
     private void initSensorManagementView(){
@@ -98,7 +100,7 @@ public class AppView extends JFrame {
 
         footer.add(save);
         footer.add(generate);
-        mainContainer.add(footer, BorderLayout.SOUTH);
+        this.add(footer, BorderLayout.SOUTH);
     }
 
     //TODO: add/remove item in JList
@@ -113,7 +115,7 @@ public class AppView extends JFrame {
         measuresList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         JScrollPane scrollPane = new JScrollPane(measuresList);
         measurePanel.add(scrollPane);
-        mainContainer.add(measurePanel, BorderLayout.WEST);
+        this.add(measurePanel, BorderLayout.WEST);
     }
 
     private JPanel sensorProp(String type, String pin){
@@ -174,9 +176,5 @@ public class AppView extends JFrame {
 
     public JPanel getCentralContainer() {
         return centralContainer;
-    }
-
-    public JPanel getMainContainer() {
-        return mainContainer;
     }
 }
