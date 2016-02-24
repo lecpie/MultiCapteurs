@@ -38,4 +38,19 @@ public class SensorManagementControler {
     public void setSelectedLib(Library selectedLib) {
         this.selectedLib = selectedLib;
     }
+
+    public Library setSelectedLib(String libname){
+        selectedLib = loadedLibraries.get(libname);
+        libUseArgs.setLib(selectedLib);
+        return selectedLib;
+    }
+
+    public List<String> getLibNames(){
+        List<String> libNames = new ArrayList<>();
+        for(String key : loadedLibraries.keySet()){
+            libNames.add(key);
+        }
+        return libNames;
+    }
+
 }
