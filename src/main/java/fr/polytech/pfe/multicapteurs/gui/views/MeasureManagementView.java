@@ -72,6 +72,16 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
     public void actionPerformed(ActionEvent evt)
     {
+        if(evt.getSource() instanceof JComboBox){
+           String text = ((JComboBox)(evt.getSource())).getSelectedItem().toString();
+                Component[] components = ((JPanel)measureMenu.getSelectedComponent()).getComponents();
+            for (Component component : components) {
+                if (component.getClass().equals(JTextField.class)) {
+                    ((JTextField)component).setText(text);
+                }
+            }
+        }
+
     }
     public void focusGained(FocusEvent e) {
 
