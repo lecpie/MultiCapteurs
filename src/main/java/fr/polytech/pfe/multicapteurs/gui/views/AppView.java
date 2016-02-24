@@ -19,11 +19,14 @@ public class AppView extends JFrame {
 
     private JPanel mainContainer = new JPanel();
     private JPanel centralContainer = new JPanel();
-    private TextArea arduinoCode;
-    /*private JPanel sensorManagementView;
-    private JPanel measureManagementView;*/
+    private JPanel header = new JPanel();
+    private JPanel sensorManagementView;
+    private JPanel measureManagementView;
+    private JPanel footer = new JPanel();
 
     private AppControler controler;
+
+    private TextArea arduinoCode;
 
     public AppView(AppControler controler){
         this.setSize(960, 540);
@@ -53,24 +56,22 @@ public class AppView extends JFrame {
     }
 
     private void initHeader(){
-        JPanel header = new JPanel();
         JLabel title = new JLabel("Auto-Drone-Multisensors");
         header.add(title);
         mainContainer.add(header, BorderLayout.NORTH);
     }
 
     private void initSensorManagementView(){
-        SensorManagementView smv = new SensorManagementView(new SensorManagementControler());
-        centralContainer.add(smv);
+        sensorManagementView = new SensorManagementView(new SensorManagementControler());
+        centralContainer.add(sensorManagementView);
     }
 
     private void initMeasurManagementView(){
-        MeasureManagementView mmv = new MeasureManagementView(new MeasureManagementControler());
-        centralContainer.add(mmv);
+        measureManagementView = new MeasureManagementView(new MeasureManagementControler());
+        centralContainer.add(measureManagementView);
     }
 
     private void initFooter(){
-        JPanel footer = new JPanel();
         JButton generate = new JButton("Generate Code");
         generate.addActionListener(new java.awt.event.ActionListener() {
             @Override
@@ -138,5 +139,37 @@ public class AppView extends JFrame {
         MeasureUse measureUse = new MeasureUse();
 
         return controler.generateCode(lib, libUse, measureUse);
+    }
+
+    public JPanel getSensorManagementView() {
+        return sensorManagementView;
+    }
+
+    public JPanel getMeasureManagementView() {
+        return measureManagementView;
+    }
+
+    public JPanel getHeader() {
+        return header;
+    }
+
+    public JPanel getFooter() {
+        return footer;
+    }
+
+    public AppControler getControler() {
+        return controler;
+    }
+
+    public TextArea getArduinoCode() {
+        return arduinoCode;
+    }
+
+    public JPanel getCentralContainer() {
+        return centralContainer;
+    }
+
+    public JPanel getMainContainer() {
+        return mainContainer;
     }
 }

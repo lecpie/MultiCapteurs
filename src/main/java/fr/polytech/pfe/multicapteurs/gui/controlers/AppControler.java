@@ -41,14 +41,14 @@ public class AppControler {
     public String  generateCode(Library lib, LibraryUse libUse, MeasureUse measureUse){
 
 
-        List<Library> libs = new ArrayList<>();
-        libs.add(lib);
+        //List<Library> libs = new ArrayList<>();
+        //libs.add(lib);
 
-        Visitor codeGenerator = new ToWiring();
-        app.accept(codeGenerator);
+        //Visitor codeGenerator = new ToWiring();
+        //app.accept(codeGenerator);
 
-        return codeGenerator.getResult().toString();
-
+        //return codeGenerator.getResult().toString();
+        return "coming soon";
     }
 
     private void mock_DHT(){
