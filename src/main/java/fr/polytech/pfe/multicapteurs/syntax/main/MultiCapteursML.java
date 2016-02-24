@@ -1,6 +1,6 @@
 package fr.polytech.pfe.multicapteurs.syntax.main;
 
-import fr.polytech.pfe.multicapteurs.syntax.config_dsl.MultiCapteursMLDSL;
+import fr.polytech.pfe.multicapteurs.syntax.config_dsl.MultiCapteursDSL;
 
 import java.io.File;
 
@@ -9,7 +9,7 @@ import java.io.File;
  */
 public class MultiCapteursML {
     public static void main(String[] args) {
-        MultiCapteursMLDSL dsl = new MultiCapteursMLDSL();
+        MultiCapteursDSL dsl = new MultiCapteursDSL();
         if(args.length > 0) {
             dsl.eval(new File(args[0]));
         } else {

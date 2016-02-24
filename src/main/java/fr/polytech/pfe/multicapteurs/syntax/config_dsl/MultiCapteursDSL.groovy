@@ -2,12 +2,12 @@ package fr.polytech.pfe.multicapteurs.syntax.config_dsl
 
 import org.codehaus.groovy.control.CompilerConfiguration
 
-class MultiCapteursMLDSL {
+class MultiCapteursDSL {
     private GroovyShell shell
     private CompilerConfiguration configuration
     private MultiCapteursMLBinding binding
 
-    MultiCapteursMLDSL() {
+    MultiCapteursDSL() {
         binding = new MultiCapteursMLBinding()
         binding.setMultiCapteursMLModel(new MultiCapteursMLModel(binding));
         configuration = new CompilerConfiguration()
