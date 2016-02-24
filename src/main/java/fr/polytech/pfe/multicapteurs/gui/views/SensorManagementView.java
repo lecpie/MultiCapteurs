@@ -25,7 +25,6 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     private JTabbedPane sensorMenu;
     private ParamView paramView;
     private JPanel addOnglet;
-    private JPanel defaultOnglet;
     private BoxLayout layout;
     private ArrayList<String> libTypes;
 
@@ -48,13 +47,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         addOnglet.setBackground(Color.gray);
         addOnglet.setEnabled(false);
 
-        defaultOnglet = new JPanel();
-        defaultOnglet = addLabelLibsTonewTab(defaultOnglet);
-        defaultOnglet = addComboBoxLibsTonewTab(defaultOnglet, libTypes);
-
         sensorMenu.addTab("+", addOnglet);
-        sensorMenu.addTab("defaultPanInit", defaultOnglet);
-        sensorMenu.setSelectedComponent(defaultOnglet);
         sensorMenu.addMouseListener(this);
         sensorMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(sensorMenu);
@@ -68,22 +61,19 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     public void actionPerformed(ActionEvent evt)
     {
+        if(evt.getSource() instanceof JComboBox){
+           sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox)evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
+            sensorMenu.setTitleAt(0, "+");
+            setSelectedLibraryToController(((JComboBox)evt.getSource()).getSelectedItem().toString());
+        }
     }
 
     public void focusGained(FocusEvent e) {
-        if(e.getSource() instanceof JComboBox){
 
-            System.out.println("lol");
-            sensorMenu.getComponentAt(0).setName("blabl");
-        }
     }
 
     public void focusLost(FocusEvent e) {
-        if(e.getSource() instanceof JComboBox){
 
-            System.out.println("lolexit");
-            sensorMenu.getComponentAt(0).setName("blabl");
-        }
     }
 
     public void mousePressed(MouseEvent e) {
@@ -109,6 +99,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             newPan = addLabelLibsTonewTab(newPan);
             newPan = addComboBoxLibsTonewTab(newPan, libTypes);
             sensorMenu.add(newPan,sensorMenu.getTabCount());
+            sensorMenu.setSelectedComponent(newPan);
         }
     }
     public void stateChanged(ChangeEvent e) {
@@ -121,7 +112,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public JPanel addComboBoxLibsTonewTab(JPanel panel, ArrayList<String> types){
 
         JComboBox libType = new JComboBox();
-        libType.addFocusListener(this);
+        libType.addActionListener(this);
         for(String type : types){
             libType.addItem(type);
         }
@@ -147,10 +138,6 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return layout;
     }
 
-    public JPanel getDefaultOnglet() {
-        return defaultOnglet;
-    }
-
     public JPanel getAddOnglet() {
         return addOnglet;
     }
@@ -158,8 +145,12 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public JTabbedPane getSensorMenu() {
         return sensorMenu;
     }
+    public void setSelectedLibraryToController(String LibName) {
 
-    public SensorManagementControler getControler() {
-        return controler;
+        for (Library libs : controler.getLoadedLibraries().values()) {
+            if (libs.getName() == LibName) {
+                controler.setSelectedLib(libs);
+            }
+        }
     }
 }
