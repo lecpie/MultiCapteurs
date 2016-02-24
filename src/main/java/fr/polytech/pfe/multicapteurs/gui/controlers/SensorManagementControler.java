@@ -52,4 +52,8 @@ public class SensorManagementControler {
     public String getSelectedLibName(){
         return selectedLib.getName();
     }
+
+    public Map<String, String> getRequiredArgs(){
+        return null;
+    }
 }
