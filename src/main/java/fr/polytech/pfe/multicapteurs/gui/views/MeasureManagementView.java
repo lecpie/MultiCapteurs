@@ -7,11 +7,15 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 /**
  * Created by Louis on 23/02/2016.
  */
-public class MeasureManagementView extends JPanel {
+public class MeasureManagementView extends JPanel implements ActionListener,MouseListener {
     //TODO : init measure avec measue uses
     //TODO: Measure preset
     //TODO: Measure setup
@@ -32,26 +36,15 @@ public class MeasureManagementView extends JPanel {
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    private void initMeasureTabPanned(){
+    private void initMeasureTabPanned() {
         measureMenu = new JTabbedPane();
-        addOnglet = new MeasureInitView();
-        measureInit = new MeasureInitView();
-        measureMenu.addTab("+", addOnglet);
-        measureMenu.addTab("temperature", measureInit);
-        measureMenu.setSelectedComponent(measureInit);
+        addOnglet = new JPanel();
+        addOnglet.setBackground(Color.gray);
+        addOnglet.setEnabled(false);
 
-        measureMenu.addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                if(measureMenu.getSelectedIndex() == 0){
-                    //newPan.setName("newPan"+measureMenu.getTabCount());
-                    MeasureInitView newMeasure = new MeasureInitView();
-                    //TODO: link with measureuse name
-                    newMeasure.setName("TODO");
-                    measureMenu.add(newMeasure, measureMenu.getTabCount());
-                }
-            }
-        });
+        measureMenu.addTab("+", addOnglet);
+        measureMenu.addMouseListener(this);
+        measureMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(measureMenu);
     }
 
@@ -74,6 +67,55 @@ public class MeasureManagementView extends JPanel {
 
     public ParamView getParamView() {
         return paramView;
+    }
+    public void actionPerformed(ActionEvent evt)
+    {
+        if(evt.getSource() instanceof JComboBox){
+
+        }
+    }
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        if(measureMenu.getSelectedIndex() == 0){
+            JPanel newPan = new JPanel();
+            //TODO : Name de la mesureUSE
+            //newPan = addLabelLibsTonewTab(newPan);
+            //newPan = addComboBoxLibsTonewTab(newPan, libTypes);
+            measureMenu.add(newPan,measureMenu.getTabCount());
+            measureMenu.setSelectedComponent(newPan);
+        }
+    }
+    public void setSelectedLibraryToController(String measureName) {
+/*
+        for (String mesureNames : controler.getMeasureNames()) {
+            if (mesureNames == measureName) {
+                controler.setParamViewControler(mesureNames);
+            }
+        }
+        */
+    }
+
+    public void updateParamView(String measureName){
+       /* //TODO add tab
+        this.remove(paramView);
+        this.paramView.setControler(controler.setParamViewControler(measureName));
+        this.add(paramView);
+        this.repaint();*/
     }
 
 }
