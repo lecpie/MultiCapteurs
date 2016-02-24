@@ -156,7 +156,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void updateParamView(String libname){
         //TODO add tab
         this.remove(paramView);
-        paramView.setControler(controler.setParamViewControler(libname));
+        this.paramView.setControler(controler.setParamViewControler(libname));
         this.add(paramView);
+        this.repaint();
     }
 }

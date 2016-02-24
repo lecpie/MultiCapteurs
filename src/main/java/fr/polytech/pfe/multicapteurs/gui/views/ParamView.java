@@ -51,7 +51,7 @@ public class ParamView extends JPanel{
 
     public void setControler(ParamViewControler controler) {
         this.controler = controler;
-        layout = new GridBagLayout();
+        this.removeAll();
         for(String field : controler.getRequiredArgs()){
             this.add(createInput(field), c);
         }

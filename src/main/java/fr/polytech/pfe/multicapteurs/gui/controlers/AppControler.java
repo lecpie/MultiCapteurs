@@ -122,7 +122,7 @@ public class AppControler {
     private void mock_Light(){
         Library groovelightsensor = new Library();
         groovelightsensor.setIncludes(Arrays.asList("Wire.h", "Digital_Light_TSL2561.h"));
-        groovelightsensor.setName("GROOVELIGHTSENSOR");
+        groovelightsensor.setName("GROVELIGHTSENSOR");
         groovelightsensor.setSetupInstructions(Arrays.asList("Wire.begin();"));
 
         Measure groovelight = new Measure();
