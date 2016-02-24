@@ -7,15 +7,13 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  * Created by Louis on 23/02/2016.
  */
-public class MeasureManagementView extends JPanel implements ActionListener,MouseListener {
+public class MeasureManagementView extends JPanel implements ActionListener,MouseListener,FocusListener {
     //TODO : init measure avec measue uses
     //TODO: Measure preset
     //TODO: Measure setup
@@ -26,11 +24,15 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private JPanel addOnglet;
     private MeasureInitView measureInit;
     private ParamView paramView;
+    private ArrayList<String> measuresTypes;
+    private ArrayList<String> capturesTypes;
 
 
     public MeasureManagementView(MeasureManagementControler controler){
         this.controler = controler;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        measuresTypes = new ArrayList<>();
+        capturesTypes = new ArrayList<>();
         initMeasureTabPanned();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -74,6 +76,13 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
         }
     }
+    public void focusGained(FocusEvent e) {
+
+    }
+
+    public void focusLost(FocusEvent e) {
+
+    }
     public void mousePressed(MouseEvent e) {
 
     }
@@ -94,11 +103,41 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         if(measureMenu.getSelectedIndex() == 0){
             JPanel newPan = new JPanel();
             //TODO : Name de la mesureUSE
-            //newPan = addLabelLibsTonewTab(newPan);
-            //newPan = addComboBoxLibsTonewTab(newPan, libTypes);
+            newPan = addLabelMeasureTonewTab(newPan, "Name","measureName");
+            newPan = addTextFieldMeasureTonewTab(newPan,"","measureName");
+            newPan = addLabelMeasureTonewTab(newPan, "Type","measureTypes");
+            newPan = addComboBoxMeasureTonewTab(newPan, measuresTypes, "measureTypeCB");
+            newPan = addLabelMeasureTonewTab(newPan, "Capture","CaptureTypes");
+            newPan = addComboBoxMeasureTonewTab(newPan, capturesTypes, "captureTypeCB");
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
         }
+    }
+    public JPanel addLabelMeasureTonewTab(JPanel panel, String labelName, String panelName){
+        panel.add(panelName, new JLabel(labelName));
+        return panel;
+    }
+    public JPanel addTextFieldMeasureTonewTab(JPanel panel, String labelName, String panelName){
+        JTextField newTextField = new JTextField(labelName);
+        newTextField.setPreferredSize(new Dimension(120,20));
+        newTextField.addFocusListener(this);
+        panel.add(panelName,newTextField);
+        return panel;
+    }
+
+    public JPanel addComboBoxMeasureTonewTab(JPanel panel, ArrayList<String> types, String panelName){
+
+        JComboBox type = new JComboBox();
+        type.addActionListener(this);
+        //TODO: à virer
+        type.addItem("FUCK");
+        /*for(String type : types){
+            libType.addItem(type);
+        }*/
+        panel.add(panelName,type);
+        //Next line à viré quand on aura le nom
+        //>>>>panel.setName("newPan" + sensorMenu.getTabCount());
+        return panel;
     }
     public void setSelectedLibraryToController(String measureName) {
 /*

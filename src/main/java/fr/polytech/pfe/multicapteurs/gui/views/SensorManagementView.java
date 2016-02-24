@@ -119,7 +119,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         }
         panel.add("libraryType",libType);
         //Next line à viré quand on aura le nom
-        panel.setName("newPan" + sensorMenu.getTabCount());
+        //>>>>panel.setName("newPan" + sensorMenu.getTabCount());
         return panel;
     }
     public JPanel setNewTabName(JPanel panel, String name){
