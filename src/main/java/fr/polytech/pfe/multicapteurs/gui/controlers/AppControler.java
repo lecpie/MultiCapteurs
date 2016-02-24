@@ -7,7 +7,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
-import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
+import fr.polytech.pfe.multicapteurs.model.structural.Period;
 import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
@@ -95,7 +95,7 @@ public class AppControler {
         dhttemp.setGlobalInstructions(dhttempglobal);
         dhttemp.setUpdateInstructions(dhttempupdate);
         dhttemp.setReadExpressionString(dhttempread);
-        dhttemp.setSensorFrequency(new Frequency(50, Time.SEC));
+        dhttemp.setSensorFrequency(new Period(50, Time.SEC));
         libdht.getMeasures().put(dhttemp.getName(), dhttemp);
 
         // Humidity
@@ -113,7 +113,7 @@ public class AppControler {
         dhthum.setGlobalInstructions(dhthumglobal);
         dhthum.setUpdateInstructions(dhthumupdate);
         dhthum.setReadExpressionString(dhthumread);
-        dhthum.setSensorFrequency(new Frequency(60, Time.SEC));
+        dhthum.setSensorFrequency(new Period(60, Time.SEC));
         libdht.getMeasures().put(dhthum.getName(), dhthum);
 
         app.getLoadedLibraries().put(libdht.getName(), libdht);
@@ -133,6 +133,7 @@ public class AppControler {
         groovelight.setUpdateInstructions(Arrays.asList("light = (int) TSL2561.readVisibleLux();"));
         groovelight.setReadExpressionString("light");
         groovelight.setName("light");
+        groovelight.setSensorFrequency(new Period(50, Time.SEC));
         groovelightsensor.getMeasures().put("light", groovelight);
 
         app.getLoadedLibraries().put(groovelightsensor.getName(), groovelightsensor);
@@ -152,6 +153,7 @@ public class AppControler {
         hp20temp.setGlobalInstructions(Arrays.asList("int temp;"));
         hp20temp.setUpdateInstructions(Arrays.asList("temp = (int) HP20x.ReadTemperature();"));
         hp20temp.setReadExpressionString("temp");
+        hp20temp.setSensorFrequency(new Period(70, Time.SEC));
         libhp20x.getMeasures().put(hp20temp.getName(), hp20temp);
 
         Measure hp20alt = new Measure();
@@ -162,6 +164,7 @@ public class AppControler {
         hp20alt.setGlobalInstructions(Arrays.asList("int alt;"));
         hp20alt.setUpdateInstructions(Arrays.asList("alt = (int) HP20x.ReadAltitude();"));
         hp20alt.setReadExpressionString("alt");
+        hp20alt.setSensorFrequency(new Period(70, Time.SEC));
         libhp20x.getMeasures().put(hp20alt.getName(), hp20alt);
 
         Measure hp20pres = new Measure();
@@ -172,6 +175,7 @@ public class AppControler {
         hp20pres.setGlobalInstructions(Arrays.asList("int pres;"));
         hp20pres.setUpdateInstructions(Arrays.asList("pres = (int) HP20x.ReadPressure();"));
         hp20pres.setReadExpressionString("pres");
+        hp20pres.setSensorFrequency(new Period(70, Time.SEC));
         libhp20x.getMeasures().put(hp20pres.getName(), hp20pres);
 
         app.getLoadedLibraries().put(libhp20x.getName(), libhp20x);
@@ -196,6 +200,7 @@ public class AppControler {
         lat.getVariables().add("l");
         lat.getGlobalInstructions().add(lat.getType().toString() + " " + "l" + ";");
         lat.setReadExpressionString("l");
+        lat.setSensorFrequency(new Period(30, Time.SEC));
         lat.getUpdateInstructions().add("l" + "=" + "gps.getLatitude();");
 
         Measure lon = new Measure();
@@ -204,6 +209,7 @@ public class AppControler {
         lon.getVariables().add("l");
         lon.getGlobalInstructions().add(lon.getType().toString() + " " + "l" + ";");
         lon.setReadExpressionString("l");
+        lon.setSensorFrequency(new Period(30, Time.SEC));
         lon.getUpdateInstructions().add("l" + "=" + "gps.getLongitude();");
 
         app.getLoadedLibraries().put(GPS.getName(), GPS);

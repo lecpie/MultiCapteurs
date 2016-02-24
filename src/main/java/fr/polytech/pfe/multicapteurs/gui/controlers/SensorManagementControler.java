@@ -34,4 +34,8 @@ public class SensorManagementControler {
     public Library getSelectedLib() {
         return selectedLib;
     }
+
+    public void setSelectedLib(Library selectedLib) {
+        this.selectedLib = selectedLib;
+    }
 }
