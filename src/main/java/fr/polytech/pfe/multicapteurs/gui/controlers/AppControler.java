@@ -18,14 +18,18 @@ import java.util.*;
  */
 public class AppControler {
 
-    private Map<String, Library> librariestoload;
+    //private Map<String, Library> loadedLibraries;
     private Map<String,LibraryUse> usedLibraries;
     private LibraryUse currentLibUse;
+
     private App app;
 
+    private SensorManagementControler smc;
+
     public AppControler(){
-        this.librariestoload = new HashMap<>();
         this.usedLibraries = new HashMap<>();
+
+        app = new App();
 
         //Mock for lib loading
         mock_DHT();
@@ -33,8 +37,11 @@ public class AppControler {
         mock_HP20X();
         mock_GPS();
 
-        app = new App();
-        app.setLoadedLibraries(librariestoload);
+
+
+        this.smc = new SensorManagementControler(app.getLoadedLibraries());
+
+
 
     }
 
@@ -109,7 +116,7 @@ public class AppControler {
         dhthum.setSensorFrequency(new Frequency(60, Time.SEC));
         libdht.getMeasures().put(dhthum.getName(), dhthum);
 
-        librariestoload.put(libdht.getName(), libdht);
+        app.getLoadedLibraries().put(libdht.getName(), libdht);
     }
 
     private void mock_Light(){
@@ -128,7 +135,7 @@ public class AppControler {
         groovelight.setName("light");
         groovelightsensor.getMeasures().put("light", groovelight);
 
-        librariestoload.put(groovelightsensor.getName(), groovelightsensor);
+        app.getLoadedLibraries().put(groovelightsensor.getName(), groovelightsensor);
     }
 
     private void mock_HP20X(){
@@ -167,7 +174,7 @@ public class AppControler {
         hp20pres.setReadExpressionString("pres");
         libhp20x.getMeasures().put(hp20pres.getName(), hp20pres);
 
-        librariestoload.put(libhp20x.getName(), libhp20x);
+        app.getLoadedLibraries().put(libhp20x.getName(), libhp20x);
     }
 
     private void mock_GPS(){
@@ -199,24 +206,7 @@ public class AppControler {
         lon.setReadExpressionString("l");
         lon.getUpdateInstructions().add("l" + "=" + "gps.getLongitude();");
 
-        librariestoload.put(GPS.getName(), GPS);
-    }
-/*
-
-    public List<String> getLibNames(){
-        List<String> libNames = new ArrayList<>();
-        for(Library l : libraries){
-            libNames.add(l.getName());
-        }
-        return libNames;
-    }*/
-
-    public Map<String, Library> getLibrariestoload() {
-        return librariestoload;
-    }
-
-    public void setLibrariestoload(Map<String, Library> librariestoload) {
-        this.librariestoload = librariestoload;
+        app.getLoadedLibraries().put(GPS.getName(), GPS);
     }
 
     public Map<String, LibraryUse> getUsedLibraries() {
@@ -233,5 +223,18 @@ public class AppControler {
 
     public void setCurrentLibUse(LibraryUse currentLibUse) {
         this.currentLibUse = currentLibUse;
+    }
+
+    public SensorManagementControler getSmc() {
+        return smc;
+    }
+
+    public App getApp() {
+        return app;
+    }
+
+    public static void main(String[] args) {
+        AppControler appc = new AppControler();
+        System.out.println(appc.getApp().getLoadedLibraries());
     }
 }

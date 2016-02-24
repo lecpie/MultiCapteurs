@@ -35,8 +35,8 @@ public class AppView extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(true);
-        initComposant();
         this.controler = controler;
+        initComposant();
         this.setContentPane(mainContainer);
         this.setVisible(true);
     }
@@ -63,7 +63,7 @@ public class AppView extends JFrame {
     }
 
     private void initSensorManagementView(){
-        sensorManagementView = new SensorManagementView(new SensorManagementControler());
+        sensorManagementView = new SensorManagementView(this.getControler().getSmc());
         centralContainer.add(sensorManagementView);
     }
 
