@@ -51,23 +51,27 @@ abstract class MultiCapteursMLBasescript extends Script {
         model.getUsedMeasure().add(measureUse)
 
         def argsclosure
+        def captureClosure
+        def nameClosure
 
         String previousname = measureName
         binding.setVariable(previousname, measureUse);
 
-        def captureClosure
         [captured: captureClosure = {
-            PeriodicCapture captureMethod ->
+            CaptureMethod captureMethod ->
                 measureUse.setCaptureMethod(captureMethod)
 
                 [every: {
                     Period period ->
                         measureUse.setCaptureMethod(new PeriodicCapture(period));
 
-                        [with: argsclosure]
-                }]
+                        [with: argsclosure, named: nameClosure]
+                },
+                        with: argsclosure,
+                        named: nameClosure
+                ]
 
-        }, named: {
+        }, named: nameClosure = {
             String name ->
                 measureUse.setName(name)
                 binding.getVariables().remove(previousname)
