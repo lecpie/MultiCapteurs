@@ -72,16 +72,16 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
     public void actionPerformed(ActionEvent evt)
     {
-        if(evt.getSource() instanceof JComboBox){
 
-        }
     }
     public void focusGained(FocusEvent e) {
 
     }
 
     public void focusLost(FocusEvent e) {
-
+        if(e.getSource() instanceof JTextField){
+            measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
+        }
     }
     public void mousePressed(MouseEvent e) {
 
@@ -135,8 +135,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             libType.addItem(type);
         }*/
         panel.add(panelName,type);
-        //Next line à viré quand on aura le nom
-        //>>>>panel.setName("newPan" + sensorMenu.getTabCount());
         return panel;
     }
     public void setSelectedLibraryToController(String measureName) {
