@@ -205,36 +205,42 @@ void loop()
 
         if (update_f1) {
             put_int(dht.readTemperature());
+            last_f1 = now;
         }
 
         put_separator();
 
         if (update_f1) {
             put_int(dht.readHumidity());
+            last_f1 = now;
         }
 
         put_separator();
 
         if (update_f1) {
             put_int(TSL2561.readVisibleLux());
+            last_f1 = now;
         }
 
         put_separator();
 
         if (update_f2) {
             put_float(HP20x.ReadTemperature() / 100.0);
+            last_f2 = now;
         }
 
         put_separator();
 
         if (update_f2) {
             put_float(HP20x.ReadPressure   () / 100.0);
+            last_f2 = now;
         }
 
         put_separator();
 
         if (update_f2) {
             put_float(HP20x.ReadAltitude   () / 100.0);
+            last_f2 = now;
         }
 
         put_separator();
@@ -242,11 +248,9 @@ void loop()
         put_endl();
 
         if (update_f1) {
-            last_f1 = now;
         }
 
         if (update_f2) {
-            last_f2 = now;
         }
 
         #if SDOUTPUT

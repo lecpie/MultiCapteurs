@@ -5,7 +5,8 @@ import fr.polytech.pfe.multicapteurs.App;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
-import fr.polytech.pfe.multicapteurs.model.structural.Output;
+import fr.polytech.pfe.multicapteurs.model.structural.*;
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.*;
 
 public abstract class Visitor<T> {
 
@@ -20,6 +21,21 @@ public abstract class Visitor<T> {
 	public abstract void global     (MeasureUse measureUse);
 	public abstract void update     (MeasureUse measureUse);
 	public abstract void expression (MeasureUse measureUse);
+
+	public abstract void visit (AsapCapture captureMethod);
+	public abstract void visit (PeriodicCapture captureMethod);
+	public abstract void visit (MetadataCapture captureMethod);
+
+	public abstract String readExpression(AsapCapture     captureMethod);
+	public abstract String readExpression(PeriodicCapture captureMethod);
+
+	public abstract void global(CaptureMethod    captureMethod);
+	public abstract void global(TriggeredCapture captureMethod);
+	public abstract void global(AsapCapture      captureMethod);
+	public abstract void global(PeriodicCapture  captureMethod);
+
+	public abstract void update(TriggeredCapture captureMethod);
+
 	public T getResult() {
 		return result;
 	}

@@ -3,12 +3,12 @@ package fr.polytech.pfe.multicapteurs.model.structural;
 /**
  * Created by fofo on 21/02/16.
  */
-public class Frequency {
+public class Period {
 
     private int rate;
     private Time unit;
 
-    public Frequency(int rate, Time unit){
+    public Period(int rate, Time unit){
         this.rate = rate;
         this.unit = unit;
     }
