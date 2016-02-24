@@ -49,7 +49,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
         sensorMenu.addTab("+", addOnglet);
         sensorMenu.addMouseListener(this);
-        sensorMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        //sensorMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(sensorMenu);
     }
 

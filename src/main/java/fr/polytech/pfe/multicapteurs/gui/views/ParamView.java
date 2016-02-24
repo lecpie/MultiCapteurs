@@ -4,6 +4,9 @@ import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by Louis on 22/02/2016.
@@ -12,7 +15,8 @@ public class ParamView extends JPanel{
 
     private ParamViewControler controler;
     private GridBagLayout layout;
-    GridBagConstraints c;
+    private GridBagConstraints c;
+    private Map<JLabel, JTextField> fields;
 
     public ParamView(ParamViewControler controler){
         this.controler = controler;
@@ -55,5 +59,16 @@ public class ParamView extends JPanel{
         for(String field : controler.getRequiredArgs()){
             this.add(createInput(field), c);
         }
+    }
+
+    public Map<String, String> getRequiredArgs(){
+        Map<String, String> args = new HashMap<>();
+        Iterator it = fields.entrySet().iterator();
+        while(it.hasNext()){
+            Map.Entry<String, String> field = (Map.Entry<String, String>)it.next();
+            args.put(field.getKey(), field.getValue());
+            it.remove();
+        }
+        return args;
     }
 }

@@ -20,11 +20,12 @@ public class AppControler {
 
     //private Map<String, Library> loadedLibraries;
     private Map<String,LibraryUse> usedLibraries;
-    private LibraryUse currentLibUse;
+    //private LibraryUse currentLibUse;
 
     private App app;
 
     private SensorManagementControler smc;
+    private MeasureManagementControler mmc;
 
     public AppControler(){
         this.usedLibraries = new HashMap<>();
@@ -37,12 +38,20 @@ public class AppControler {
         mock_HP20X();
         mock_GPS();
 
-
-
         this.smc = new SensorManagementControler(app.getLoadedLibraries());
+    }
 
+    public void setupMeasureManagamentView(Library l){
+        this.mmc = new MeasureManagementControler(l);
+    }
 
+    public LibraryUse createLibraryUse(){
+        LibraryUse newLibUse = new LibraryUse();
+        newLibUse.setLibrary(smc.getSelectedLib());
+       // newLibUse.getArgsValues().put()
+        app.getUsedLibraries().add(newLibUse);
 
+        return null;
     }
 
     public String  generateCode(Library lib, LibraryUse libUse, MeasureUse measureUse){
@@ -223,13 +232,13 @@ public class AppControler {
         this.usedLibraries = usedLibraries;
     }
 
-    public LibraryUse getCurrentLibUse() {
+    /*public LibraryUse getCurrentLibUse() {
         return currentLibUse;
     }
 
     public void setCurrentLibUse(LibraryUse currentLibUse) {
         this.currentLibUse = currentLibUse;
-    }
+    }*/
 
     public SensorManagementControler getSmc() {
         return smc;
