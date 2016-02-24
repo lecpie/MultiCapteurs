@@ -33,8 +33,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
         libTypes = new ArrayList<>();
-        for(Library libs : controler.getLoadedLibraries().values()){
-            libTypes.add(libs.getName());
+        for(String libnames : controler.getLibNames()){
+            libTypes.add(libnames);
         }
         initTabPanned();
         initParamView();
@@ -147,9 +147,9 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     }
     public void setSelectedLibraryToController(String LibName) {
 
-        for (Library libs : controler.getLoadedLibraries().values()) {
-            if (libs.getName() == LibName) {
-                controler.setSelectedLib(libs);
+        for (String libnames : controler.getLibNames()) {
+            if (libnames == LibName) {
+                controler.setSelectedLib(libnames);
             }
         }
     }
