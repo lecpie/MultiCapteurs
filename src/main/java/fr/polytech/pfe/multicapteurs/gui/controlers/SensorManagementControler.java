@@ -35,14 +35,10 @@ public class SensorManagementControler {
         return selectedLib;
     }
 
-    public void setSelectedLib(Library selectedLib) {
-        this.selectedLib = selectedLib;
-    }
-
-    public Library setSelectedLib(String libname){
+    public ParamViewControler setParamViewControler(String libname){
         selectedLib = loadedLibraries.get(libname);
         libUseArgs.setLib(selectedLib);
-        return selectedLib;
+        return libUseArgs;
     }
 
     public List<String> getLibNames(){

@@ -2,8 +2,6 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
-import fr.polytech.pfe.multicapteurs.model.lib.Library;
-import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -64,7 +62,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         if(evt.getSource() instanceof JComboBox){
            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox)evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
-            setSelectedLibraryToController(((JComboBox)evt.getSource()).getSelectedItem().toString());
+            setSelectedLibraryToController(((JComboBox) evt.getSource()).getSelectedItem().toString());
         }
     }
 
@@ -105,7 +103,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void stateChanged(ChangeEvent e) {
     }
     public JPanel addLabelLibsTonewTab(JPanel panel){
-        panel.add("libraryLabel",new JLabel("Library"));
+        panel.add("libraryLabel", new JLabel("Library"));
         return panel;
     }
 
@@ -149,8 +147,15 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
         for (String libnames : controler.getLibNames()) {
             if (libnames == LibName) {
-                controler.setSelectedLib(libnames);
+                controler.setParamViewControler(libnames);
             }
         }
+    }
+
+    public void updateParamView(String libname){
+        //TODO add tab
+        this.remove(paramView);
+        paramView.setControler(controler.setParamViewControler(libname));
+        this.add(paramView);
     }
 }

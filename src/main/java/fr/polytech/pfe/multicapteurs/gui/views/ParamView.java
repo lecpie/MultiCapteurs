@@ -48,4 +48,12 @@ public class ParamView extends JPanel{
     public ParamViewControler getControler() {
         return controler;
     }
+
+    public void setControler(ParamViewControler controler) {
+        this.controler = controler;
+        layout = new GridBagLayout();
+        for(String field : controler.getRequiredArgs()){
+            this.add(createInput(field), c);
+        }
+    }
 }
