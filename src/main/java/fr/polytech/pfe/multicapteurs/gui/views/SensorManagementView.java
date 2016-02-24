@@ -63,6 +63,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox)evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
             setSelectedLibraryToController(((JComboBox) evt.getSource()).getSelectedItem().toString());
+            updateParamView(controler.getSelectedLibName());
         }
     }
 
