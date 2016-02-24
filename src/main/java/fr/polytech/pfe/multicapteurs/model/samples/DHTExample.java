@@ -44,6 +44,7 @@ public class DHTExample {
         Measure dhttemp = new Measure();
 
         List <String> dhttempvar = Arrays.asList("temp");
+        List <String> dhttempaccessibles = Arrays.asList("dht_temp_format");
 
         Map <String, String> dhttempdefaultargs = new LinkedHashMap<>();
         dhttempdefaultargs.put("dht_temp_format_fahr", "true");
@@ -69,7 +70,7 @@ public class DHTExample {
 
         libdht.getMeasures().put(dhttemp.getName(), dhttemp);
         //FIXME : Random values to test freq
-        dhttemp.setSensorFrequency(new Period(50, Time.SEC));
+        dhttemp.setSensorFrequency(new Period(500, Time.MS));
 
         // Humidity
         Measure dhthum = new Measure();
