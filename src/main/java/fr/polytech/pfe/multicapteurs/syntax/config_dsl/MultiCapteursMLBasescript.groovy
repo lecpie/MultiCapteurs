@@ -50,6 +50,7 @@ abstract class MultiCapteursMLBasescript extends Script {
 
         def nameclosure
         def argsclosure
+        def freqClosure
 
         String previousname = measureName
         binding.setVariable(previousname, measureUse)
