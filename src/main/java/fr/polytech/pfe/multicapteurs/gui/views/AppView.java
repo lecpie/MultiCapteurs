@@ -56,6 +56,8 @@ public class AppView extends JPanel {
         initMeasurManagementView();
         initFooter();
         this.add(centralContainer, BorderLayout.CENTER);
+
+
     }
 
     private void initHeader(){

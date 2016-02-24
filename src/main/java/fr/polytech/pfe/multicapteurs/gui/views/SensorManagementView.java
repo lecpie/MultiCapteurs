@@ -116,6 +116,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
         JComboBox libType = new JComboBox();
         libType.addActionListener(this);
+        libType.addActionListener((MeasureManagementView) ((AppView) getParent().getParent()).getMeasureManagementView());
+
         for(String type : types){
             libType.addItem(type);
         }
