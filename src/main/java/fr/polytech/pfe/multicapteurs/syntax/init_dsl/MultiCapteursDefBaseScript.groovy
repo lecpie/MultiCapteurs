@@ -105,6 +105,17 @@ public abstract class MultiCapteursDefBaseScript extends Script {
         }]
     }
 
+    def accessibles (String first) {
+        List <String> accessibleList = (isLib ? current_librairy.getAccessibleArgs() : current_measure.getAccessibleArgs())
+
+        accessibleList.add(first)
+
+        [and: {
+            String next ->
+                accessibleList.add(next)
+        }]
+    }
+
     def global(String first) {
         List <String> instrref = (isLib ? current_librairy.getGlobalInstructions() : current_measure.getGlobalInstructions())
 

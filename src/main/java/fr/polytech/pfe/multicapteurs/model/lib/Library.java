@@ -12,13 +12,15 @@ public class Library implements Includable {
     private String name;
     private List <String> includes = new ArrayList<>();
 
-    private List <String> requiredArgs = new ArrayList<>();
     private Map <String, String> defaultArgs = new LinkedHashMap<>();
 
-    private List <String> variables = new ArrayList<>();
+    private List <String> requiredArgs = new ArrayList<>();
+
+    private List <String> accessibleArgs = new ArrayList<>();
+    private List <String> variables      = new ArrayList<>();
 
     private List <String> globalInstructions = new ArrayList<>();
-    private List <String> setupInstructions = new ArrayList<>();
+    private List <String> setupInstructions  = new ArrayList<>();
     private List <String> updateInstructions = new ArrayList<>();
 
 
@@ -99,6 +101,22 @@ public class Library implements Includable {
 
     public void setRequiredArgs(List<String> requiredArgs) {
         this.requiredArgs = requiredArgs;
+    }
+
+    public List<String> getAccessibleArgs() {
+        return accessibleArgs;
+    }
+
+    public void setAccessibleArgs(List<String> accessibleArgs) {
+        this.accessibleArgs = accessibleArgs;
+    }
+
+    public List<String> getUpdateInstructions() {
+        return updateInstructions;
+    }
+
+    public void setUpdateInstructions(List<String> updateInstructions) {
+        this.updateInstructions = updateInstructions;
     }
 
 }
