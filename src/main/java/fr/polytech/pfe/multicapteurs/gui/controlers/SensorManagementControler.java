@@ -13,19 +13,25 @@ import java.util.*;
  */
 public class SensorManagementControler {
 
+    private Map<String, Library> loadedLibraries;
     private Library selectedLib;
     private ParamViewControler libUseArgs;
 
     public SensorManagementControler(Map<String, Library> loadedLibraries){
         selectedLib = new Library();
         libUseArgs = new ParamViewControler();
-
-        //Gets all available libs
-        initLibs();
+        this.loadedLibraries = loadedLibraries;
     }
 
-    private void initLibs(){
-
+    public Map<String, Library> getLoadedLibraries() {
+        return loadedLibraries;
     }
 
+    public ParamViewControler getLibUseArgs() {
+        return libUseArgs;
+    }
+
+    public Library getSelectedLib() {
+        return selectedLib;
+    }
 }
