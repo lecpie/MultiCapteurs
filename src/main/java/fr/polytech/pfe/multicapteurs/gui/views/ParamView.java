@@ -4,7 +4,6 @@ import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
 
 /**
  * Created by Louis on 22/02/2016.
@@ -27,7 +26,7 @@ public class ParamView extends JPanel{
         c.insets = new Insets(1,1,1,1);
         this.setLayout(new GridBagLayout());
 
-        for(String field : controler.getReqParams()){
+        for(String field : controler.getRequiredArgs()){
             this.add(createInput(field), c);
         }
     }
@@ -46,5 +45,7 @@ public class ParamView extends JPanel{
         return layout;
     }
 
-
+    public ParamViewControler getControler() {
+        return controler;
+    }
 }

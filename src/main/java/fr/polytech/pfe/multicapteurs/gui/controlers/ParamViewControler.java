@@ -4,25 +4,33 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Louis on 22/02/2016.
  */
 public class ParamViewControler {
 
-    private List<String> params;
+    private Library lib;
 
     public ParamViewControler(){
+        this.lib = new Library();
     }
 
-    public ParamViewControler(List <String> params){
-        this.params = params;
+    public ParamViewControler(Library lib){
+        this.lib = lib;
     }
 
-    public List<String> getReqParams(){
-        List<String> params = new ArrayList<>();
-        params.add("dht_pin");
-        params.add("dht_type");
-        return params;
+    public List<String> getRequiredArgs(){
+        return lib.getRequiredArgs();
+    }
+
+    public Library getLib() {
+        return lib;
+    }
+
+    public void setLib(Library lib) {
+        this.lib = lib;
     }
 }
+
