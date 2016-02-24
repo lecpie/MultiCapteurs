@@ -8,6 +8,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 
 import javax.swing.*;
+import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
@@ -18,6 +19,7 @@ public class AppView extends JFrame {
 
     private JPanel mainContainer = new JPanel();
     private JPanel centralContainer = new JPanel();
+    private TextArea arduinoCode;
     /*private JPanel sensorManagementView;
     private JPanel measureManagementView;*/
 
@@ -74,13 +76,19 @@ public class AppView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent evt) {
                 JDialog dialog = new JDialog();
-                dialog.setTitle("ArduinoCode");
-                TextArea code = new TextArea();
-                dialog.add(code);
+                dialog.setTitle("Arduino Code");
+                arduinoCode = new TextArea();
+                arduinoCode.setText(generateCode());
+                dialog.add(arduinoCode);
                 dialog.setSize(new Dimension(250,250));
                 dialog.setVisible(true);
             }
         });
+
+        JButton save = new JButton("Save Settings");
+        //TODO: add listener
+
+        footer.add(save);
         footer.add(generate);
         mainContainer.add(footer, BorderLayout.SOUTH);
     }

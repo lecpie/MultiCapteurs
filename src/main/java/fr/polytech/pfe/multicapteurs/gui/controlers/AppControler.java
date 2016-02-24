@@ -32,7 +32,9 @@ public class AppControler {
         mock_HP20X();
         mock_GPS();
 
-        this.app = new App();
+        app = new App();
+        app.setLoadedLibraries(librariestoload);
+
     }
 
     public String  generateCode(Library lib, LibraryUse libUse, MeasureUse measureUse){
@@ -207,11 +209,6 @@ public class AppControler {
         }
         return libNames;
     }*/
-
-    public static void main(String[] args) {
-        Type t = Type.REAL;
-        System.out.println(t);
-    }
 
     public Map<String, Library> getLibrariestoload() {
         return librariestoload;

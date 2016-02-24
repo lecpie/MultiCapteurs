@@ -66,7 +66,7 @@ public class SensorManagementView extends JPanel {
     }
     public JPanel addComboBox(JPanel panel){
 
-        panel.add(new JLabel("Librairy"));
+        panel.add(new JLabel("Library"));
         //TODO : LIst toutes les bibliothèques
         String[] modes = {"DHT","GPS"};
         JComboBox mode = new JComboBox(modes);
