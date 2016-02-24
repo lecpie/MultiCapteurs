@@ -1,8 +1,10 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
+import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
+import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -61,8 +63,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     public void actionPerformed(ActionEvent evt)
     {
-        if(evt.getSource() instanceof JComboBox){
-           sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox)evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
+        if(evt.getSource() instanceof JComboBox ){
+            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox) evt.getSource()).getSelectedItem().toString().toLowerCase() + sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
             setSelectedLibraryToController(((JComboBox) evt.getSource()).getSelectedItem().toString());
             updateParamView(controler.getSelectedLibName());
@@ -96,10 +98,10 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void mouseClicked(MouseEvent e) {
         if(sensorMenu.getSelectedIndex() == 0){
             JPanel newPan = new JPanel();
+            sensorMenu.add(newPan,sensorMenu.getTabCount());
             //TODO : Name de la libUSE
             newPan = addLabelLibsTonewTab(newPan);
             newPan = addComboBoxLibsTonewTab(newPan, libTypes);
-            sensorMenu.add(newPan,sensorMenu.getTabCount());
             sensorMenu.setSelectedComponent(newPan);
         }
     }
