@@ -29,6 +29,9 @@ public class MeasureManagementControler {
         this.lib = lib;
     }
 
+    /**
+     * For combobox display
+     */
     public List<String> getMeasureNames(){
         List<String> measureNames = new ArrayList<>();
         for(String name : lib.getMeasures().keySet()){
@@ -37,6 +40,9 @@ public class MeasureManagementControler {
         return measureNames;
     }
 
+    /**
+     *
+     */
     public Measure setCurrentMeasure(String measureName){
         for(Measure m : lib.getMeasures().values()){
            if(m.getName().equals(measureName)){

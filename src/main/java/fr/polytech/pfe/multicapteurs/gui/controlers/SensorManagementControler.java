@@ -37,7 +37,7 @@ public class SensorManagementControler {
 
     public ParamViewControler setParamViewControler(String libname){
         selectedLib = loadedLibraries.get(libname);
-        libUseArgs.setLib(selectedLib);
+        libUseArgs.updateArgs(selectedLib);
         return libUseArgs;
     }
 

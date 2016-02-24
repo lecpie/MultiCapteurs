@@ -31,12 +31,12 @@ public class AppView extends JPanel {
 
     public AppView(AppControler controler){
         appFrame.setSize(960, 540);
-        this.setName("AppView");
         appFrame.setTitle("Auto-Drone-Multisensors");
         appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setLocationRelativeTo(null);
         appFrame.setResizable(true);
         this.controler = controler;
+        this.setName("AppView");
         this.centralContainer.setName("centralContainer");
         initComposant();
         appFrame.setContentPane(this);
