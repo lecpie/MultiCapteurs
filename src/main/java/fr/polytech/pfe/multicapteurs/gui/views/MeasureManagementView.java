@@ -72,7 +72,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
     public void actionPerformed(ActionEvent evt)
     {
-
     }
     public void focusGained(FocusEvent e) {
 
