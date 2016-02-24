@@ -6,8 +6,8 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
-import fr.polytech.pfe.multicapteurs.model.structural.Output;
-import fr.polytech.pfe.multicapteurs.model.structural.Type;
+import fr.polytech.pfe.multicapteurs.model.structural.*;
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.*;
 
 import java.util.*;
 
@@ -20,6 +20,11 @@ public class ToWiring extends Visitor<StringBuffer> {
     private static final boolean SERIALOUTPUT = true;
 
     private VariableGenerator variableGenerator = new IncrementalVariableGenerator();
+
+    private Map <String, String>           updateExpressionToVariable;
+    private Map <TriggeredCapture, String> measureConditionalExpression;
+    private Map <TriggeredCapture, String> measureConditionalVariable;
+    private Map <PeriodicCapture, String>  periodicQueryVariable;
 
     public ToWiring() {
         this.result = new StringBuffer();
@@ -64,6 +69,11 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(App app) {
+        measureConditionalExpression  = new HashMap<>();
+        measureConditionalVariable    = new HashMap<>();
+        periodicQueryVariable         = new HashMap<>();
+        updateExpressionToVariable    = new HashMap<>();
+
         include("Arduino.h");
         include("SD.h");
 
@@ -149,6 +159,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             lib.include(this);
         }
 
+        // Global
 
         for (LibraryUse usedlib : app.getUsedLibraries()) {
             usedlib.global(this);
@@ -169,26 +180,39 @@ public class ToWiring extends Visitor<StringBuffer> {
             for (String var : measure.getVariables()) {
                 measureUse.getArgsValues().put(var, variableGenerator.genName());
             }
-
         }
 
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
             measureUse.global(this);
         }
 
-        comment("Frequencies");
-
-        List <Integer> frequencies = new ArrayList<>();
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
-            int frequency = measureUse.getCustomFrequency().getRateintoMS();
-            if (!frequencies.contains(frequency)) {
-                frequencies.add(measureUse.getCustomFrequency().getRateintoMS());
+            if (measureUse.getCaptureMethod() instanceof TriggeredCapture) {
+                TriggeredCapture triggeredCapture = (TriggeredCapture) measureUse.getCaptureMethod();
+
+                //TODO check code wrote with migraine
+
+                String conditionExpression = triggeredCapture.readExpression(this);
+
+                measureConditionalExpression.put(triggeredCapture, conditionExpression);
+
+                if (!updateExpressionToVariable.containsKey(conditionExpression)) {
+                    updateExpressionToVariable.put(conditionExpression, variableGenerator.genName());
+                }
+
+                String variable = updateExpressionToVariable.get(conditionExpression);
+
+                measureConditionalExpression.put(triggeredCapture, conditionExpression);
+                measureConditionalVariable  .put(triggeredCapture, variable);
             }
         }
 
-        for (Integer frequency : frequencies) {
-            w("long last_" + freqname(frequency) + ";");
+        comment("Measure write conditions");
+
+        for (TriggeredCapture triggeredCapture : measureConditionalVariable.keySet()) {
+            triggeredCapture.global(this);
         }
+
 
         w("void setup() {");
 
@@ -236,15 +260,6 @@ public class ToWiring extends Visitor<StringBuffer> {
 
         w("\t}");
 
-        comment("init frequencies");
-
-        if (frequencies.size() > 0) {
-            for (Integer frequency : frequencies) {
-                add("last_" + freqname(frequency) + " = ");
-            }
-            w("0;");
-        }
-
         w("\t}");
 
 
@@ -252,17 +267,19 @@ public class ToWiring extends Visitor<StringBuffer> {
 
         w("\tlong now = millis();");
 
-        for (Integer frequency : frequencies) {
-            w("\tuint8_t update_" + freqname(frequency) + " = now > last_" + freqname(frequency) + " + " + frequency + ";");
+        for (String updateExpression : updateExpressionToVariable.keySet()) {
+            w(updateExpressionToVariable.get(updateExpression) + " = " + updateExpression + ";");
         }
 
-        if (frequencies.size() > 0) {
+        if (measureConditionalVariable.size() > 0) {
+            List <String> conditionVariableList = new ArrayList<>(measureConditionalVariable.values());
+
             add("\tif (");
 
-            add("update_" + freqname(frequencies.get(0)));
+            add(conditionVariableList.get(0));
 
-            for (int i = 1; i < frequencies.size(); ++i) {
-                add(" || update_" + freqname(frequencies.get(i)));
+            for (int i = 1; i < conditionVariableList.size(); ++i) {
+                add(" || " + conditionVariableList.get(i));
             }
 
             w(")");
@@ -276,8 +293,9 @@ public class ToWiring extends Visitor<StringBuffer> {
 
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
 
-            if (measureUse.getCustomFrequency() != null) {
-                w("\tif (update_" + freqname(measureUse.getCustomFrequency().getRateintoMS()) + ")");
+            if (measureUse.getCaptureMethod() instanceof TriggeredCapture) {
+                TriggeredCapture triggeredCapture = (TriggeredCapture) measureUse.getCaptureMethod();
+                w("\tif (" + measureConditionalVariable.get(triggeredCapture) +  ")");
             }
             w("\t{");
 
@@ -293,29 +311,81 @@ public class ToWiring extends Visitor<StringBuffer> {
             expression(measureUse);
             w(");");
 
+            CaptureMethod captureMethod = measureUse.getCaptureMethod();
+            if (measureUse.getCaptureMethod() instanceof PeriodicCapture) {
+                w("\t\t" + periodicQueryVariable.get((PeriodicCapture) captureMethod) + " = now;");
+            }
+
+
             w("\t}");
             w("\tput_separator();");
         }
 
         w("\tput_endl();");
 
-        for (Integer frequency : frequencies) {
-            w("\tif (update_" + freqname(frequency) + ") {");
-            w("\t\tlast_" + freqname(frequency) + " = now;");
-            w("\t}");
-        }
-
         if (SDOUTPUT) {
             w("\tdatafile.close();");
         }
 
-        if (frequencies.size() > 0) {
+        if (measureConditionalVariable.size() > 0) {
             w("\t}");
         }
 
         w("}");
 
 	}
+
+    @Override
+    public void visit(AsapCapture captureMethod) {
+        add("true");
+    }
+
+    @Override
+    public void visit(PeriodicCapture captureMethod) {
+
+    }
+
+    @Override
+    public void visit(MetadataCapture captureMethod) {
+
+    }
+
+    @Override
+    public String readExpression(AsapCapture captureMethod) {
+        return "true";
+    }
+
+    @Override
+    public String readExpression(PeriodicCapture captureMethod) {
+        if (!periodicQueryVariable.containsKey(captureMethod)) {
+            periodicQueryVariable.put(captureMethod, variableGenerator.genName());
+        }
+
+        return "now > " + periodicQueryVariable.get(captureMethod) + " + " + captureMethod.getCapturePeriod().getRateintoMS() + ";";
+    }
+
+    @Override
+    public void global(CaptureMethod captureMethod) {
+    }
+
+    @Override
+    public void global(AsapCapture captureMethod) {
+    }
+
+    @Override
+    public void global(TriggeredCapture captureMethod) {
+        w("uint8_t " + measureConditionalVariable.get(captureMethod) + ";");
+    }
+
+    @Override
+    public void global(PeriodicCapture captureMethod) {
+        w("long " + periodicQueryVariable.get(captureMethod) + ";");
+    }
+
+    @Override
+    public void update(TriggeredCapture captureMethod) {
+        w(measureConditionalVariable.get(captureMethod) + " = " + measureConditionalExpression.get(captureMethod) + ";");
+    }
 
     private static String getCType(Type type) {
         switch (type) {

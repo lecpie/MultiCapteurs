@@ -3,11 +3,8 @@ package fr.polytech.pfe.multicapteurs.syntax.config_dsl
 import fr.polytech.pfe.multicapteurs.model.lib.Library
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse
-import fr.polytech.pfe.multicapteurs.model.structural.Frequency
+import fr.polytech.pfe.multicapteurs.model.structural.Period
 import fr.polytech.pfe.multicapteurs.model.structural.Time
-import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefBinding
-import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefModel
-
 
 abstract class MultiCapteursMLBasescript extends Script {
 
@@ -66,7 +63,7 @@ abstract class MultiCapteursMLBasescript extends Script {
                 [freq: freqClosure]
         }, freq: freqClosure = {
             freqVal ->
-                measureUse.setCustomFrequency(new Frequency(freqVal, Time.SEC))
+                measureUse.setCustomFrequency(new Period(freqVal, Time.SEC))
                 [rate: rateClosure]
         }, rate: rateClosure = {
             String unit ->

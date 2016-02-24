@@ -5,8 +5,7 @@ import fr.polytech.pfe.multicapteurs.model.language.Expression;
 import fr.polytech.pfe.multicapteurs.model.language.Global;
 import fr.polytech.pfe.multicapteurs.model.language.Setupable;
 import fr.polytech.pfe.multicapteurs.model.language.Updatable;
-import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
-import fr.polytech.pfe.multicapteurs.model.structural.Time;
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.CaptureMethod;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
 import java.util.LinkedHashMap;
@@ -20,7 +19,16 @@ public class MeasureUse implements Global, Updatable, Expression, Setupable {
     private String name;
     private Measure measure;
     private LibraryUse libraryUse;
-    private Frequency customFrequency;
+
+    public CaptureMethod getCaptureMethod() {
+        return captureMethod;
+    }
+
+    public void setCaptureMethod(CaptureMethod captureMethod) {
+        this.captureMethod = captureMethod;
+    }
+
+    private CaptureMethod captureMethod;
 
 
     private Map <String, String> argsValues = new LinkedHashMap<>();
@@ -83,43 +91,11 @@ public class MeasureUse implements Global, Updatable, Expression, Setupable {
         this.argsValues = argsValues;
     }
 
-    public Frequency getCustomFrequency() {
-        return customFrequency;
-    }
-
-    public void setCustomFrequency(Frequency customFrequency) {
-        this.customFrequency = customFrequency;
-    }
-
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setTimeUnit(String newUnit){
-        switch (newUnit) {
-            case "hour":
-                setTimeUnit(Time.HOUR);
-                break;
-            case "minute":
-                setTimeUnit(Time.MIN);
-                break;
-            case "second":
-                setTimeUnit(Time.SEC);
-                break;
-            case "millisecond":
-                setTimeUnit(Time.MS);
-                break;
-            default:
-                setTimeUnit(Time.SEC);
-                break;
-        }
-    }
-
-    public void setTimeUnit(Time newUnit){
-        this.customFrequency.setUnit(newUnit);
     }
 }
