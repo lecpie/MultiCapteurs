@@ -144,13 +144,4 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public JTabbedPane getSensorMenu() {
         return sensorMenu;
     }
-
-    public void setSelectedLibraryToController(String LibName){
-
-        for(Library libs : controler.getLoadedLibraries().values()){
-           if(libs.getName()==LibName){
-           }
-        }
-      //  private ArrayList<String> libTypes;
-    }
 }
