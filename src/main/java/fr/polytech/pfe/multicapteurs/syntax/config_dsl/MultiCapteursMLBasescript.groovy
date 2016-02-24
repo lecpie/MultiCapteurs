@@ -5,6 +5,8 @@ import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse
 import fr.polytech.pfe.multicapteurs.model.structural.Period
 import fr.polytech.pfe.multicapteurs.model.structural.Time
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.CaptureMethod
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.PeriodicCapture
 
 abstract class MultiCapteursMLBasescript extends Script {
 
@@ -14,7 +16,7 @@ abstract class MultiCapteursMLBasescript extends Script {
         ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel().importlib(path)
     }
 
-    def uselib(String libName) {
+    def sensor(String libName) {
         MultiCapteursMLModel model = ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel()
 
         LibraryUse libraryUse = new LibraryUse();
@@ -36,41 +38,56 @@ abstract class MultiCapteursMLBasescript extends Script {
         }]
     }
 
-    def sensor(String measureName) {
+    def measure(String measureName) {
         MultiCapteursMLModel model = ((MultiCapteursMLBinding) this.getBinding()).getMultiCapteursMLModel()
-
-        Map<String, String> args = new LinkedHashMap<String, String>()
 
         MeasureUse measureUse = new MeasureUse();
         measureUse.setName(measureName)
         measureUse.setLibraryUse(current)
         measureUse.setMeasure(current.getLibrary().getMeasures().get(measureName))
 
+        Map<String, String> args = measureUse.getArgsValues()
+
         model.getUsedMeasure().add(measureUse)
 
-        def nameclosure
         def argsclosure
-        def freqClosure
 
         String previousname = measureName
-        binding.setVariable(previousname, measureUse)
+        binding.setVariable(previousname, measureUse);
 
-        [named : {
+        def captureClosure
+        [captured: captureClosure = {
+            PeriodicCapture captureMethod ->
+                measureUse.setCaptureMethod(captureMethod)
+
+                [every: {
+                    Period period ->
+                        measureUse.setCaptureMethod(new PeriodicCapture(period));
+
+                        [with: argsclosure]
+                }]
+
+        }, named: {
             String name ->
                 measureUse.setName(name)
                 binding.getVariables().remove(previousname)
                 previousname = name
                 binding.setVariable(previousname, measureUse)
-                [freq: freqClosure]
-        }, freq: freqClosure = {
-            freqVal ->
-                measureUse.setCustomFrequency(new Period(freqVal, Time.SEC))
-                [rate: rateClosure]
-        }, rate: rateClosure = {
-            String unit ->
-                measureUse.setTimeUnit(unit)
-        }]
+
+                [captured : captureClosure, with: argsclosure]
+        },
+         with : argsclosure = {
+             String key ->
+                 [valued: {
+                     String val ->
+                         args.put(key, val)
+                         [and: argsclosure]
+                 }]
+
+
+         }]
     }
+
 
     // export name
     def export(String name) {

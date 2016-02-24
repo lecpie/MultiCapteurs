@@ -7,6 +7,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
+import fr.polytech.pfe.multicapteurs.model.structural.Output;
 import fr.polytech.pfe.multicapteurs.syntax.init_dsl.MultiCapteursDefDSL;
 import groovy.lang.Binding;
 
@@ -27,6 +28,7 @@ public class MultiCapteursMLModel {
     private Map<String, Measure> loaded_measures = new HashMap<>();
     private List<LibraryUse> usedLibraries;
     private List<MeasureUse> usedMeasure;
+    private Output output;
     private Binding binding;
 
     public Map<String, Measure> getLoaded_measures() {
@@ -101,6 +103,16 @@ public class MultiCapteursMLModel {
         App app = new App();
         app.setName(appName);
         app.setUsedLibraries(usedLibraries);
+
+        if (output == null) {
+            output = new Output("measures.txt");
+        }
+
+        for (MeasureUse measureUse : usedMeasure) {
+            output.addMeasureUse(measureUse.getName(), measureUse);
+        }
+
+        app.setOutput(output);
 
         Visitor codeGenerator = new ToWiring();
         app.accept(codeGenerator);

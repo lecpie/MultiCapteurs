@@ -5,10 +5,11 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
-import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
+import fr.polytech.pfe.multicapteurs.model.structural.Period;
 import fr.polytech.pfe.multicapteurs.model.structural.Output;
 import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.PeriodicCapture;
 
 import java.util.*;
 
@@ -73,7 +74,7 @@ public class MeasureManagementControler {
 
         libdht.getMeasures().put(dhttemp.getName(), dhttemp);
         //FIXME : Random values to test freq
-        dhttemp.setSensorFrequency(new Frequency(50, Time.SEC));
+        dhttemp.setSensorFrequency(new Period(50, Time.SEC));
 
         // Humidity
         Measure dhthum = new Measure();
@@ -98,7 +99,7 @@ public class MeasureManagementControler {
 
         libdht.getMeasures().put(dhthum.getName(), dhthum);
         //FIXME : Random values to test freq
-        dhthum.setSensorFrequency(new Frequency(60, Time.SEC));
+        dhthum.setSensorFrequency(new Period(60, Time.SEC));
 
         // Transition from library definition to ArduinoML
         Map <String, Library> librariestoload = new HashMap<>();
@@ -127,7 +128,7 @@ public class MeasureManagementControler {
         tempcelc.setName("temperature_celcius");
         tempcelc.setLibraryUse(usedht);
         tempcelc.setMeasure(dhtloaded.getMeasures().get("temperature"));
-        tempcelc.setCustomFrequency(new Frequency(4, Time.SEC));
+        tempcelc.setCaptureMethod(new PeriodicCapture(new Period(4, Time.SEC)));
         out.addMeasureUse("temperature_celcius", tempcelc);
 
         MeasureUse tempfahr = new MeasureUse();
@@ -135,14 +136,14 @@ public class MeasureManagementControler {
         tempfahr.setLibraryUse(usedht);
         tempfahr.setMeasure(dhtloaded.getMeasures().get("temperature"));
         tempfahr.getArgsValues().put("format", "dht_temp_format_fahr");
-        tempfahr.setCustomFrequency(new Frequency(5, Time.SEC));
+        tempfahr.setCaptureMethod(new PeriodicCapture(new Period(5, Time.SEC)));
         out.addMeasureUse("temperature_fahr", tempfahr);
 
         MeasureUse hum = new MeasureUse();
         hum.setName("humidity");
         hum.setLibraryUse(usedht);
         hum.setMeasure(dhtloaded.getMeasures().get("humidity"));
-        hum.setCustomFrequency(new Frequency(7, Time.SEC));
+        hum.setCaptureMethod(new PeriodicCapture(new Period(7, Time.SEC)));
         out.addMeasureUse("humidity", hum);
 
         measureUses.add(tempcelc);

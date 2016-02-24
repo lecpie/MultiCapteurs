@@ -7,7 +7,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
-import fr.polytech.pfe.multicapteurs.model.structural.Frequency;
+import fr.polytech.pfe.multicapteurs.model.structural.Period;
 import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
@@ -87,7 +87,7 @@ public class AppControler {
         dhttemp.setGlobalInstructions(dhttempglobal);
         dhttemp.setUpdateInstructions(dhttempupdate);
         dhttemp.setReadExpressionString(dhttempread);
-        dhttemp.setSensorFrequency(new Frequency(50, Time.SEC));
+        dhttemp.setSensorFrequency(new Period(50, Time.SEC));
         libdht.getMeasures().put(dhttemp.getName(), dhttemp);
 
         // Humidity
@@ -105,7 +105,7 @@ public class AppControler {
         dhthum.setGlobalInstructions(dhthumglobal);
         dhthum.setUpdateInstructions(dhthumupdate);
         dhthum.setReadExpressionString(dhthumread);
-        dhthum.setSensorFrequency(new Frequency(60, Time.SEC));
+        dhthum.setSensorFrequency(new Period(60, Time.SEC));
         libdht.getMeasures().put(dhthum.getName(), dhthum);
 
         librariestoload.put(libdht.getName(), libdht);

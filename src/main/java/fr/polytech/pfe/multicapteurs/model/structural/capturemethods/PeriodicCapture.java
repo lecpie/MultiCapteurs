@@ -2,12 +2,17 @@ package fr.polytech.pfe.multicapteurs.model.structural.capturemethods;
 
 import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
 import fr.polytech.pfe.multicapteurs.model.structural.Period;
+import fr.polytech.pfe.multicapteurs.model.structural.Time;
 
 /**
  * Created by lecpie on 2/23/16.
  */
 public class PeriodicCapture extends TriggeredCapture {
     private Period capturePeriod;
+
+    public PeriodicCapture() {
+
+    }
 
     public PeriodicCapture(Period capturePeriod) {
         this.capturePeriod = capturePeriod;

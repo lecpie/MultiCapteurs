@@ -1,11 +1,10 @@
-importlib "scripts/DHT_def.groovy"
+importlib "scripts/lib/DHT_def.groovy"
 
-uselib "DHT" with "dht_type" valued "DHT11" and "pin" valued "A2"
+sensor "DHT" with "type" valued "DHT11" and "pin" valued "A0"
 
-//Simple def
-sensor "temperature" freq 3
+measure "humidity"    captured periodically every 1.s
+measure "temperature" captured periodically every 3.s
+measure "temperature" named "temp_fahr" captured periodically every 10.s with "format" valued "fahrenheit"
 
-//Detailed def, precising which sampling rate to use
-sensor "humidity" named "theHumidity" freq 2 rate "second"
 
 export "my_DHT_use"

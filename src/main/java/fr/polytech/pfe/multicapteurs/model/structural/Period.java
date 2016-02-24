@@ -8,6 +8,11 @@ public class Period {
     private int rate;
     private Time unit;
 
+    public Period(int msRate) {
+        this.rate = msRate;
+        this.unit = Time.MS;
+    }
+
     public Period(int rate, Time unit){
         this.rate = rate;
         this.unit = unit;
