@@ -64,6 +64,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         if(evt.getSource() instanceof JComboBox){
            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox)evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
+            setSelectedLibraryToController(((JComboBox)evt.getSource()).getSelectedItem().toString());
         }
     }
 
@@ -143,5 +144,13 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     public JTabbedPane getSensorMenu() {
         return sensorMenu;
+    }
+    public void setSelectedLibraryToController(String LibName) {
+
+        for (Library libs : controler.getLoadedLibraries().values()) {
+            if (libs.getName() == LibName) {
+                controler.setSelectedLib(libs);
+            }
+        }
     }
 }
