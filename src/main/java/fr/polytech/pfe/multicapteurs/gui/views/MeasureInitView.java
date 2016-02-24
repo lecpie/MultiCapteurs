@@ -10,6 +10,7 @@ import java.awt.*;
  */
 public class MeasureInitView extends JPanel {
 
+
     JPanel name, type, capture;
     GridBagLayout layout;
     GridBagConstraints c;
@@ -50,4 +51,22 @@ public class MeasureInitView extends JPanel {
         this.add(type, c);
         this.add(capture, c);
     }
+
+    public JPanel getType() {
+        return type;
+    }
+
+    public JPanel getCapture() {
+        return capture;
+    }
+
+    @Override
+    public GridBagLayout getLayout() {
+        return layout;
+    }
+
+    public GridBagConstraints getC() {
+        return c;
+    }
+
 }

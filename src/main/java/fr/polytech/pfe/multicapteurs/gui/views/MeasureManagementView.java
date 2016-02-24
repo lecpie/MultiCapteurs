@@ -18,7 +18,6 @@ public class MeasureManagementView extends JPanel {
     //TODO: Param List (ParamView)
 
     private MeasureManagementControler controler;
-
     private JTabbedPane measureMenu;
     private JPanel addOnglet;
     private MeasureInitView measureInit;
@@ -59,6 +58,22 @@ public class MeasureManagementView extends JPanel {
     private void initParamView(){
         paramView = new ParamView(new ParamViewControler());
         this.add(paramView);
+    }
+
+    public JTabbedPane getMeasureMenu() {
+        return measureMenu;
+    }
+
+    public JPanel getAddOnglet() {
+        return addOnglet;
+    }
+
+    public MeasureInitView getMeasureInit() {
+        return measureInit;
+    }
+
+    public ParamView getParamView() {
+        return paramView;
     }
 
 }

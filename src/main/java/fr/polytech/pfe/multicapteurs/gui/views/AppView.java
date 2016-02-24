@@ -90,7 +90,7 @@ public class AppView extends JFrame {
         save.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+
             }
         });
         //TODO: add listener
@@ -145,5 +145,16 @@ public class AppView extends JFrame {
         MeasureUse measureUse = new MeasureUse();
 
         return controler.generateCode(lib, libUse, measureUse);
+    }
+    public JPanel getCentralContainer() {
+        return centralContainer;
+    }
+
+    public TextArea getArduinoCode() {
+        return arduinoCode;
+    }
+
+    public AppControler getControler() {
+        return controler;
     }
 }
