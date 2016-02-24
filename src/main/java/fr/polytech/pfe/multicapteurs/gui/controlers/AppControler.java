@@ -20,6 +20,7 @@ public class AppControler {
 
     private Map<String, Library> librariestoload;
     private Map<String,LibraryUse> usedLibraries;
+    private LibraryUse currentLibUse;
     private App app;
 
     public AppControler(){
@@ -226,4 +227,11 @@ public class AppControler {
         this.usedLibraries = usedLibraries;
     }
 
+    public LibraryUse getCurrentLibUse() {
+        return currentLibUse;
+    }
+
+    public void setCurrentLibUse(LibraryUse currentLibUse) {
+        this.currentLibUse = currentLibUse;
+    }
 }
