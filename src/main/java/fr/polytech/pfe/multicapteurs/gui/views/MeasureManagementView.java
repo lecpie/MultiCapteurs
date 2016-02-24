@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * Created by Louis on 23/02/2016.
  */
-public class MeasureManagementView extends JPanel implements ActionListener,MouseListener,FocusListener {
+public class MeasureManagementView extends JPanel implements ActionListener,MouseListener,FocusListener, KeyListener {
     //TODO : init measure avec measue uses
     //TODO: Measure preset
     //TODO: Measure setup
@@ -78,9 +78,19 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
 
     public void focusLost(FocusEvent e) {
-        if(e.getSource() instanceof JTextField){
-            measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
+
+    }
+    public void keyPressed(KeyEvent e) {
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource() instanceof JTextField && ((Component)e.getSource()).isFocusable()) {
+                measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
         }
+    }
+
+    public void keyReleased(KeyEvent e) {
+
+    }
+    public void keyTyped(KeyEvent e) {
+
     }
     public void mousePressed(MouseEvent e) {
 
@@ -119,7 +129,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     public JPanel addTextFieldMeasureTonewTab(JPanel panel, String labelName, String panelName){
         JTextField newTextField = new JTextField(labelName);
         newTextField.setPreferredSize(new Dimension(120,20));
-        newTextField.addFocusListener(this);
+        newTextField.addKeyListener(this);
         panel.add(panelName,newTextField);
         return panel;
     }
