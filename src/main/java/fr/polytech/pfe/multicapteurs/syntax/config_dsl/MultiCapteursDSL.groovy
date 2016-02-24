@@ -4,6 +4,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse
 import fr.polytech.pfe.multicapteurs.model.structural.Period
 import fr.polytech.pfe.multicapteurs.model.structural.Time
 import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.AsapCapture
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.MetadataCapture
 import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.PeriodicCapture
 import org.codehaus.groovy.control.CompilerConfiguration
 
@@ -38,6 +39,7 @@ class MultiCapteursDSL {
 
         binding.setVariable("periodically", new PeriodicCapture())
         binding.setVariable("asap",         new AsapCapture())
+        binding.setVariable("meta",     new MetadataCapture())
     }
 
     void eval(File scriptFile) {
