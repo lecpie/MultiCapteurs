@@ -1,6 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.controlers;
 
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
+import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,26 +12,33 @@ import java.util.Map;
  */
 public class ParamViewControler {
 
-    private Library lib;
+    private List<String> requiredArgs;
 
     public ParamViewControler(){
-        this.lib = new Library();
+        this.requiredArgs = new ArrayList<>();
     }
 
-    public ParamViewControler(Library lib){
-        this.lib = lib;
+    public ParamViewControler(Library l){
+        this.requiredArgs = l.getRequiredArgs();
+    }
+
+    public ParamViewControler(Measure m){
+        this.requiredArgs = m.getRequiredArgs();
     }
 
     public List<String> getRequiredArgs(){
-        return lib.getRequiredArgs();
+        return requiredArgs;
     }
 
-    public Library getLib() {
-        return lib;
+    public List<String> updateArgs(Library l){
+        requiredArgs = l.getRequiredArgs();
+        return requiredArgs;
     }
 
-    public void setLib(Library lib) {
-        this.lib = lib;
+    public List<String> updateArgs(Measure m){
+        requiredArgs = m.getRequiredArgs();
+        return requiredArgs;
     }
+
 }
 
