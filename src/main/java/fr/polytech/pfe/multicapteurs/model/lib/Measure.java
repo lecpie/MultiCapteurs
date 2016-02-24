@@ -18,11 +18,13 @@ public class Measure {
 
     private Type type;
     private Map <String, String> defaultArgs = new LinkedHashMap<>();
-    private List <String> requiredArgs = new ArrayList<>();
+    private List <String> requiredArgs   = new ArrayList<>();
+    private List <String> variables      = new ArrayList<>();
+    private List <String> accessibleArgs = new ArrayList<>();
+
     private List <String> globalInstructions = new ArrayList<>();
-    private List <String> setupInstructions = new ArrayList<>();
+    private List <String> setupInstructions  = new ArrayList<>();
     private List <String> updateInstructions = new ArrayList<>();
-    private List <String> variables = new ArrayList<>();
     private Period sensorFrequency;
     private String readExpressionString;
 
@@ -112,6 +114,14 @@ public class Measure {
 
     public void setRequiredArgs(List<String> requiredArgs) {
         this.requiredArgs = requiredArgs;
+    }
+
+    public List<String> getAccessibleArgs() {
+        return accessibleArgs;
+    }
+
+    public void setAccessibleArgs(List<String> accessibleArgs) {
+        this.accessibleArgs = accessibleArgs;
     }
 
 }
