@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by Louis on 22/02/2016.
@@ -87,6 +88,12 @@ public class AppView extends JFrame {
         });
 
         JButton save = new JButton("Save Settings");
+        save.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        });
         //TODO: add listener
 
         footer.add(save);

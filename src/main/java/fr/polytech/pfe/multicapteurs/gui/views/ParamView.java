@@ -41,6 +41,10 @@ public class ParamView extends JPanel{
         newParam.add(newParamTextField);
         return newParam;
     }
+    @Override
+    public GridBagLayout getLayout() {
+        return layout;
+    }
 
 
 }

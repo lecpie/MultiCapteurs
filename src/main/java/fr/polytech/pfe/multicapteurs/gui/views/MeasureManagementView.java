@@ -12,13 +12,12 @@ import java.awt.*;
  * Created by Louis on 23/02/2016.
  */
 public class MeasureManagementView extends JPanel {
-//TODO : init measure avec measue uses
+    //TODO : init measure avec measue uses
     //TODO: Measure preset
     //TODO: Measure setup
     //TODO: Param List (ParamView)
 
     private MeasureManagementControler controler;
-
     private JTabbedPane measureMenu;
     private JPanel addOnglet;
     private MeasureInitView measureInit;
@@ -59,6 +58,22 @@ public class MeasureManagementView extends JPanel {
     private void initParamView(){
         paramView = new ParamView(new ParamViewControler());
         this.add(paramView);
+    }
+
+    public JTabbedPane getMeasureMenu() {
+        return measureMenu;
+    }
+
+    public JPanel getAddOnglet() {
+        return addOnglet;
+    }
+
+    public MeasureInitView getMeasureInit() {
+        return measureInit;
+    }
+
+    public ParamView getParamView() {
+        return paramView;
     }
 
 }

@@ -79,4 +79,26 @@ public class SensorManagementView extends JPanel {
         paramView.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(paramView);
     }
+
+    public ParamView getParamView() {
+        return paramView;
+    }
+
+    @Override
+    public BoxLayout getLayout() {
+        return layout;
+    }
+
+    public JPanel getDefaultOnglet() {
+        return defaultOnglet;
+    }
+
+    public JPanel getAddOnglet() {
+        return addOnglet;
+    }
+
+    public JTabbedPane getSensorMenu() {
+        return sensorMenu;
+    }
+
 }
