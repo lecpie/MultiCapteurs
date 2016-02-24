@@ -49,4 +49,7 @@ public class SensorManagementControler {
         return libNames;
     }
 
+    public String getSelectedLibName(){
+        return selectedLib.getName();
+    }
 }
