@@ -159,4 +159,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return sensorMenu;
     }
 
+    public SensorManagementControler getControler() {
+        return controler;
+    }
 }
