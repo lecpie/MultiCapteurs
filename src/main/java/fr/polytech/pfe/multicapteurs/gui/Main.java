@@ -1,11 +1,14 @@
 package fr.polytech.pfe.multicapteurs.gui;
 
+import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
+import fr.polytech.pfe.multicapteurs.gui.views.AppView;
+
 /**
  * Created by Louis on 22/02/2016.
  */
 public class Main {
     public static void main(String[] args) {
-        Controler controler = new Controler();
-        View view = new View(controler);
+        AppControler controler = new AppControler();
+        AppView appView = new AppView(controler);
     }
 }
