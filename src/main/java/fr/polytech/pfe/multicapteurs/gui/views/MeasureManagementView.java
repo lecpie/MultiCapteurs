@@ -81,16 +81,16 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
     public void keyPressed(KeyEvent e) {
         //TODO:TOUT doit être rempli pour le model
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource().equals(getSelectedMeasure()) && measureMenu.getComponentCount()>1) {
-            for(InputComponent component : ((SetupView) this.getParent()).getSettings().keySet()) {
-                if (component.isSelected() && !getSelectedMeasure().isAdded()) {
-                    ((SetupView) this.getParent()).addMeasureComponent(component,getSelectedMeasure());
-                    System.out.println("RECORD MESURE");
+        if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("RECORD MESURE" + measureMenu.getSelectedIndex());
+            /*
+            for (InputComponent component : ((SetupView) this.getParent()).getSettings().keySet()) {
+               for(InputComponent measure : ((SetupView) this.getParent()).getSettings().get(component)){
+                    if(measure.isSelected()) {
+                        System.out.println("RECORD MESURE" + measure.getTabId());
+                    }
                 }
-            }
-
-            //measureMenu.getSelectedComponent();
-            //measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
+            }*/
         }
     }
 
@@ -132,7 +132,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     public void stateChanged(ChangeEvent e){
         if(e.getSource().equals(measureMenu)){
             setSelectedMeasure(measureMenu.getSelectedIndex());
-            System.out.println("Tab Updated : tab n°" + measureMenu.getSelectedIndex());
         }
     }
 
