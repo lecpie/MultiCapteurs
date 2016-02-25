@@ -3,6 +3,7 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
+import jdk.internal.util.xml.impl.Input;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     private MeasureManagementControler controler;
     private JTabbedPane measureMenu;
-    private JPanel addOnglet;
+    private InputComponent addOnglet;
     private ParamView paramView;
     private ArrayList<String> measuresTypes;
     private ArrayList<String> capturesTypes;
@@ -35,25 +36,20 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         this.capturesTypes = new ArrayList<>();
         this.measures = new ArrayList<>();
         initMeasureTabPanned();
-        initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
     private void initMeasureTabPanned() {
         measureMenu = new JTabbedPane();
-        addOnglet = new JPanel();
+        addOnglet = new InputComponent();
+        addOnglet.setComponentName("+");
         addOnglet.setBackground(Color.gray);
         addOnglet.setEnabled(false);
-
-        measureMenu.addTab("+", addOnglet);
+        measureMenu.addTab(addOnglet.getComponentName(), addOnglet);
+        addOnglet.setTabId(measureMenu.getTabCount());
+        measures.add(addOnglet);
         measureMenu.addMouseListener(this);
-        measureMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(measureMenu);
-    }
-
-    private void initParamView(){
-        paramView = new ParamView(new ParamViewControler());
-        this.add(paramView);
     }
 
     public JTabbedPane getMeasureMenu() {
@@ -64,9 +60,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         return addOnglet;
     }
 
-    public ParamView getParamView() {
-        return paramView;
-    }
     public void actionPerformed(ActionEvent evt)
     {
         if(evt.getSource() instanceof JComboBox){
@@ -117,40 +110,43 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     public void mouseClicked(MouseEvent e) {
         if(measureMenu.getSelectedIndex() == 0){
-            JPanel newPan = new JPanel();
+            InputComponent newPan = new InputComponent();
             //TODO : Name de la mesureUSE
-            newPan = addLabelMeasureTonewTab(newPan, "Name","measureName");
-            newPan = addTextFieldMeasureTonewTab(newPan,"","measureName");
-            newPan = addLabelMeasureTonewTab(newPan, "Type","measureTypes");
-            newPan = addComboBoxMeasureTonewTab(newPan, measuresTypes, "measureTypeCB");
-            newPan = addLabelMeasureTonewTab(newPan, "Capture","CaptureTypes");
-            newPan = addComboBoxMeasureTonewTab(newPan, capturesTypes, "captureTypeCB");
+            newPan = addLabelMeasureTonewTab(newPan, "Name");
+            newPan = addTextFieldMeasureTonewTab(newPan,"textFieldMeasureName");
+            newPan = addLabelMeasureTonewTab(newPan, "Type");
+            newPan = addComboBoxMeasureTonewTab(newPan,  Arrays.asList("arg1","arg2"),"comboBoxMeasureType");
+            newPan = addLabelMeasureTonewTab(newPan, "Capture");
+            newPan = addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1","arg2"),"comboBoxCaptureType");
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
+            measures.add(newPan);
         }
     }
-    public JPanel addLabelMeasureTonewTab(JPanel panel, String labelName, String panelName){
-        panel.add(panelName, new JLabel(labelName));
+    public InputComponent addLabelMeasureTonewTab(InputComponent panel, String labelName){
+        JLabel newLabel = new JLabel(labelName);
+        newLabel.setName(labelName);
+        panel.add(newLabel.getName(), newLabel);
         return panel;
     }
-    public JPanel addTextFieldMeasureTonewTab(JPanel panel, String labelName, String panelName){
-        JTextField newTextField = new JTextField(labelName);
-        newTextField.setPreferredSize(new Dimension(120,20));
+    public InputComponent addTextFieldMeasureTonewTab(InputComponent panel, String textFieldName){
+        JTextField newTextField = new JTextField();
+        newTextField.setName(textFieldName);
+        newTextField.setPreferredSize(new Dimension(120, 20));
         newTextField.addKeyListener(this);
-        panel.add(panelName,newTextField);
+        panel.add(newTextField.getName(),newTextField);
         return panel;
     }
 
-    public JPanel addComboBoxMeasureTonewTab(JPanel panel, ArrayList<String> types, String panelName){
+    public InputComponent addComboBoxMeasureTonewTab(InputComponent panel, List<String> types, String comBoxName){
 
         JComboBox type = new JComboBox();
+        type.setName(comBoxName);
         type.addActionListener(this);
         //TODO: à virer
-        type.addItem("FUCK");
-        /*for(String type : types){
-            libType.addItem(type);
-        }*/
-        panel.add(panelName,type);
+        types.forEach(type::addItem);
+        panel.add(type);
+        panel.addComponent(type.getName(), type);
         return panel;
     }
     public List<InputComponent> getMeasures() {

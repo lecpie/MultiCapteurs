@@ -46,6 +46,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         addOnglet.setEnabled(false);
         sensorMenu.addTab(addOnglet.getComponentName(), addOnglet);
         addOnglet.setTabId(sensorMenu.getTabCount());
+        libs.add(addOnglet);
         sensorMenu.addMouseListener(this);
         this.add(sensorMenu);
     }
@@ -84,13 +85,13 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void mouseClicked(MouseEvent e) {
         if (sensorMenu.getSelectedIndex() == 0) {
             InputComponent newPan = new InputComponent();
-            libs.add(newPan);
             newPan.setTabId(sensorMenu.getTabCount());
             newPan.setComponentName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
             newPan = addLabelLibsTonewTab(newPan);
             newPan = addComboBoxLibsTonewTab(newPan);
             sensorMenu.setSelectedComponent(newPan);
+            libs.add(newPan);
         }
     }
 
@@ -98,7 +99,9 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     }
 
     public InputComponent addLabelLibsTonewTab(InputComponent panel) {
-        panel.add("libraryLabel", new JLabel("Library"));
+        JLabel label = new JLabel();
+        panel.add("libraryLabel", label);
+        panel.addComponent(label.getName(), label);
         return panel;
     }
 
