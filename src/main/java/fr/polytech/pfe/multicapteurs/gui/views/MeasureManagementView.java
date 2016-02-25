@@ -1,14 +1,14 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
+import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by Louis on 23/02/2016.
@@ -22,17 +22,18 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private MeasureManagementControler controler;
     private JTabbedPane measureMenu;
     private JPanel addOnglet;
-    private MeasureInitView measureInit;
     private ParamView paramView;
     private ArrayList<String> measuresTypes;
     private ArrayList<String> capturesTypes;
+    private List<InputComponent> measures;
 
 
     public MeasureManagementView(MeasureManagementControler controler){
         this.controler = controler;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        measuresTypes = new ArrayList<>();
-        capturesTypes = new ArrayList<>();
+        this.measuresTypes = new ArrayList<>();
+        this.capturesTypes = new ArrayList<>();
+        this.measures = new ArrayList<>();
         initMeasureTabPanned();
         initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -61,10 +62,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     public JPanel getAddOnglet() {
         return addOnglet;
-    }
-
-    public MeasureInitView getMeasureInit() {
-        return measureInit;
     }
 
     public ParamView getParamView() {
@@ -156,6 +153,14 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         panel.add(panelName,type);
         return panel;
     }
+    public List<InputComponent> getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(List<InputComponent> measures) {
+        this.measures = measures;
+    }
+
     public void setSelectedLibraryToController(String measureName) {
 /*
         for (String mesureNames : controler.getMeasureNames()) {
@@ -164,14 +169,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             }
         }
         */
-    }
-
-    public void updateParamView(String measureName){
-       /* //TODO add tab
-        this.remove(paramView);
-        this.paramView.setControler(controler.setParamViewControler(measureName));
-        this.add(paramView);
-        this.repaint();*/
     }
 
 }

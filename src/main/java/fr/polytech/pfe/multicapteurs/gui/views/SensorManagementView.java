@@ -41,10 +41,10 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void initTabPanned() {
         sensorMenu = new JTabbedPane();
         addOnglet = new InputComponent();
-        addOnglet.setLibName("+");
+        addOnglet.setComponentName("+");
         addOnglet.setBackground(Color.gray);
         addOnglet.setEnabled(false);
-        sensorMenu.addTab(addOnglet.getLibName(), addOnglet);
+        sensorMenu.addTab(addOnglet.getComponentName(), addOnglet);
         addOnglet.setTabId(sensorMenu.getTabCount());
         sensorMenu.addMouseListener(this);
         this.add(sensorMenu);
@@ -86,7 +86,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             InputComponent newPan = new InputComponent();
             libs.add(newPan);
             newPan.setTabId(sensorMenu.getTabCount());
-            newPan.setLibName("newPan" + sensorMenu.getTabCount());
+            newPan.setComponentName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
             newPan = addLabelLibsTonewTab(newPan);
             newPan = addComboBoxLibsTonewTab(newPan);
