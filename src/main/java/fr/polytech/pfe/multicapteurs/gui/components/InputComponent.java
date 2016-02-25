@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public class InputComponent extends JPanel{
     private int tabId;
-    private String libName;
+    private String componentName;
     private Map<String, Component> components;
     private ParamView params;
 
@@ -21,10 +21,11 @@ public class InputComponent extends JPanel{
         this.components = new HashMap<>();
     }
 
-    public InputComponent(int tabId, String libName, ParamView params) {
+
+    public InputComponent(int tabId, String componentName, ParamView params) {
         this.tabId = tabId;
-        this.libName = libName;
-        this.setName(libName);
+        this.componentName = componentName;
+        this.setName(componentName);
         this.params = params;
     }
 
@@ -36,13 +37,13 @@ public class InputComponent extends JPanel{
         this.tabId = tabId;
     }
 
-    public String getLibName() {
-        return libName;
+    public String getComponentName() {
+        return componentName;
     }
 
-    public void setLibName(String libName) {
-        this.setName(libName);
-        this.libName = libName;
+    public void setComponentName(String componentName) {
+        this.setName(componentName);
+        this.componentName = componentName;
     }
 
     public ParamView getParams() {
