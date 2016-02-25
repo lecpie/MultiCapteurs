@@ -114,19 +114,10 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             newPan.addComponent("measureName", addMeasureName());
             newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), Arrays.asList("arg1", "arg2"), "comboBoxMeasureType" ));
             newPan.addComponent("measureCapture", addCombo(addLabelMeasureTonewTab("Capture"), Arrays.asList("arg1", "arg2"), "comboBoxCaptureType" ));
-
-           /* addLabelMeasureTonewTab(newPan, "Name");
-            addTextFieldMeasureTonewTab(newPan, "textFieldMeasureName");
-
-            addLabelMeasureTonewTab(newPan, "Type");
-            addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1", "arg2"), "comboBoxMeasureType");
-
-            addLabelMeasureTonewTab(newPan, "Capture");
-            addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1", "arg2"), "comboBoxCaptureType");*/
-
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
             measures.add(newPan);
+
         }
     }
 
