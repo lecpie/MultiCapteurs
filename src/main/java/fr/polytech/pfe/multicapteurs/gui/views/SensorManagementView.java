@@ -97,10 +97,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             sensorMenu.setSelectedComponent(newPan);
             newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
             libs.add(newPan);
-            setSelectedLib(Integer.toString(newPan.getTabId()));
-        }else{
-            setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
         }
+        setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
     }
 
     public void stateChanged(ChangeEvent e) {
