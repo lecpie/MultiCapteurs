@@ -62,9 +62,12 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     public void actionPerformed(ActionEvent evt)
     {
-        if(evt.getSource() instanceof JComboBox){
-
-            ((SetupView) this.getParent()).getSettings().keySet().stream().filter(component -> component.isSelected()).forEach(component -> System.out.println(((JComboBox) ((JPanel) component.getAllComponents().get("library_field")).getComponent(1)).getSelectedItem()));
+        for(InputComponent component : ((SetupView) this.getParent()).getSettings().keySet()) {
+            if (component.isSelected()){
+                if (evt.getSource().equals(((JPanel) component.getAllComponents().get("library_field")).getComponent(1))) {
+                    System.out.println(((JComboBox)((JPanel) component.getAllComponents().get("library_field")).getComponent(1)).getSelectedItem());
+                }
+        }
         }
 
     }
