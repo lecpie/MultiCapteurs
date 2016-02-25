@@ -150,15 +150,13 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private JPanel addCombo(JLabel lab, List<String> params, String comboName){
         JPanel container = new JPanel();
 
-        JLabel newLab = addLabelMeasureTonewTab("Type");
-
         JComboBox type = new JComboBox();
         type.setName("comboBoxMeasureType");
         type.addActionListener(this);
         //TODO: à virer
         params.forEach(type::addItem);
 
-        container.add(newLab);
+        container.add(lab);
         container.add(type);
 
         return container;
