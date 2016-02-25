@@ -65,7 +65,8 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
             }*/
             //
-            controler.setSelectedLib(libname);
+            setSelectedLib(sensorMenu.getSelectedIndex());
+            System.out.println(getSelectedComponent());
             getSelectedComponent().setParams(new ParamView(controler.getRequiredArgs(libname)));
         }
     }
@@ -104,14 +105,13 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             sensorMenu.setSelectedComponent(newPan);
             newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
             libs.add(newPan);
-
             //TEST
             ((SetupView)this.getParent()).getSettings().put(newPan, new ArrayList<>());
         }
     }
 
     public void stateChanged(ChangeEvent e) {
-        if(e.getSource().equals(sensorMenu)){
+       if(e.getSource().equals(sensorMenu)){
             setSelectedLib(sensorMenu.getSelectedIndex());
             System.out.println("Tab Updated : tab n°"+sensorMenu.getSelectedIndex());
         }

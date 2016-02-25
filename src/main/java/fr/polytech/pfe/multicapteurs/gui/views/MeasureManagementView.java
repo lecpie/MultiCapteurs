@@ -23,7 +23,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private LibControler controler;
     private JTabbedPane measureMenu;
     private InputComponent addOnglet;
-    private ParamView paramView;
     private ArrayList<String> measuresTypes;
     private ArrayList<String> capturesTypes;
 
@@ -123,8 +122,8 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             //TODO : Name de la mesureUSE
 
             newPan.addComponent("measureName", addMeasureName());
-            newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), capturesTypes, "comboBoxMeasureType" ));
-            newPan.addComponent("measureCapture", addCombo(addLabelMeasureTonewTab("Capture"), Arrays.asList("arg1", "arg2"), "comboBoxCaptureType" ));
+            newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), Arrays.asList("type1", "type2"), "comboBoxMeasureType" ));
+            newPan.addComponent("measureCapture", addCombo(addLabelMeasureTonewTab("Capture"),capturesTypes, "comboBoxCaptureType" ));
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
             measures.add(newPan);
@@ -133,7 +132,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     public void stateChanged(ChangeEvent e){
         if(e.getSource().equals(measureMenu)){
             setSelectedMeasure(measureMenu.getSelectedIndex());
-            System.out.println("Tab Updated : tab n°"+measureMenu.getSelectedIndex());
+            System.out.println("Tab Updated : tab n°" + measureMenu.getSelectedIndex());
         }
     }
 

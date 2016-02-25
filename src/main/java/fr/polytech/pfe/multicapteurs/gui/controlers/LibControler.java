@@ -1,5 +1,6 @@
 package fr.polytech.pfe.multicapteurs.gui.controlers;
 
+import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.views.ParamView;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
@@ -51,6 +52,7 @@ public class LibControler {
         }
         return null;
     }
+/*
 
     public void setSelectedLib (String libname){
         for(String lib : loadedLibraries.keySet()){
@@ -59,4 +61,7 @@ public class LibControler {
             }
         }
     }
+*/
+
+
 }
