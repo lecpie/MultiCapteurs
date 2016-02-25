@@ -9,7 +9,7 @@
 #include <HP20x_dev.h>
 
 #define SERIALOUTPUT 1
-#define SDOUTPUT     0
+#define SDOUTPUT     1
 
 
 #if SDOUTPUT
@@ -138,44 +138,42 @@ void setup()
 
 #if SDOUTPUT
     // Init CSV file
-    if (not SD.exists(output))
-#endif
-    {
-        #if SDOUTPUT
-        // Write csv header
-        datafile = SD.open(output, FILE_WRITE);
-        #endif
-
-        put_data("latitude",     8);
-        put_separator();
-
-        put_data("longitude",    9);
-        put_separator();
-
-        put_data("temperature", 11);
-        put_separator();
-
-        put_data("humidity",     8);
-        put_separator();
-
-        put_data("light",        5);
-        put_separator();
-
-        put_data("hp_temperature", 14);
-        put_separator();
-
-        put_data("hp_pressure",    11);
-        put_separator();
-
-        put_data("hp_altitude",    11);
-        put_separator();
-
-        put_endl();
-
-        #if SDOUTPUT
-        datafile.close();
-        #endif
+    if (SD.exists(output)) {
+        SD.remove(output);
     }
+    // Write csv header
+    datafile = SD.open(output, FILE_WRITE);
+    #endif
+
+    put_data("latitude",     8);
+    put_separator();
+
+    put_data("longitude",    9);
+    put_separator();
+
+    put_data("temperature", 11);
+    put_separator();
+
+    put_data("humidity",     8);
+    put_separator();
+
+    put_data("light",        5);
+    put_separator();
+
+    put_data("hp_temperature", 14);
+    put_separator();
+
+    put_data("hp_pressure",    11);
+    put_separator();
+
+    put_data("hp_altitude",    11);
+    put_separator();
+
+    put_endl();
+
+    #if SDOUTPUT
+    datafile.close();
+    #endif
 
     // init frequency
 
@@ -246,12 +244,6 @@ void loop()
         put_separator();
 
         put_endl();
-
-        if (update_f1) {
-        }
-
-        if (update_f2) {
-        }
 
         #if SDOUTPUT
         datafile.close();

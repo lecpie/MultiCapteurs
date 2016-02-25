@@ -16,7 +16,7 @@ import java.util.*;
  */
 public class ToWiring extends Visitor<StringBuffer> {
 
-    private static final boolean SDOUTPUT     = false;
+    private static final boolean SDOUTPUT     = true;
     private static final boolean SERIALOUTPUT = true;
 
     private VariableGenerator variableGenerator = new IncrementalVariableGenerator();
@@ -238,13 +238,10 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (SDOUTPUT) {
-            w("\tif (not SD.exists(output))");
-        }
-
-        w("\t{");
-
-        if (SDOUTPUT) {
-            w("\t\tdatafile = SD.open(output, FILE_WRITE);");
+            w("\tif (SD.exists(output)) {");
+            w("\t\tSD.remove(output);");
+            w("}");
+            w("\tdatafile = SD.open(output, FILE_WRITE);");
         }
 
         for (String measureName : app.getOutput().getPrintedMeasures().keySet()) {
@@ -257,8 +254,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         if (SDOUTPUT) {
             w("\t\tdatafile.close();");
         }
-
-        w("\t}");
 
         w("\t}");
 
