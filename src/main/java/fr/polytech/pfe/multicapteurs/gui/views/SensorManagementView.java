@@ -109,10 +109,13 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             //TEST
             ((SetupView)this.getParent()).getSettings().put(newPan,new ArrayList<>());
         }
-        setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
     }
 
     public void stateChanged(ChangeEvent e) {
+        if(e.getSource().equals(sensorMenu)){
+            setSelectedLib(sensorMenu.getSelectedIndex());
+            System.out.println("Tab Updated : tab n°"+sensorMenu.getSelectedIndex());
+        }
     }
 
     private Component createLibComboBox(){
@@ -164,9 +167,9 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return null;
     }
 
-    private void setSelectedLib(String id){
+    private void setSelectedLib(int id){
         for(InputComponent ic : libs){
-            if(Integer.toString(ic.getTabId()).equals(id)){
+            if(ic.getTabId()==id){
                 //System.out.println("selecting" + Integer.toString(ic.getTabId()));
                 ic.select();
             }else{

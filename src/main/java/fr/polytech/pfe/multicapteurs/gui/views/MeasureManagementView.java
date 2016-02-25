@@ -5,6 +5,8 @@ import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -13,7 +15,7 @@ import java.util.List;
 /**
  * Created by Louis on 23/02/2016.
  */
-public class MeasureManagementView extends JPanel implements ActionListener,MouseListener,FocusListener, KeyListener {
+public class MeasureManagementView extends JPanel implements ActionListener,MouseListener,FocusListener, KeyListener, ChangeListener {
     //TODO : init measure avec measue uses
     //TODO: Measure preset
     //TODO: Measure setup
@@ -48,6 +50,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         measureMenu.addTab(addOnglet.getComponentName(), addOnglet);
         addOnglet.setTabId(measureMenu.getTabCount());
         measures.add(addOnglet);
+        measureMenu.addChangeListener(this);
         measureMenu.addMouseListener(this);
         measureMenu.addKeyListener(this);
         this.add(measureMenu);
@@ -81,9 +84,16 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
     public void keyPressed(KeyEvent e) {
         //TODO:TOUT doit être rempli pour le model
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource().equals(measureMenu) && measureMenu.getComponentCount()>1) {
-           // measureMenu.getS
-                measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource().equals(getSelectedMeasure()) && measureMenu.getComponentCount()>1) {
+            for(InputComponent component : ((SetupView) this.getParent()).getSettings().keySet()) {
+                if (component.isSelected() && !getSelectedMeasure().isAdded()) {
+                    ((SetupView) this.getParent()).addMeasureComponent(component,getSelectedMeasure());
+                    System.out.println("RECORD MESURE");
+                }
+            }
+
+            //measureMenu.getSelectedComponent();
+            //measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
         }
     }
 
@@ -121,6 +131,12 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             measureMenu.setSelectedComponent(newPan);
             measures.add(newPan);
 
+        }
+    }
+    public void stateChanged(ChangeEvent e){
+        if(e.getSource().equals(measureMenu)){
+            setSelectedMeasure(measureMenu.getSelectedIndex());
+            System.out.println("Tab Updated : tab n°"+measureMenu.getSelectedIndex());
         }
     }
 
@@ -214,9 +230,9 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         return null;
     }
 
-    private void setSelectedMeasure(String id){
+    private void setSelectedMeasure(int id){
         for(InputComponent ic : measures){
-            if(Integer.toString(ic.getTabId()).equals(id)){
+            if(ic.getTabId() == id){
                 //System.out.println("selecting" + Integer.toString(ic.getTabId()));
                 ic.select();
             }else{
