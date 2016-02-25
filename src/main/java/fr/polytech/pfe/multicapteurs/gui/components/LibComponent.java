@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by Louis on 25/02/2016.
  */
 public class LibComponent extends JPanel{
-    private String tabId;
+    private int tabId;
     private String libName;
     private Map<String, Component> components;
     private ParamView params;
@@ -20,17 +20,18 @@ public class LibComponent extends JPanel{
     public LibComponent(){
         this.components = new HashMap<>();
     }
-    public LibComponent(String tabId, String libName, ParamView params) {
+    public LibComponent(int tabId, String libName, ParamView params) {
         this.tabId = tabId;
         this.libName = libName;
+        this.setName(libName);
         this.params = params;
     }
 
-    public String getTabId() {
+    public int getTabId() {
         return tabId;
     }
 
-    public void setTabId(String tabId) {
+    public void setTabId(int tabId) {
         this.tabId = tabId;
     }
 
@@ -39,6 +40,7 @@ public class LibComponent extends JPanel{
     }
 
     public void setLibName(String libName) {
+        this.setName(libName);
         this.libName = libName;
     }
 
@@ -62,5 +64,4 @@ public class LibComponent extends JPanel{
         components.put(name, c);
         return c;
     }
-    
 }
