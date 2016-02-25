@@ -1,6 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.controlers;
 
 import fr.polytech.pfe.multicapteurs.App;
+import fr.polytech.pfe.multicapteurs.gui.tools.LibraryLoader;
 import fr.polytech.pfe.multicapteurs.model.generator.ToWiring;
 import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
@@ -11,6 +12,7 @@ import fr.polytech.pfe.multicapteurs.model.structural.Period;
 import fr.polytech.pfe.multicapteurs.model.structural.Time;
 import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 /**
@@ -22,6 +24,8 @@ public class AppControler {
     private Map<String,LibraryUse> usedLibraries;
     //private LibraryUse currentLibUse;
 
+    private LibraryLoader libraryLoader = new LibraryLoader();
+
     private App app;
 
     private SensorManagementControler smc;
@@ -32,13 +36,26 @@ public class AppControler {
 
         app = new App();
 
-        //Mock for lib loading
-        mock_DHT();
-        mock_Light();
-        mock_HP20X();
-        mock_GPS();
+        loadLibs("scripts/lib");
 
         this.smc = new SensorManagementControler(app.getLoadedLibraries());
+    }
+
+    void loadLibs(String folderPath) {
+        Map <String, Library> libraryMap = new HashMap<>();
+
+        try {
+            List <Library> libraries = libraryLoader.loadFolder(folderPath);
+
+            for (Library library : libraries) {
+                libraryMap.put(library.getName(), library);
+            }
+
+            app.setLoadedLibraries(libraryMap);
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("Library folder : " + folderPath + " not found");
+        }
     }
 
     public void setupMeasureManagamentView(Library l){
