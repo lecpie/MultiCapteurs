@@ -24,6 +24,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private ParamView paramView;
     private ArrayList<String> measuresTypes;
     private ArrayList<String> capturesTypes;
+
     private List<InputComponent> measures;
 
 
@@ -110,18 +111,66 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         if(measureMenu.getSelectedIndex() == 0){
             InputComponent newPan = new InputComponent();
             //TODO : Name de la mesureUSE
-            newPan = addLabelMeasureTonewTab(newPan, "Name");
-            newPan = addTextFieldMeasureTonewTab(newPan,"textFieldMeasureName");
-            newPan = addLabelMeasureTonewTab(newPan, "Type");
-            newPan = addComboBoxMeasureTonewTab(newPan,  Arrays.asList("arg1","arg2"),"comboBoxMeasureType");
-            newPan = addLabelMeasureTonewTab(newPan, "Capture");
-            newPan = addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1","arg2"),"comboBoxCaptureType");
+
+            newPan.addComponent("measureName", addMeasureName());
+            newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), Arrays.asList("arg1", "arg2"), "comboBoxMeasureType" ));
+            newPan.addComponent("measureCapture", addCombo(addLabelMeasureTonewTab("Capture"), Arrays.asList("arg1", "arg2"), "comboBoxCaptureType" ));
+
+           /* addLabelMeasureTonewTab(newPan, "Name");
+            addTextFieldMeasureTonewTab(newPan, "textFieldMeasureName");
+
+            addLabelMeasureTonewTab(newPan, "Type");
+            addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1", "arg2"), "comboBoxMeasureType");
+
+            addLabelMeasureTonewTab(newPan, "Capture");
+            addComboBoxMeasureTonewTab(newPan, Arrays.asList("arg1", "arg2"), "comboBoxCaptureType");*/
+
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
             measures.add(newPan);
         }
     }
-    public InputComponent addLabelMeasureTonewTab(InputComponent panel, String labelName){
+
+    private JPanel addMeasureName(){
+        JPanel container = new JPanel();
+
+        JLabel newLab = addLabelMeasureTonewTab("Name");
+
+        JTextField newTextField = new JTextField();
+        newTextField.setName("textFieldMeasureName");
+        newTextField.setPreferredSize(new Dimension(120, 20));
+        newTextField.addKeyListener(this);
+
+        container.add(newLab);
+        container.add(newTextField);
+
+        return container;
+    }
+
+    private JPanel addCombo(JLabel lab, List<String> params, String comboName){
+        JPanel container = new JPanel();
+
+        JLabel newLab = addLabelMeasureTonewTab("Type");
+
+        JComboBox type = new JComboBox();
+        type.setName("comboBoxMeasureType");
+        type.addActionListener(this);
+        //TODO: à virer
+        params.forEach(type::addItem);
+
+        container.add(newLab);
+        container.add(type);
+
+        return container;
+    }
+
+    public JLabel addLabelMeasureTonewTab(String labelName){
+        JLabel newLabel = new JLabel(labelName);
+        newLabel.setName(labelName);
+        return newLabel;
+    }
+
+    /*public InputComponent addLabelMeasureTonewTab(InputComponent panel, String labelName){
         JLabel newLabel = new JLabel(labelName);
         newLabel.setName(labelName);
         panel.add(newLabel.getName(), newLabel);
@@ -146,7 +195,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         panel.add(type);
         panel.addComponent(type.getName(), type);
         return panel;
-    }
+    }*/
     public List<InputComponent> getMeasures() {
         return measures;
     }
@@ -163,6 +212,27 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             }
         }
         */
+    }
+
+    private InputComponent getSelectedMeasure(){
+        for(InputComponent ic : measures){
+            if(ic.isSelected()){
+                return ic;
+            }
+        }
+        return null;
+    }
+
+    private void setSelectedMeasure(String id){
+        for(InputComponent ic : measures){
+            if(Integer.toString(ic.getTabId()).equals(id)){
+                //System.out.println("selecting" + Integer.toString(ic.getTabId()));
+                ic.select();
+            }else{
+                //System.out.println("unselecting" + Integer.toString(ic.getTabId()));
+                ic.unselect();
+            }
+        }
     }
 
 }
