@@ -91,14 +91,18 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             newPan.setTabId(sensorMenu.getTabCount());
             newPan.setComponentName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
-            newPan = addLabelLibsTonewTab(newPan);
-            newPan = addComboBoxLibsTonewTab(newPan);
+            addLabelLibsTonewTab(newPan);
+            addComboBoxLibsTonewTab(newPan);
             sensorMenu.setSelectedComponent(newPan);
+            newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
             //System.out.println(e.getSource());
             //System.out.println(e.getSource().getSe);
             //newPan.setParams(Arrays.asList("DHT", "DHT2"));
             // newPan.add()
             libs.add(newPan);
+            setSelectedComponent(Integer.toString(newPan.getTabId()));
+        }else{
+            //TODO: set selected component to corresponding tab
         }
     }
 
@@ -107,7 +111,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     public InputComponent addLabelLibsTonewTab(InputComponent panel) {
         JLabel label = new JLabel();
-        panel.add("libraryLabel", label);
+        label.setName("libraryLabel");
         panel.addComponent(label.getName(), label);
         return panel;
     }
@@ -144,6 +148,25 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     public JTabbedPane getSensorMenu() {
         return sensorMenu;
+    }
+
+    private InputComponent getSelectedComponent(){
+        for(InputComponent ic : libs){
+            if(ic.isSelected()){
+                return ic;
+            }
+        }
+        return null;
+    }
+
+    private void setSelectedComponent(String id){
+        for(InputComponent ic : libs){
+            if(Integer.toString(ic.getTabId()).equals(id)){
+                ic.select();
+            }else{
+                ic.unselect();
+            }
+        }
     }
 
 

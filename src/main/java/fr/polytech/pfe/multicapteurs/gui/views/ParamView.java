@@ -46,6 +46,8 @@ public class ParamView extends JPanel{
         for(String label : labels){
            createInput(label);
         }
+
+        reDraw();
     }
 
     public ParamElement createInput(String field){

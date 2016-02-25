@@ -16,18 +16,33 @@ public class InputComponent extends JPanel{
     private String componentName;
     private Map<String, Component> components;
     private ParamView params;
+    private boolean isSelected;
+
+    /*private GridBagLayout layout;
+    private GridBagConstraints c;*/
 
     public InputComponent(){
-        this.components = new HashMap<>();
+        /*layout = new GridBagLayout();
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.anchor = GridBagConstraints.NORTHWEST;
+        c.weightx = 100.0;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        c.insets = new Insets(1,1,1,1);
+        this.setLayout(new GridBagLayout());*/
+        components = new HashMap<>();
+        params = new ParamView();
+        isSelected = false;
     }
 
 
-    public InputComponent(int tabId, String componentName, ParamView params) {
+    /*public InputComponent(int tabId, String componentName, ParamView params) {
         this.tabId = tabId;
         this.componentName = componentName;
         this.setName(componentName);
         this.params = params;
-    }
+        isSelected = false;
+    }*/
 
     public int getTabId() {
         return tabId;
@@ -51,12 +66,17 @@ public class InputComponent extends JPanel{
     }
 
     public void setParams(ParamView params) {
+        this.remove(this.params);
         this.params = params;
+        this.add(this.params);
     }
 
-    public void setParams(List<String> params) {
+  /*  public void setParams(List<String> params) {
+        this.remove(this.params);
         this.params = new ParamView(params);
-    }
+        this.add(this.params);
+        System.out.println("heyyyyyy");
+    }*/
 
     public Map<String, Component> getAllComponents() {
         return components;
@@ -71,4 +91,15 @@ public class InputComponent extends JPanel{
         return c;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void unselect(){
+        this.isSelected = false;
+    }
+
+    public void select() {
+        this.isSelected = true;
+    }
 }
