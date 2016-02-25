@@ -16,6 +16,7 @@ public class InputComponent extends JPanel{
     private String componentName;
     private Map<String, Component> components;
     private ParamView params;
+    private boolean isAdded;
     private boolean isSelected;
 
     private GridBagLayout layout;
@@ -34,6 +35,7 @@ public class InputComponent extends JPanel{
         components = new HashMap<>();
         params = new ParamView();
         isSelected = false;
+        isAdded = false;
     }
 
     public int getTabId() {
@@ -89,6 +91,12 @@ public class InputComponent extends JPanel{
     }
     public boolean isSelected() {
         return isSelected;
+    }
+
+    public boolean isAdded() {return isAdded;}
+
+    public void add() {
+        this.isAdded = true;
     }
 
     public void unselect(){
