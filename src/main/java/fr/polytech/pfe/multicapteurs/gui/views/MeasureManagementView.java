@@ -34,7 +34,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         this.controler = controler;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.measuresTypes = new ArrayList<>();
-        this.capturesTypes = new ArrayList<>();
+        this.capturesTypes = new ArrayList<>(Arrays.asList("Frequency","ASAP","META"));
         this.measures = new ArrayList<>();
         initMeasureTabPanned();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -50,6 +50,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         addOnglet.setTabId(measureMenu.getTabCount());
         measures.add(addOnglet);
         measureMenu.addMouseListener(this);
+        measureMenu.addKeyListener(this);
         this.add(measureMenu);
     }
 
@@ -68,7 +69,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
                 if (evt.getSource().equals(((JPanel) component.getAllComponents().get("library_field")).getComponent(1))) {
                     System.out.println(((JComboBox)((JPanel) component.getAllComponents().get("library_field")).getComponent(1)).getSelectedItem());
                 }
-        }
+            }
         }
 
     }
@@ -80,7 +81,9 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     }
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource() instanceof JTextField && ((Component)e.getSource()).isFocusable()) {
+        //TODO:TOUT doit être rempli pour le model
+        if(e.getKeyCode() == KeyEvent.VK_ENTER && e.getSource().equals(measureMenu) && measureMenu.getComponentCount()>1) {
+           // measureMenu.getS
                 measureMenu.setTitleAt(measureMenu.getSelectedIndex(), ((JTextField)e.getSource()).getText().toLowerCase()+measureMenu.getSelectedIndex());
         }
     }
@@ -113,7 +116,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             //TODO : Name de la mesureUSE
 
             newPan.addComponent("measureName", addMeasureName());
-            newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), Arrays.asList("arg1", "arg2"), "comboBoxMeasureType" ));
+            newPan.addComponent("measureType", addCombo(addLabelMeasureTonewTab("Type"), capturesTypes, "comboBoxMeasureType" ));
             newPan.addComponent("measureCapture", addCombo(addLabelMeasureTonewTab("Capture"), Arrays.asList("arg1", "arg2"), "comboBoxCaptureType" ));
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
