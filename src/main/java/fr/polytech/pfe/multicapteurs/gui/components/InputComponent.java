@@ -17,8 +17,6 @@ public class InputComponent extends JPanel{
     private Map<String, Component> components;
     private ParamView params;
 
-    private List<InputComponent> measureComponents;
-
     public InputComponent(){
         this.components = new HashMap<>();
     }
@@ -67,11 +65,4 @@ public class InputComponent extends JPanel{
         return c;
     }
 
-    public List<InputComponent> getMeasureComponents() {
-        return measureComponents;
-    }
-
-    public void setMeasureComponents(List<InputComponent> measureComponents) {
-        this.measureComponents = measureComponents;
-    }
 }

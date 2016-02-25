@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by Louis on 25/02/2016.
  */
 public class SetupView extends JPanel {
-    private Map<InputComponent, List<MeasureComponent>> settings;
+    private Map<InputComponent, List<InputComponent>> settings;
     private JPanel sensorManagementView;
     private JPanel measureManagementView;
 
@@ -29,16 +29,16 @@ public class SetupView extends JPanel {
         initMeasurManagementView();
     }
 
-    public List<MeasureComponent> addLibComponent(InputComponent l){
+    public List<InputComponent> addLibComponent(InputComponent l){
         return settings.put(l, new ArrayList<>());
     }
 
-    public List<MeasureComponent> removeComponent(InputComponent l){
+    public List<InputComponent> removeComponent(InputComponent l){
         return settings.remove(l);
     }
 
-    public void addMeasureComponent(InputComponent l, MeasureComponent m){
-        List<MeasureComponent> tmp = settings.get(l);
+    public void addMeasureComponent(InputComponent l, InputComponent m){
+        List<InputComponent> tmp = settings.get(l);
         tmp.add(m);
         settings.put(l,tmp);
     }
@@ -53,11 +53,11 @@ public class SetupView extends JPanel {
         this.add(measureManagementView);
     }
 
-    public Map<InputComponent, List<MeasureComponent>> getSettings() {
+    public Map<InputComponent, List<InputComponent>> getSettings() {
         return settings;
     }
 
-    public void setSettings(Map<InputComponent, List<MeasureComponent>> settings) {
+    public void setSettings(Map<InputComponent, List<InputComponent>> settings) {
         this.settings = settings;
     }
 
