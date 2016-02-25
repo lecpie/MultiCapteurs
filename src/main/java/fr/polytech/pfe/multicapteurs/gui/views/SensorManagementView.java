@@ -46,7 +46,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         addOnglet.setBackground(Color.gray);
         addOnglet.setEnabled(false);
         sensorMenu.addTab(addOnglet.getComponentName(), addOnglet);
-        addOnglet.setTabId(sensorMenu.getTabCount());
+        addOnglet.setTabId(0);
         libs.add(addOnglet);
         sensorMenu.addMouseListener(this);
         this.add(sensorMenu);
@@ -57,7 +57,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), libname.toLowerCase() + sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
             controler.setSelectedLib(libname);
-
+            getSelectedComponent().setParams(new ParamView(controler.getRequiredArgs(libname)));
         }
     }
 
@@ -91,25 +91,32 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             newPan.setTabId(sensorMenu.getTabCount());
             newPan.setComponentName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
-            addLabelLibsTonewTab(newPan);
-            addComboBoxLibsTonewTab(newPan);
+           /* addLabelLibsTonewTab(newPan);
+            addComboBoxLibsTonewTab(newPan);*/
+            newPan.addSubComponent("librarylabel", createLibComboBox());
             sensorMenu.setSelectedComponent(newPan);
             newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
-            //System.out.println(e.getSource());
-            //System.out.println(e.getSource().getSe);
-            //newPan.setParams(Arrays.asList("DHT", "DHT2"));
-            // newPan.add()
             libs.add(newPan);
-            setSelectedComponent(Integer.toString(newPan.getTabId()));
+            setSelectedLib(Integer.toString(newPan.getTabId()));
         }else{
-            //TODO: set selected component to corresponding tab
+            setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
         }
     }
 
     public void stateChanged(ChangeEvent e) {
     }
 
-    public InputComponent addLabelLibsTonewTab(InputComponent panel) {
+    private Component createLibComboBox(){
+        JComboBox libType = new JComboBox();
+        libType.setName("comboBoxLibType");
+        libTypes.forEach(libType::addItem);
+        libType.addActionListener(this);
+        libType.addActionListener((MeasureManagementView) ((SetupView) getParent()).getMeasureManagementView());
+        return libType;
+
+    }
+
+    /*public InputComponent addLabelLibsTonewTab(InputComponent panel) {
         JLabel label = new JLabel();
         label.setName("libraryLabel");
         panel.addComponent(label.getName(), label);
@@ -126,7 +133,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         panel.add(libType);
         panel.addComponent(libType.getName(), libType);
         return panel;
-    }
+    }*/
 
     public InputComponent setNewTabName(InputComponent panel, String name) {
         panel.setName(name);
@@ -159,15 +166,18 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return null;
     }
 
-    private void setSelectedComponent(String id){
+    private void setSelectedLib(String id){
         for(InputComponent ic : libs){
             if(Integer.toString(ic.getTabId()).equals(id)){
+                //System.out.println("selecting" + Integer.toString(ic.getTabId()));
                 ic.select();
             }else{
+                //System.out.println("unselecting" + Integer.toString(ic.getTabId()));
                 ic.unselect();
             }
         }
     }
+
 
 
 }

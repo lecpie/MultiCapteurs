@@ -18,18 +18,19 @@ public class InputComponent extends JPanel{
     private ParamView params;
     private boolean isSelected;
 
-    /*private GridBagLayout layout;
-    private GridBagConstraints c;*/
+    private GridBagLayout layout;
+    private GridBagConstraints c;
 
     public InputComponent(){
-        /*layout = new GridBagLayout();
+        layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.anchor = GridBagConstraints.NORTHWEST;
         c.weightx = 100.0;
         c.gridwidth = GridBagConstraints.REMAINDER;
         c.insets = new Insets(1,1,1,1);
-        this.setLayout(new GridBagLayout());*/
+        this.setLayout(new GridBagLayout());
+
         components = new HashMap<>();
         params = new ParamView();
         isSelected = false;
@@ -68,7 +69,8 @@ public class InputComponent extends JPanel{
     public void setParams(ParamView params) {
         this.remove(this.params);
         this.params = params;
-        this.add(this.params);
+        this.add(this.params, c);
+        this.repaint();
     }
 
   /*  public void setParams(List<String> params) {
@@ -102,4 +104,17 @@ public class InputComponent extends JPanel{
     public void select() {
         this.isSelected = true;
     }
+
+    public void addSubComponent(String label, Component newComp){
+        JPanel container = new JPanel();
+
+        JLabel newLabel = new JLabel();
+        newLabel.setName(label);
+
+        container.add(newLabel);
+        container.add(newComp);
+
+        this.add(container,c);
+    }
+
 }
