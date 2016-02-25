@@ -2,6 +2,7 @@ package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
+import javafx.scene.control.ComboBox;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,13 +63,8 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     public void actionPerformed(ActionEvent evt)
     {
         if(evt.getSource() instanceof JComboBox){
-           String text = ((JComboBox)(evt.getSource())).getSelectedItem().toString();
-                Component[] components = ((JPanel)measureMenu.getSelectedComponent()).getComponents();
-            for (Component component : components) {
-                if (component.getClass().equals(JTextField.class)) {
-                    ((JTextField)component).setText(text);
-                }
-            }
+
+            ((SetupView) this.getParent()).getSettings().keySet().stream().filter(component -> component.isSelected()).forEach(component -> System.out.println(((JComboBox) ((JPanel) component.getAllComponents().get("library_field")).getComponent(1)).getSelectedItem()));
         }
 
     }

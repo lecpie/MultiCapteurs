@@ -36,15 +36,6 @@ public class InputComponent extends JPanel{
         isSelected = false;
     }
 
-
-    /*public InputComponent(int tabId, String componentName, ParamView params) {
-        this.tabId = tabId;
-        this.componentName = componentName;
-        this.setName(componentName);
-        this.params = params;
-        isSelected = false;
-    }*/
-
     public int getTabId() {
         return tabId;
     }
@@ -73,13 +64,6 @@ public class InputComponent extends JPanel{
         this.repaint();
     }
 
-  /*  public void setParams(List<String> params) {
-        this.remove(this.params);
-        this.params = new ParamView(params);
-        this.add(this.params);
-        System.out.println("heyyyyyy");
-    }*/
-
     public Map<String, Component> getAllComponents() {
         return components;
     }
@@ -95,6 +79,14 @@ public class InputComponent extends JPanel{
         return newComp;
     }
 
+    public Component searchComponentByName(String name){
+        for(String componentName : this.getAllComponents().keySet()){
+            if(componentName.equals(name)){
+                return this.getAllComponents().get(componentName);
+            }
+        }
+        return null;
+    }
     public boolean isSelected() {
         return isSelected;
     }
@@ -106,15 +98,4 @@ public class InputComponent extends JPanel{
     public void select() {
         this.isSelected = true;
     }
-
-    /*public void addSubComponent(Component newComp1, Component newComp2){
-        JPanel container = new JPanel();
-
-        container.add(newComp1);
-        container.add(newComp2);
-
-        components.put(newComp1, newComp2);
-        this.add(container,c);
-    }*/
-
 }

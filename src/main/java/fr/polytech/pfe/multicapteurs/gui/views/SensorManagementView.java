@@ -56,6 +56,16 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             String libname = ((JComboBox) evt.getSource()).getSelectedItem().toString();
             sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), libname.toLowerCase() + sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
+            //TEST
+            /*
+            for(InputComponent component : ((SetupView) this.getParent()).getSettings().keySet()){
+                if(component.getTabId() == getSelectedComponent().getTabId()){
+                    getSelectedComponent().setComponentName(((JComboBox) evt.getSource()).getSelectedItem().toString().toLowerCase()+sensorMenu.getSelectedIndex());
+                    System.out.println(((JComboBox)((JPanel) getSelectedComponent().searchComponentByName("library_field")).getComponent(1)).getSelectedItem());
+                }
+
+            }*/
+            //
             controler.setSelectedLib(libname);
             getSelectedComponent().setParams(new ParamView(controler.getRequiredArgs(libname)));
         }
@@ -91,12 +101,13 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             newPan.setTabId(sensorMenu.getTabCount());
             newPan.setComponentName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
-           /* addLabelLibsTonewTab(newPan);
-            addComboBoxLibsTonewTab(newPan);*/
             newPan.addComponent("library_field", createLibComboBox());
             sensorMenu.setSelectedComponent(newPan);
             newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
             libs.add(newPan);
+
+            //TEST
+            ((SetupView)this.getParent()).getSettings().put(newPan,new ArrayList<>());
         }
         setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
     }
@@ -120,27 +131,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         container.add(libType);
 
         return container;
-
     }
-
-    /*public InputComponent addLabelLibsTonewTab(InputComponent panel) {
-        JLabel label = new JLabel();
-        label.setName("libraryLabel");
-        panel.addComponent(label.getName(), label);
-        return panel;
-    }
-
-    public InputComponent addComboBoxLibsTonewTab(InputComponent panel) {
-        JComboBox libType = new JComboBox();
-        libType.setName("comboBoxLibType");
-        libTypes.forEach(libType::addItem);
-        libType.addActionListener(this);
-
-        libType.addActionListener((MeasureManagementView) ((SetupView) getParent()).getMeasureManagementView());
-        panel.add(libType);
-        panel.addComponent(libType.getName(), libType);
-        return panel;
-    }*/
 
     public InputComponent setNewTabName(InputComponent panel, String name) {
         panel.setName(name);

@@ -5,23 +5,20 @@ import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Louis on 25/02/2016.
  */
 public class SetupView extends JPanel {
-    private Map<InputComponent, List<InputComponent>> settings;
+    private LinkedHashMap<InputComponent, List<InputComponent>> settings;
     private JPanel sensorManagementView;
     private JPanel measureManagementView;
 
     private AppControler controler;
 
     public SetupView(AppControler controler){
-        settings = new HashMap<>();
+        settings = new LinkedHashMap<>();
         this.controler = controler;
         initSensorManagementView(controler);
         initMeasurManagementView();
@@ -51,11 +48,11 @@ public class SetupView extends JPanel {
         this.add(measureManagementView);
     }
 
-    public Map<InputComponent, List<InputComponent>> getSettings() {
+    public LinkedHashMap<InputComponent, List<InputComponent>> getSettings() {
         return settings;
     }
 
-    public void setSettings(Map<InputComponent, List<InputComponent>> settings) {
+    public void setSettings(LinkedHashMap<InputComponent, List<InputComponent>> settings) {
         this.settings = settings;
     }
 
