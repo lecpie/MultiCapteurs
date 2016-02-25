@@ -20,8 +20,6 @@ public class SetupView extends JPanel {
 
     private AppControler controler;
 
-
-
     public SetupView(AppControler controler){
         settings = new HashMap<>();
         this.controler = controler;

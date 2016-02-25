@@ -15,11 +15,9 @@ public class SensorManagementControler {
 
     private Map<String, Library> loadedLibraries;
     private Library selectedLib;
-    private ParamViewControler libUseArgs;
 
     public SensorManagementControler(Map<String, Library> loadedLibraries){
         selectedLib = new Library();
-        libUseArgs = new ParamViewControler();
         this.loadedLibraries = loadedLibraries;
     }
 
@@ -27,19 +25,11 @@ public class SensorManagementControler {
         return loadedLibraries;
     }
 
-    public ParamViewControler getLibUseArgs() {
-        return libUseArgs;
-    }
 
     public Library getSelectedLib() {
         return selectedLib;
     }
 
-    public ParamViewControler setParamViewControler(String libname){
-        selectedLib = loadedLibraries.get(libname);
-        libUseArgs.updateArgs(selectedLib);
-        return libUseArgs;
-    }
 
     public List<String> getLibNames(){
         List<String> libNames = new ArrayList<>();
@@ -53,7 +43,20 @@ public class SensorManagementControler {
         return selectedLib.getName();
     }
 
-    public Map<String, String> getRequiredArgs(){
+    public List<String> getRequiredArgs(String libName){
+        for(String lib : loadedLibraries.keySet()){
+            if(lib.equals(libName)){
+                return loadedLibraries.get(lib).getRequiredArgs();
+            }
+        }
         return null;
+    }
+
+    public void setSelectedLib (String libname){
+        for(String lib : loadedLibraries.keySet()){
+            if(lib.equals(libname)){
+                selectedLib = loadedLibraries.get(lib);
+            }
+        }
     }
 }

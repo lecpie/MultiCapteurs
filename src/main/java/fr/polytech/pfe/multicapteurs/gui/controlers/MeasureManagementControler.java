@@ -19,7 +19,6 @@ public class MeasureManagementControler {
 
     private Library lib;
     private Measure currentMeasure;
-    private ParamViewControler measurUseArgs;
 
     public MeasureManagementControler(){
 
@@ -68,14 +67,6 @@ public class MeasureManagementControler {
 
     public void setCurrentMeasure(Measure currentMeasure) {
         this.currentMeasure = currentMeasure;
-    }
-
-    public ParamViewControler getMeasurUseArgs() {
-        return measurUseArgs;
-    }
-
-    public void setMeasurUseArgs(ParamViewControler measurUseArgs) {
-        this.measurUseArgs = measurUseArgs;
     }
 
     public static void main(String[] args) {

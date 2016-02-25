@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -51,9 +52,11 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     }
     public void actionPerformed(ActionEvent evt) {
         if (evt.getSource() instanceof JComboBox) {
-            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox) evt.getSource()).getSelectedItem().toString().toLowerCase() + sensorMenu.getSelectedIndex());
+            String libname = ((JComboBox) evt.getSource()).getSelectedItem().toString();
+            sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), libname.toLowerCase() + sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
-            setSelectedLibraryToController(((JComboBox) evt.getSource()).getSelectedItem().toString());
+            controler.setSelectedLib(libname);
+
         }
     }
 
@@ -84,13 +87,19 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     public void mouseClicked(MouseEvent e) {
         if (sensorMenu.getSelectedIndex() == 0) {
             InputComponent newPan = new InputComponent();
-            libs.add(newPan);
+
             newPan.setTabId(sensorMenu.getTabCount());
             newPan.setLibName("newPan" + sensorMenu.getTabCount());
             sensorMenu.add(newPan, sensorMenu.getTabCount());
             newPan = addLabelLibsTonewTab(newPan);
             newPan = addComboBoxLibsTonewTab(newPan);
             sensorMenu.setSelectedComponent(newPan);
+
+            //System.out.println(e.getSource());
+            //System.out.println(e.getSource().getSe);
+            //newPan.setParams(Arrays.asList("DHT", "DHT2"));
+           // newPan.add()
+            libs.add(newPan);
         }
     }
 
@@ -136,12 +145,5 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return sensorMenu;
     }
 
-    public void setSelectedLibraryToController(String LibName) {
 
-        for (String libnames : controler.getLibNames()) {
-            if (libnames == LibName) {
-                controler.setParamViewControler(libnames);
-            }
-        }
-    }
 }

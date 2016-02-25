@@ -20,6 +20,7 @@ public class InputComponent extends JPanel{
     public InputComponent(){
         this.components = new HashMap<>();
     }
+
     public InputComponent(int tabId, String libName, ParamView params) {
         this.tabId = tabId;
         this.libName = libName;
@@ -50,6 +51,10 @@ public class InputComponent extends JPanel{
 
     public void setParams(ParamView params) {
         this.params = params;
+    }
+
+    public void setParams(List<String> params) {
+        this.params = new ParamView(params);
     }
 
     public Map<String, Component> getAllComponents() {

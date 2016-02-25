@@ -1,11 +1,8 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
-import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -51,7 +48,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
 
     private void initParamView(){
-        paramView = new ParamView(new ParamViewControler());
+        paramView = new ParamView();
         this.add(paramView);
     }
 
