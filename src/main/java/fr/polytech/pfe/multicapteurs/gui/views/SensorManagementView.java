@@ -1,12 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
-import fr.polytech.pfe.multicapteurs.gui.components.LibComponent;
-import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
-import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
+import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
-import fr.polytech.pfe.multicapteurs.model.lib.Library;
-import javafx.scene.control.ComboBox;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -14,64 +9,51 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.HashMap;
+import java.util.stream.Collectors;
 
 
 /**
  * Created by Louis on 23/02/2016.
  */
-public class SensorManagementView extends JPanel implements ActionListener, FocusListener, MouseListener, ChangeListener{
+public class SensorManagementView extends JPanel implements ActionListener, FocusListener, MouseListener, ChangeListener {
 
     //TODO: Dropdown presets
-
     private SensorManagementControler controler;
 
     private JTabbedPane sensorMenu;
-    private ParamView paramView;
-    private JPanel addOnglet;
+    private InputComponent addOnglet;
     private BoxLayout layout;
     private List<String> libTypes;
 
-    private List<LibComponent> libs;
+    private List<InputComponent> libs;
 
-    public SensorManagementView(SensorManagementControler controler){
+    public SensorManagementView(SensorManagementControler controler) {
         this.controler = controler;
-        layout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
-        libTypes = new ArrayList<>();
-        for(String libnames : controler.getLibNames()){
-            libTypes.add(libnames);
-        }
+        this.libs = new ArrayList<>();
+        this.libTypes = new ArrayList<>();
+        this.libTypes.addAll(controler.getLibNames().stream().collect(Collectors.toList()));
         initTabPanned();
-        initParamView();
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
 
-    public void initTabPanned(){
+    public void initTabPanned() {
         sensorMenu = new JTabbedPane();
-        addOnglet = new JPanel();
+        addOnglet = new InputComponent();
+        addOnglet.setLibName("+");
         addOnglet.setBackground(Color.gray);
         addOnglet.setEnabled(false);
-
-        sensorMenu.addTab("+", addOnglet);
+        sensorMenu.addTab(addOnglet.getLibName(), addOnglet);
+        addOnglet.setTabId(sensorMenu.getTabCount());
         sensorMenu.addMouseListener(this);
-        //sensorMenu.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(sensorMenu);
     }
-
-    public void initParamView(){
-        paramView = new ParamView(new ParamViewControler());
-        paramView.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.add(paramView);
-    }
-
-    public void actionPerformed(ActionEvent evt)
-    {
-        if(evt.getSource() instanceof JComboBox ){
+    public void actionPerformed(ActionEvent evt) {
+        if (evt.getSource() instanceof JComboBox) {
             sensorMenu.setTitleAt(sensorMenu.getSelectedIndex(), ((JComboBox) evt.getSource()).getSelectedItem().toString().toLowerCase() + sensorMenu.getSelectedIndex());
             sensorMenu.setTitleAt(0, "+");
             setSelectedLibraryToController(((JComboBox) evt.getSource()).getSelectedItem().toString());
-            updateParamView(controler.getSelectedLibName());
         }
     }
 
@@ -100,46 +82,45 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     }
 
     public void mouseClicked(MouseEvent e) {
-        if(sensorMenu.getSelectedIndex() == 0){
-            JPanel newPan = new JPanel();
-            sensorMenu.add(newPan,sensorMenu.getTabCount());
-            //TODO : Name de la libUSE
+        if (sensorMenu.getSelectedIndex() == 0) {
+            InputComponent newPan = new InputComponent();
+            libs.add(newPan);
+            newPan.setTabId(sensorMenu.getTabCount());
+            newPan.setLibName("newPan" + sensorMenu.getTabCount());
+            sensorMenu.add(newPan, sensorMenu.getTabCount());
             newPan = addLabelLibsTonewTab(newPan);
-            newPan = addComboBoxLibsTonewTab(newPan, libTypes);
+            newPan = addComboBoxLibsTonewTab(newPan);
             sensorMenu.setSelectedComponent(newPan);
         }
     }
+
     public void stateChanged(ChangeEvent e) {
     }
-    public JPanel addLabelLibsTonewTab(JPanel panel){
+
+    public InputComponent addLabelLibsTonewTab(InputComponent panel) {
         panel.add("libraryLabel", new JLabel("Library"));
         return panel;
     }
 
-    public JPanel addComboBoxLibsTonewTab(JPanel panel, List<String> types){
-
+    public InputComponent addComboBoxLibsTonewTab(InputComponent panel) {
         JComboBox libType = new JComboBox();
+        libType.setName("comboBoxLibType");
+        libTypes.forEach(libType::addItem);
         libType.addActionListener(this);
-        libType.addActionListener((MeasureManagementView) ((SetupView) getParent()).getMeasureManagementView());
 
-        for(String type : types){
-            libType.addItem(type);
-        }
-        panel.add("libraryType",libType);
-        //Next line à viré quand on aura le nom
-        //>>>>panel.setName("newPan" + sensorMenu.getTabCount());
+        libType.addActionListener((MeasureManagementView) ((SetupView) getParent()).getMeasureManagementView());
+        panel.add(libType);
+        panel.addComponent(libType.getName(), libType);
         return panel;
     }
-    public JPanel setNewTabName(JPanel panel, String name){
+
+    public InputComponent setNewTabName(InputComponent panel, String name) {
         panel.setName(name);
         return panel;
     }
+
     public List<String> getLibTypes() {
         return libTypes;
-    }
-
-    public ParamView getParamView() {
-        return paramView;
     }
 
     @Override
@@ -147,13 +128,14 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return layout;
     }
 
-    public JPanel getAddOnglet() {
+    public InputComponent getAddOnglet() {
         return addOnglet;
     }
 
     public JTabbedPane getSensorMenu() {
         return sensorMenu;
     }
+
     public void setSelectedLibraryToController(String LibName) {
 
         for (String libnames : controler.getLibNames()) {
@@ -161,13 +143,5 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
                 controler.setParamViewControler(libnames);
             }
         }
-    }
-
-    public void updateParamView(String libname) {
-        //TODO add tab
-        this.remove(paramView);
-        this.paramView.setControler(controler.setParamViewControler(libname));
-        this.add(paramView);
-        this.repaint();
     }
 }

@@ -56,7 +56,7 @@ public class AppView extends JPanel {
     }
 
     private void initSetupView(){
-        GridLayout layout = new GridLayout(2,1);
+        GridLayout layout = new GridLayout(1,2);
         setupView.setLayout(layout);
         this.add(setupView, BorderLayout.CENTER);
     }

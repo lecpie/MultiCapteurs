@@ -11,26 +11,29 @@ import java.util.Map;
 /**
  * Created by Louis on 25/02/2016.
  */
-public class LibComponent extends JPanel{
-    private String tabId;
+public class InputComponent extends JPanel{
+    private int tabId;
     private String libName;
     private Map<String, Component> components;
     private ParamView params;
 
-    public LibComponent(){
+    private List<InputComponent> measureComponents;
+
+    public InputComponent(){
         this.components = new HashMap<>();
     }
-    public LibComponent(String tabId, String libName, ParamView params) {
+    public InputComponent(int tabId, String libName, ParamView params) {
         this.tabId = tabId;
         this.libName = libName;
+        this.setName(libName);
         this.params = params;
     }
 
-    public String getTabId() {
+    public int getTabId() {
         return tabId;
     }
 
-    public void setTabId(String tabId) {
+    public void setTabId(int tabId) {
         this.tabId = tabId;
     }
 
@@ -39,6 +42,7 @@ public class LibComponent extends JPanel{
     }
 
     public void setLibName(String libName) {
+        this.setName(libName);
         this.libName = libName;
     }
 
@@ -63,4 +67,11 @@ public class LibComponent extends JPanel{
         return c;
     }
 
+    public List<InputComponent> getMeasureComponents() {
+        return measureComponents;
+    }
+
+    public void setMeasureComponents(List<InputComponent> measureComponents) {
+        this.measureComponents = measureComponents;
+    }
 }

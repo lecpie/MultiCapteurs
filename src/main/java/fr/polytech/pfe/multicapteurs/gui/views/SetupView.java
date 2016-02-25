@@ -1,14 +1,10 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
-import fr.polytech.pfe.multicapteurs.App;
-import fr.polytech.pfe.multicapteurs.gui.components.LibComponent;
-import fr.polytech.pfe.multicapteurs.gui.components.MeasureComponent;
+import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
-import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,7 +14,7 @@ import java.util.Map;
  * Created by Louis on 25/02/2016.
  */
 public class SetupView extends JPanel {
-    private Map<LibComponent, List<MeasureComponent>> settings;
+    private Map<InputComponent, List<MeasureComponent>> settings;
     private JPanel sensorManagementView;
     private JPanel measureManagementView;
 
@@ -33,15 +29,15 @@ public class SetupView extends JPanel {
         initMeasurManagementView();
     }
 
-    public List<MeasureComponent> addLibComponent(LibComponent l){
+    public List<MeasureComponent> addLibComponent(InputComponent l){
         return settings.put(l, new ArrayList<>());
     }
 
-    public List<MeasureComponent> removeComponent(LibComponent l){
+    public List<MeasureComponent> removeComponent(InputComponent l){
         return settings.remove(l);
     }
 
-    public void addMeasureComponent(LibComponent l, MeasureComponent m){
+    public void addMeasureComponent(InputComponent l, MeasureComponent m){
         List<MeasureComponent> tmp = settings.get(l);
         tmp.add(m);
         settings.put(l,tmp);
@@ -57,11 +53,11 @@ public class SetupView extends JPanel {
         this.add(measureManagementView);
     }
 
-    public Map<LibComponent, List<MeasureComponent>> getSettings() {
+    public Map<InputComponent, List<MeasureComponent>> getSettings() {
         return settings;
     }
 
-    public void setSettings(Map<LibComponent, List<MeasureComponent>> settings) {
+    public void setSettings(Map<InputComponent, List<MeasureComponent>> settings) {
         this.settings = settings;
     }
 
