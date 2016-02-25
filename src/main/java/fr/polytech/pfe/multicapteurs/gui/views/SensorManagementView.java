@@ -93,7 +93,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             sensorMenu.add(newPan, sensorMenu.getTabCount());
            /* addLabelLibsTonewTab(newPan);
             addComboBoxLibsTonewTab(newPan);*/
-            newPan.addSubComponent("librarylabel", createLibComboBox());
+            newPan.addComponent("library_field", createLibComboBox());
             sensorMenu.setSelectedComponent(newPan);
             newPan.setParams(new ParamView(controler.getRequiredArgs("DHT")));
             libs.add(newPan);
@@ -105,12 +105,21 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     }
 
     private Component createLibComboBox(){
+        JPanel container = new JPanel();
+
+        JLabel library = new JLabel("Library");
+        library.setName("libraryLabel");
+
         JComboBox libType = new JComboBox();
         libType.setName("comboBoxLibType");
         libTypes.forEach(libType::addItem);
         libType.addActionListener(this);
         libType.addActionListener((MeasureManagementView) ((SetupView) getParent()).getMeasureManagementView());
-        return libType;
+
+        container.add(library);
+        container.add(libType);
+
+        return container;
 
     }
 

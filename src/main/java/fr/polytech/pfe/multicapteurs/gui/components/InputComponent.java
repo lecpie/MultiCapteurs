@@ -88,9 +88,11 @@ public class InputComponent extends JPanel{
         this.components = components;
     }
 
-    public Component addComponent(String name, Component c){
-        components.put(name, c);
-        return c;
+    public Component addComponent(String name, Component newComp){
+        components.put(name, newComp);
+        this.add(newComp, c);
+        this.repaint();
+        return newComp;
     }
 
     public boolean isSelected() {
@@ -105,16 +107,14 @@ public class InputComponent extends JPanel{
         this.isSelected = true;
     }
 
-    public void addSubComponent(String label, Component newComp){
+    /*public void addSubComponent(Component newComp1, Component newComp2){
         JPanel container = new JPanel();
 
-        JLabel newLabel = new JLabel();
-        newLabel.setName(label);
+        container.add(newComp1);
+        container.add(newComp2);
 
-        container.add(newLabel);
-        container.add(newComp);
-
+        components.put(newComp1, newComp2);
         this.add(container,c);
-    }
+    }*/
 
 }
