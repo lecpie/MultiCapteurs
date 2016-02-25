@@ -1,14 +1,14 @@
 //Library setup
 library "DHT"
 includes "DHT.h"
-requires "dht_pin" and "dht_type"
+requires "pin" and "type"
 variables "dht"
-global "DHT dht(dht_pin, dht_type);"
-setup "dht.begin();" and "Serial.begin(9600);"
+global "DHT dht(pin, type);"
+setup "dht.begin();"
 
 //Simple measure def
 measure "temperature" typed integer
-args "celcius" valued "false" and "fahrenheit" valued "false" and "format" valued "celcius"
+args "celcius" valued "false" and "fahrenheit" valued "true" and "format" valued "celcius"
 variable_based "t" reads "dht.readTemperature(format);"
 
 //Detailed measure def
