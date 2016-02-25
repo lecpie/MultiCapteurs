@@ -21,7 +21,7 @@ public class SetupView extends JPanel {
         settings = new LinkedHashMap<>();
         this.controler = controler;
         initSensorManagementView(controler);
-        initMeasurManagementView();
+        initMeasurManagementView(controler);
     }
 
     public List<InputComponent> addLibComponent(InputComponent l){
@@ -43,8 +43,8 @@ public class SetupView extends JPanel {
         this.add(sensorManagementView);
     }
 
-    private void initMeasurManagementView(){
-        measureManagementView = new MeasureManagementView(new MeasureManagementControler());
+    private void initMeasurManagementView(AppControler controler){
+        measureManagementView = new MeasureManagementView(controler);
         this.add(measureManagementView);
     }
 

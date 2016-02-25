@@ -24,7 +24,7 @@ public class MeasureManagementControler {
     /**
      * For combobox display
      */
-    public List<String> getMeasureNames(){
+    public List<String> getMeasureNames(Library l){
         List<String> measureNames = new ArrayList<>();
         for(String name : lib.getMeasures().keySet()){
             measureNames.add(name);

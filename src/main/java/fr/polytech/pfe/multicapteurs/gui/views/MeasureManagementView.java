@@ -1,6 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
+import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import javafx.scene.control.ComboBox;
 
@@ -21,7 +22,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     //TODO: Measure setup
     //TODO: Param List (ParamView)
 
-    private MeasureManagementControler controler;
+    private AppControler controler;
     private JTabbedPane measureMenu;
     private InputComponent addOnglet;
     private ParamView paramView;
@@ -31,7 +32,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private List<InputComponent> measures;
 
 
-    public MeasureManagementView(MeasureManagementControler controler){
+    public MeasureManagementView(AppControler controler){
         this.controler = controler;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.measuresTypes = new ArrayList<>();
@@ -130,7 +131,6 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             measureMenu.add(newPan,measureMenu.getTabCount());
             measureMenu.setSelectedComponent(newPan);
             measures.add(newPan);
-
         }
     }
     public void stateChanged(ChangeEvent e){
@@ -233,10 +233,8 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     private void setSelectedMeasure(int id){
         for(InputComponent ic : measures){
             if(ic.getTabId() == id){
-                //System.out.println("selecting" + Integer.toString(ic.getTabId()));
                 ic.select();
             }else{
-                //System.out.println("unselecting" + Integer.toString(ic.getTabId()));
                 ic.unselect();
             }
         }
