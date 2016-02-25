@@ -19,10 +19,8 @@ public class AppView extends JPanel {
 
     private JFrame appFrame = new JFrame();
 
-    private JPanel centralContainer = new JPanel();
     private JPanel header = new JPanel();
-    private JPanel sensorManagementView;
-    private JPanel measureManagementView;
+    private JPanel setupView;
     private JPanel footer = new JPanel();
 
     private AppControler controler;
@@ -37,7 +35,7 @@ public class AppView extends JPanel {
         appFrame.setResizable(true);
         this.controler = controler;
         this.setName("AppView");
-        this.centralContainer.setName("centralContainer");
+        this.setupView = new SetupView(controler);
         initComposant();
         appFrame.setContentPane(this);
         appFrame.setVisible(true);
@@ -46,18 +44,9 @@ public class AppView extends JPanel {
     private void initComposant(){
         BorderLayout mainLayout = new BorderLayout();
         this.setLayout(mainLayout);
-
-
-        GridLayout centralLayout = new GridLayout(1,2);
-        centralContainer.setLayout(centralLayout);
-
         initHeader();
-        initSensorManagementView();
-        initMeasurManagementView();
+        initSetupView();
         initFooter();
-        this.add(centralContainer, BorderLayout.CENTER);
-
-
     }
 
     private void initHeader(){
@@ -66,14 +55,10 @@ public class AppView extends JPanel {
         this.add(header, BorderLayout.NORTH);
     }
 
-    private void initSensorManagementView(){
-        sensorManagementView = new SensorManagementView(this.getControler().getSmc());
-        centralContainer.add(sensorManagementView);
-    }
-
-    private void initMeasurManagementView(){
-        measureManagementView = new MeasureManagementView(new MeasureManagementControler());
-        centralContainer.add(measureManagementView);
+    private void initSetupView(){
+        GridLayout layout = new GridLayout(2,1);
+        setupView.setLayout(layout);
+        this.add(setupView, BorderLayout.CENTER);
     }
 
     private void initFooter(){
@@ -152,14 +137,6 @@ public class AppView extends JPanel {
         return controler.generateCode(lib, libUse, measureUse);
     }
 
-    public JPanel getSensorManagementView() {
-        return sensorManagementView;
-    }
-
-    public JPanel getMeasureManagementView() {
-        return measureManagementView;
-    }
-
     public JPanel getHeader() {
         return header;
     }
@@ -176,7 +153,35 @@ public class AppView extends JPanel {
         return arduinoCode;
     }
 
-    public JPanel getCentralContainer() {
-        return centralContainer;
+    public JFrame getAppFrame() {
+        return appFrame;
+    }
+
+    public void setAppFrame(JFrame appFrame) {
+        this.appFrame = appFrame;
+    }
+
+    public void setHeader(JPanel header) {
+        this.header = header;
+    }
+
+    public JPanel getSetupView() {
+        return setupView;
+    }
+
+    public void setSetupView(JPanel setupView) {
+        this.setupView = setupView;
+    }
+
+    public void setFooter(JPanel footer) {
+        this.footer = footer;
+    }
+
+    public void setControler(AppControler controler) {
+        this.controler = controler;
+    }
+
+    public void setArduinoCode(TextArea arduinoCode) {
+        this.arduinoCode = arduinoCode;
     }
 }

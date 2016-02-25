@@ -62,5 +62,5 @@ public class LibComponent extends JPanel{
         components.put(name, c);
         return c;
     }
-    
+
 }
