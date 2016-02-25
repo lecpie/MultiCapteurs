@@ -31,19 +31,24 @@ public class ParamView extends JPanel{
         this.setLayout(new GridBagLayout());
 
         for(String field : controler.getRequiredArgs()){
-            this.add(createInput(field), c);
+            this.add(addInput(field), c);
         }
     }
 
-    private JPanel createInput(String field){
+    public JPanel addInput(String field){
         JPanel newParam = new JPanel();
         JLabel newParamName = new JLabel(field);
-        newParam.add(newParamName);
         JTextField newParamTextField = new JTextField();
+
+        newParam.add(newParamName);
         newParamTextField.setPreferredSize(new Dimension(120, 20));
         newParam.add(newParamTextField);
+
+        fields.put(newParamName, newParamTextField);
+
         return newParam;
     }
+
     @Override
     public GridBagLayout getLayout() {
         return layout;
@@ -57,7 +62,7 @@ public class ParamView extends JPanel{
         this.controler = controler;
         this.removeAll();
         for(String field : controler.getRequiredArgs()){
-            this.add(createInput(field), c);
+            this.add(addInput(field), c);
         }
     }
 

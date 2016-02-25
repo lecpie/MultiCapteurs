@@ -1,5 +1,6 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
+import fr.polytech.pfe.multicapteurs.gui.components.LibComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.ParamViewControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
@@ -12,6 +13,7 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.HashMap;
 
 
@@ -28,7 +30,9 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
     private ParamView paramView;
     private JPanel addOnglet;
     private BoxLayout layout;
-    private ArrayList<String> libTypes;
+    private List<String> libTypes;
+
+    private List<LibComponent> libs;
 
     public SensorManagementView(SensorManagementControler controler){
         this.controler = controler;
@@ -112,7 +116,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         return panel;
     }
 
-    public JPanel addComboBoxLibsTonewTab(JPanel panel, ArrayList<String> types){
+    public JPanel addComboBoxLibsTonewTab(JPanel panel, List<String> types){
 
         JComboBox libType = new JComboBox();
         libType.addActionListener(this);
@@ -130,7 +134,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
         panel.setName(name);
         return panel;
     }
-    public ArrayList<String> getLibTypes() {
+    public List<String> getLibTypes() {
         return libTypes;
     }
 
