@@ -11,12 +11,12 @@ import java.util.*;
 /**
  * Created by Louis on 23/02/2016.
  */
-public class SensorManagementControler {
+public class LibControler {
 
     private Map<String, Library> loadedLibraries;
     private Library selectedLib;
 
-    public SensorManagementControler(Map<String, Library> loadedLibraries){
+    public LibControler(Map<String, Library> loadedLibraries){
         selectedLib = new Library();
         this.loadedLibraries = loadedLibraries;
     }

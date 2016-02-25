@@ -2,8 +2,6 @@ package fr.polytech.pfe.multicapteurs.gui.controlers;
 
 import fr.polytech.pfe.multicapteurs.App;
 import fr.polytech.pfe.multicapteurs.gui.tools.LibraryLoader;
-import fr.polytech.pfe.multicapteurs.model.generator.ToWiring;
-import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
@@ -28,8 +26,7 @@ public class AppControler {
 
     private App app;
 
-    private SensorManagementControler smc;
-    private MeasureManagementControler mmc;
+    private LibControler libControler;
 
     public AppControler(){
         this.usedLibraries = new HashMap<>();
@@ -38,7 +35,7 @@ public class AppControler {
 
         loadLibs("scripts/lib");
 
-        this.smc = new SensorManagementControler(app.getLoadedLibraries());
+        this.libControler = new LibControler(app.getLoadedLibraries());
     }
 
     void loadLibs(String folderPath) {
@@ -58,13 +55,10 @@ public class AppControler {
         }
     }
 
-    public void setupMeasureManagamentView(Library l){
-        this.mmc = new MeasureManagementControler(l);
-    }
 
     public LibraryUse createLibraryUse(){
         LibraryUse newLibUse = new LibraryUse();
-        newLibUse.setLibrary(smc.getSelectedLib());
+        newLibUse.setLibrary(libControler.getSelectedLib());
        // newLibUse.getArgsValues().put()
         app.getUsedLibraries().add(newLibUse);
 
@@ -249,16 +243,8 @@ public class AppControler {
         this.usedLibraries = usedLibraries;
     }
 
-    /*public LibraryUse getCurrentLibUse() {
-        return currentLibUse;
-    }
-
-    public void setCurrentLibUse(LibraryUse currentLibUse) {
-        this.currentLibUse = currentLibUse;
-    }*/
-
-    public SensorManagementControler getSmc() {
-        return smc;
+    public LibControler getLibControler() {
+        return libControler;
     }
 
     public App getApp() {

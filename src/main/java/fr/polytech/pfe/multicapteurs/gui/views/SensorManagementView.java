@@ -1,14 +1,13 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
-import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
+import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,7 +18,7 @@ import java.util.stream.Collectors;
 public class SensorManagementView extends JPanel implements ActionListener, FocusListener, MouseListener, ChangeListener {
 
     //TODO: Dropdown presets
-    private SensorManagementControler controler;
+    private LibControler controler;
 
     private JTabbedPane sensorMenu;
     private InputComponent addOnglet;
@@ -28,7 +27,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
 
     private List<InputComponent> libs;
 
-    public SensorManagementView(SensorManagementControler controler) {
+    public SensorManagementView(LibControler controler) {
         this.controler = controler;
         this.layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
@@ -107,7 +106,7 @@ public class SensorManagementView extends JPanel implements ActionListener, Focu
             libs.add(newPan);
 
             //TEST
-            ((SetupView)this.getParent()).getSettings().put(newPan,new ArrayList<>());
+            ((SetupView)this.getParent()).getSettings().put(newPan, new ArrayList<>());
         }
         setSelectedLib(Integer.toString(sensorMenu.getSelectedIndex()));
     }

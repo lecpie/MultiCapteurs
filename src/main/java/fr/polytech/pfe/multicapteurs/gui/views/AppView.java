@@ -1,8 +1,6 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
-import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
-import fr.polytech.pfe.multicapteurs.gui.controlers.SensorManagementControler;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;

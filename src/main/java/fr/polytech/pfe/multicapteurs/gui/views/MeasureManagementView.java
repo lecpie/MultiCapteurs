@@ -1,9 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
-import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
-import fr.polytech.pfe.multicapteurs.gui.controlers.MeasureManagementControler;
-import javafx.scene.control.ComboBox;
+import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +18,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     //TODO: Measure setup
     //TODO: Param List (ParamView)
 
-    private AppControler controler;
+    private LibControler controler;
     private JTabbedPane measureMenu;
     private InputComponent addOnglet;
     private ParamView paramView;
@@ -29,8 +27,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
 
     private List<InputComponent> measures;
 
-
-    public MeasureManagementView(AppControler controler){
+    public MeasureManagementView(LibControler controler){
         this.controler = controler;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.measuresTypes = new ArrayList<>();
@@ -204,6 +201,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
             }
         }
         */
+
     }
 
     private InputComponent getSelectedMeasure(){
@@ -225,4 +223,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
         }
     }
 
+    public LibControler getControler() {
+        return controler;
+    }
 }
