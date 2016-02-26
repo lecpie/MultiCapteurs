@@ -44,10 +44,28 @@ public class LibControler {
         return selectedLib.getName();
     }
 
+    public Map<String, String> getDefaultdArgs(String libName){
+        for(String s : loadedLibraries.keySet()){
+            if(s.equals(libName)){
+                return loadedLibraries.get(s).getDefaultArgs();
+            }
+        }
+        return null;
+    }
+
     public List<String> getRequiredArgs(String libName){
-        for(String lib : loadedLibraries.keySet()){
-            if(lib.equals(libName)){
-                return loadedLibraries.get(lib).getRequiredArgs();
+        for(String s : loadedLibraries.keySet()){
+            if(s.equals(libName)){
+                return loadedLibraries.get(s).getRequiredArgs();
+            }
+        }
+        return null;
+    }
+
+    public List<String> getAccessibleArgs(String libName){
+        for(String s : loadedLibraries.keySet()){
+            if(s.equals(libName)){
+                return loadedLibraries.get(s).getAccessibleArgs();
             }
         }
         return null;

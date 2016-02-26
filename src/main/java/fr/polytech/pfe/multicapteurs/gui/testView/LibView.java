@@ -1,7 +1,9 @@
 package fr.polytech.pfe.multicapteurs.gui.testView;
 
 import fr.polytech.pfe.multicapteurs.App;
+import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
+import fr.polytech.pfe.multicapteurs.model.lib.Library;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,55 +13,50 @@ import java.util.List;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibView extends JPanel {
-
+public class LibView extends InputView {
 
     private LibControler controler;
 
     private GridBagLayout layout;
     private GridBagConstraints c;
 
+    private String currentLib;
+
     private JLabel libraryLabel;
     private JComboBox librarySelector;
+
     private InputView args;
 
     public LibView(LibControler controler){
         layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 0.5;
+        c.gridwidth = GridBagConstraints.RELATIVE;
+        c.weightx = 15.0;
         c.gridx = 0;
         c.gridy = 0;
+        this.setLayout(layout);
 
         this.controler = controler;
 
         libraryLabel = new JLabel("Library");
+        addComponent(this, c, libraryLabel, false);
 
         librarySelector = new JComboBox();
         setCombo();
+        addComponent(this, c, librarySelector, false);
 
-        this.setLayout(layout);
+        currentLib = librarySelector.getItemAt(librarySelector.getSelectedIndex()+1).toString();
+
+        args = new InputView();
+        args.addParams(controler.getRequiredArgs(currentLib));
+        args.addParams(controler.getAccessibleArgs(currentLib));
+        args.addParams(controler.getDefaultdArgs(currentLib));
+
+        addComponent(this, c, args, true);
+
+
     }
-
-
-    public void addComponent(Component comp, boolean newLine){
-        if(newLine){
-            c.gridx = 0;
-            c.gridy++;
-        }else{
-            c.gridx++;
-        }
-        this.add(comp, c);
-    }
-
-    /*public Component getComponentByName(String s){
-        for(Component c : requiredArgs){
-            if(c.getName().equals(s)){
-                return c;
-            }
-        }
-        return null;
-    }*/
 
     private void setCombo(){
         for(String s : controler.getLibNames()){
@@ -67,44 +64,22 @@ public class LibView extends JPanel {
         }
     }
 
- /*   public List<Component> getAllComponents() {
-        return requiredArgs;
-    }
-*/
-
-
     public GridBagConstraints getC() {
         return c;
+    }
+
+    public String getCurrentLib() {
+        return currentLib;
     }
 
     public static void main(String[] args) {
         JFrame jf = new JFrame();
         jf.setSize(new Dimension(800, 600));
 
-        App app = new App();
+        AppControler appc = new AppControler();
 
-        LibView lv = new LibView(new LibControler(app.getLoadedLibraries()));
 
-        JLabel lab = new JLabel("Library");
-
-        JComboBox combo = new JComboBox();
-        combo.addItem("DHT");
-
-        JComboBox combo2 = new JComboBox();
-        combo2.addItem("DHT2");
-
-        JComboBox combo3 = new JComboBox();
-        combo3.addItem("DHT3");
-
-        //System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
-        lv.addComponent(lab, true);
-        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
-        lv.addComponent(combo, false);
-        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
-        lv.addComponent(combo2, true);
-        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
-        lv.addComponent(combo3, false);
-        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        LibView lv = new LibView(new LibControler(appc.getApp().getLoadedLibraries()));
 
 
 

@@ -58,20 +58,19 @@ public class InputView extends JPanel {
 
         paramInputs.put(key, input);
 
-        addComponent(label, true);
-        addComponent(input, false);
+        addComponent(this, c, label, true);
+        addComponent(this, c, input, false);
     }
 
-    private void addComponent(Component comp, boolean newLine){
+    public void addComponent(JPanel to, GridBagConstraints constraints, Component comp, boolean newLine){
         if(newLine) {
-            c.gridx = 0;
-            c.gridy++;
+            constraints.gridx = 0;
+            constraints.gridy++;
 
         } else {
-            c.gridx++;
+            constraints.gridx++;
         }
-
-        this.add(comp, c);
+        to.add(comp, constraints);
     }
 
     Map <String, String> getInput() {
