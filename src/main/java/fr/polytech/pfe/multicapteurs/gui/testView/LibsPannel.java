@@ -23,7 +23,7 @@ public class LibsPannel extends JTabbedPane {
 
     public void addLibView(LibView l){
         libViews.add(l);
-        this.addTab(l.getName(), l);
+        //this.addTab(l.getName(), l);
     }
 
     public List<LibView> getLibViews() {
