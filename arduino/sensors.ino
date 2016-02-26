@@ -14,6 +14,28 @@
 
 #if SDOUTPUT
 
+// GPS distance calculation
+
+double distance_to (double lat1, double long1, double lat2, double long2)
+{
+    double delta = radians(long1-long2);
+    double sdlong = sin(delta);
+    double cdlong = cos(delta);
+    lat1 = radians(lat1);
+    lat2 = radians(lat2);
+    double slat1 = sin(lat1);
+    double clat1 = cos(lat1);
+    double slat2 = sin(lat2);
+    double clat2 = cos(lat2);
+    delta = (clat1 * slat2) - (slat1 * clat2 * cdlong);
+    delta = sq(delta);
+    delta += sq(clat2 * sdlong);
+    delta = sqrt(delta);
+    double denom = (slat1 * slat2) + (clat1 * clat2 * cdlong);
+    delta = atan2(delta, denom);
+    return delta * 6372795;
+}
+
 /* SD card configuration */
 
 #define SDCHIPSELECT 4
@@ -95,6 +117,9 @@ void put_endl     () { put_char(endline);   }
 
 BufferedGPS gps(RX, TX, REFRESHDELAY);
 
+float latitude;
+float longitude;
+
 /* DHT temperature / Humidity sensor */
 
 #define DHTPIN     A0
@@ -106,6 +131,9 @@ DHT dht(DHTPIN, DHTTYPE);
 
 long last_f1;
 long last_f2;
+
+double prev_long1 = 0.0, prev_lat1 = 0.0;
+double prev_long2 = 0.0, prev_lat2 = 0.0;
 
 void setup()
 {
@@ -183,10 +211,17 @@ void setup()
 void loop()
 {
     long now = millis();
-    uint8_t update_f1 = now > last_f1 + 10000;
-    uint8_t update_f2 = now > last_f2 + 100;
 
-    if (update_f1 || update_f2)
+    // Forced GPS update because of capture with distance condition
+    latitude  = gps.getLatitude();
+    longitude = gps.getLongitude();
+
+    uint8_t update_f1 = now > last_f1 + 60000;
+    uint8_t update_f2 = now > last_f2 + 30000;
+    uint8_t update_d1 = distance_to(prev_lat1, prev_long1, latitude, longitude) > 5.0;
+    uint8_t update_d2 = distance_to(prev_lat2, prev_long2, latitude, longitude) > 10.0;
+
+    if (update_f1 || update_f2 || update_d1 || update_d2)
     {
         #if SDOUTPUT
         // Write them on output
@@ -195,10 +230,10 @@ void loop()
 
         // Metadata
 
-        put_float(gps.getLatitude());
+        put_float(latitude);
         put_separator();
 
-        put_float(gps.getLongitude());
+        put_float(longitude);
         put_separator();
 
         if (update_f1) {
@@ -215,30 +250,33 @@ void loop()
 
         put_separator();
 
-        if (update_f1) {
+        if (update_f2) {
             put_int(TSL2561.readVisibleLux());
-            last_f1 = now;
+            last_f2 = now;
         }
 
         put_separator();
 
-        if (update_f2) {
+        if (update_d1) {
             put_float(HP20x.ReadTemperature() / 100.0);
-            last_f2 = now;
+            prev_lat1  = latitude;
+            prev_long1 = longitude;
         }
 
         put_separator();
 
-        if (update_f2) {
+        if (update_d1) {
             put_float(HP20x.ReadPressure   () / 100.0);
-            last_f2 = now;
+            prev_lat1  = latitude;
+            prev_long1 = longitude;
         }
 
         put_separator();
 
-        if (update_f2) {
+        if (update_d2) {
             put_float(HP20x.ReadAltitude   () / 100.0);
-            last_f2 = now;
+            prev_lat2  = latitude;
+            prev_long2 = longitude;
         }
 
         put_separator();
