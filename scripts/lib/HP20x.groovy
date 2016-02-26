@@ -2,8 +2,7 @@
  * Created by fofo on 26/02/16.
  */
 library "HP20x"
-includes "Wire.h"
-variables "HP20x"
+includes "Wire.h" and "HP20x_dev.h"
 setup "HP20x.begin();"
 
 //Detailed measure def

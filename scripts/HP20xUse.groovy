@@ -1,9 +1,9 @@
-/**
- * Created by fofo on 26/02/16.
- */
-importlib "scripts/HP20x.groovy"
-sensor "HpSensor"
+importlib "scripts/lib/HP20x.groovy"
 
-mesure "pressure" capture meta
+sensor "HP20x"
+
+measure "pressure" captured meta
 measure "temperature" captured periodically every 4.s named "temp_hp20"
 measure "altitude" captured periodically every 6.s named "alti_hp20"
+
+export "HP20xTest"
