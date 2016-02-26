@@ -117,7 +117,7 @@ public class MeasureManagementView extends JPanel implements ActionListener,Mous
     }
 
     public void mouseClicked(MouseEvent e) {
-        if(measureMenu.getSelectedIndex() == 0){
+        if(measureMenu.getSelectedIndex() == 0 && ((SetupView) this.getParent()).getSettings().size()>0){
             InputComponent newPan = new InputComponent();
             //TODO : Name de la mesureUSE
 
