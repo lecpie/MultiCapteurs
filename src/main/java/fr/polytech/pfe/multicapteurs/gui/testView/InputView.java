@@ -2,12 +2,8 @@ package fr.polytech.pfe.multicapteurs.gui.testView;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Louis on 26/02/2016.
@@ -17,14 +13,10 @@ public class InputView extends JPanel {
     private GridBagLayout layout;
     private GridBagConstraints c;
 
-    private List <String> paramKeys;
-
     private Map <String, JTextField> paramInputs;
 
 
-    public InputView(List<String> paramKeys) {
-        this.paramKeys = paramKeys;
-
+    public InputView() {
         layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -33,25 +25,33 @@ public class InputView extends JPanel {
         c.gridx = 0;
         c.gridy = 0;
 
-        setupParams();
+        paramInputs = new HashMap<>();
 
         this.setLayout(layout);
     }
 
-    private void setupParams() {
-        paramInputs = new HashMap<>();
-        removeAll();
-
-        for (String key : paramKeys) {
+    public void addParams(List <String> keys) {
+        for (String key : keys) {
             addParam(key);
         }
     }
 
-    private void addParam(String key) {
+    void addParams(Map <String, String> keysValues) {
+        for (String key : keysValues.keySet()) {
+            addParam(key, keysValues.get(key));
+        }
+    }
+
+    public void cleanParams() {
+        removeAll();
+        paramInputs = new HashMap<>();
+    }
+
+    public void addParam(String key) {
         addParam(key, "");
     }
 
-    private void addParam(String key, String defaultValue) {
+    public void addParam(String key, String defaultValue) {
         JLabel label = new JLabel(key);
         JTextField input = new JTextField(defaultValue);
         input.setPreferredSize(new Dimension(120, 20));
@@ -70,7 +70,7 @@ public class InputView extends JPanel {
         } else {
             c.gridx++;
         }
-        //args.add(comp);
+
         this.add(comp, c);
     }
 
@@ -86,13 +86,23 @@ public class InputView extends JPanel {
 
     public static void main(String[] args) {
         JFrame window = new JFrame("InputViewTest");
-        InputView inputView = new InputView(Arrays.asList("Hello", "world"));
+
+        Map<String, String> someAreDefaults = new HashMap<>();
+        List <String> someAreNot = new ArrayList<>();
+        someAreDefaults.put("customer", "lol");
+        someAreDefaults.put("theDeadLine", "soon");
+
+        someAreNot.addAll(Arrays.asList("asap", "estimation"));
+
+        InputView inputView = new InputView();
+        inputView.addParams(someAreDefaults);
+        inputView.addParams(someAreNot);
 
         JButton button = new JButton("Get params");
 
         window.add(inputView);
         window.add(button, BorderLayout.SOUTH);
-        
+
         button.addActionListener(actionEvent -> {
             Map <String, String> params = inputView.getInput();
             if (params == null) {
