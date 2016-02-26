@@ -1,7 +1,7 @@
-package fr.polytech.pfe.multicapteurs.gui.views.base;
+package fr.polytech.pfe.multicapteurs.gui.views.containers;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
-import fr.polytech.pfe.multicapteurs.gui.views.pannels.InputPannel;
+import fr.polytech.pfe.multicapteurs.gui.views.pannels.SuperPannel;
 import fr.polytech.pfe.multicapteurs.gui.views.pannels.LibsPannel;
 import fr.polytech.pfe.multicapteurs.gui.views.pannels.MeasuresPannel;
 
@@ -14,7 +14,7 @@ import java.awt.*;
 public class CentralPanel extends JPanel {
 
     private LibControler controler;
-    private InputPannel libsPannel, measuresPannel;
+    private SuperPannel libsPannel, measuresPannel;
     private GridLayout layout;
 
     public CentralPanel(LibControler controler){

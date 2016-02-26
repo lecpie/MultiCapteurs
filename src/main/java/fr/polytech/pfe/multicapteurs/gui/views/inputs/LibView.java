@@ -1,7 +1,8 @@
-package fr.polytech.pfe.multicapteurs.gui.views.base;
+package fr.polytech.pfe.multicapteurs.gui.views.inputs;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
+import fr.polytech.pfe.multicapteurs.gui.views.utils.GridBagUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ import java.awt.*;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibView extends InputView {
+public class LibView extends SuperView{
 
     private LibControler controler;
 
@@ -36,11 +37,11 @@ public class LibView extends InputView {
         this.controler = controler;
 
         libraryLabel = new JLabel("Library");
-        addComponent(this, c, libraryLabel, false);
+        GridBagUtils.addComponent(this, c, libraryLabel, false);
 
         librarySelector = new JComboBox();
         setCombo();
-        addComponent(this, c, librarySelector, false);
+        GridBagUtils.addComponent(this, c, librarySelector, false);
 
         currentLib = librarySelector.getItemAt(librarySelector.getSelectedIndex()).toString();
 
@@ -49,7 +50,7 @@ public class LibView extends InputView {
         args.addParams(controler.getAccessibleArgs(currentLib));
         args.addParams(controler.getDefaultdArgs(currentLib));
 
-        addComponent(this, c, args, true);
+        GridBagUtils.addComponent(this, c, args, true);
 
 
     }

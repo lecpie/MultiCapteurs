@@ -1,13 +1,8 @@
-package fr.polytech.pfe.multicapteurs.gui.views.base;
+package fr.polytech.pfe.multicapteurs.gui.views.containers;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
-import fr.polytech.pfe.multicapteurs.gui.trash.SetupView;
-import fr.polytech.pfe.multicapteurs.gui.views.pannels.InputPannel;
-import fr.polytech.pfe.multicapteurs.gui.views.pannels.LibsPannel;
-import fr.polytech.pfe.multicapteurs.gui.views.pannels.MeasuresPannel;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

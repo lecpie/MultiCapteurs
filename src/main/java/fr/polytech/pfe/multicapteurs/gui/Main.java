@@ -1,7 +1,7 @@
 package fr.polytech.pfe.multicapteurs.gui;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
-import fr.polytech.pfe.multicapteurs.gui.views.base.AppView;
+import fr.polytech.pfe.multicapteurs.gui.views.containers.AppView;
 
 
 /**

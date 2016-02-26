@@ -8,17 +8,15 @@ import javax.swing.*;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class InputPannel extends JTabbedPane{
+public class SuperPannel extends JTabbedPane{
 
     LibControler controler;
     private AddLib addLib;
 
-    public InputPannel(LibControler controler){
+    public SuperPannel(LibControler controler){
         this.controler = controler;
-
         addLib = new AddLib();
         this.addTab("+", addLib);
-
     }
 
     public LibControler getControler() {

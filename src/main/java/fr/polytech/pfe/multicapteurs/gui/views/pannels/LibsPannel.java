@@ -2,8 +2,7 @@ package fr.polytech.pfe.multicapteurs.gui.views.pannels;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
-import fr.polytech.pfe.multicapteurs.gui.tools.AddLib;
-import fr.polytech.pfe.multicapteurs.gui.views.base.LibView;
+import fr.polytech.pfe.multicapteurs.gui.views.inputs.LibView;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,7 @@ import java.util.List;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibsPannel extends InputPannel {
+public class LibsPannel extends SuperPannel {
 
     private LibControler controler;
 
