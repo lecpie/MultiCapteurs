@@ -21,14 +21,13 @@ public class LibView extends InputView{
     private JLabel libraryLabel;
     private JComboBox librarySelector;
 
-    private List<Component> requiredArgs;
+    private InputView args;
 
     public LibView(LibControler controler){
         layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 5.0;
-        c.gridwidth = GridBagConstraints.RELATIVE;
+        c.weightx = 0.5;
         c.gridx = 0;
         c.gridy = 0;
 
@@ -36,11 +35,10 @@ public class LibView extends InputView{
 
         libraryLabel = new JLabel("Library");
 
-
         librarySelector = new JComboBox();
         setCombo();
 
-        requiredArgs = new ArrayList<>();
+        System.out.println(librarySelector.getSelectedItem());
 
         this.setLayout(layout);
     }
@@ -52,18 +50,18 @@ public class LibView extends InputView{
         }else{
             c.gridx++;
         }
-        requiredArgs.add(comp);
+       // requiredArgs.add(comp);
         this.add(comp, c);
     }
 
-    public Component getComponentByName(String s){
+    /*public Component getComponentByName(String s){
         for(Component c : requiredArgs){
             if(c.getName().equals(s)){
                 return c;
             }
         }
         return null;
-    }
+    }*/
 
     private void setCombo(){
         for(String s : controler.getLibNames()){
@@ -71,8 +69,14 @@ public class LibView extends InputView{
         }
     }
 
-    public List<Component> getAllComponents() {
+ /*   public List<Component> getAllComponents() {
         return requiredArgs;
+    }
+*/
+
+
+    public GridBagConstraints getC() {
+        return c;
     }
 
     public static void main(String[] args) {
@@ -93,6 +97,16 @@ public class LibView extends InputView{
 
         JComboBox combo3 = new JComboBox();
         combo3.addItem("DHT3");
+
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(lab, true);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo, false);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo2, true);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo3, false);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
 
 
 
