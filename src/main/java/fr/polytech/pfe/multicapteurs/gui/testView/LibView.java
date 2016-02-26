@@ -11,40 +11,55 @@ import java.util.List;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibView /* extends InputView */{
+public class LibView extends JPanel {
 
-    /*
+
     private LibControler controler;
+
+    private GridBagLayout layout;
+    private GridBagConstraints c;
 
     private JLabel libraryLabel;
     private JComboBox librarySelector;
+    private InputView args;
 
-
-    public LibView (LibControler controler){
-
+    public LibView(LibControler controler){
+        layout = new GridBagLayout();
+        c = new GridBagConstraints();
+        c.fill = GridBagConstraints.HORIZONTAL;
+        c.weightx = 0.5;
+        c.gridx = 0;
+        c.gridy = 0;
 
         this.controler = controler;
 
         libraryLabel = new JLabel("Library");
 
-
         librarySelector = new JComboBox();
         setCombo();
 
-        //requiredArgs = new ArrayList<>();
-
+        this.setLayout(layout);
     }
 
 
+    public void addComponent(Component comp, boolean newLine){
+        if(newLine){
+            c.gridx = 0;
+            c.gridy++;
+        }else{
+            c.gridx++;
+        }
+        this.add(comp, c);
+    }
 
-    public Component getComponentByName(String s){
+    /*public Component getComponentByName(String s){
         for(Component c : requiredArgs){
             if(c.getName().equals(s)){
                 return c;
             }
         }
         return null;
-    }
+    }*/
 
     private void setCombo(){
         for(String s : controler.getLibNames()){
@@ -52,8 +67,14 @@ public class LibView /* extends InputView */{
         }
     }
 
-    public List<Component> getAllComponents() {
+ /*   public List<Component> getAllComponents() {
         return requiredArgs;
+    }
+*/
+
+
+    public GridBagConstraints getC() {
+        return c;
     }
 
     public static void main(String[] args) {
@@ -75,6 +96,16 @@ public class LibView /* extends InputView */{
         JComboBox combo3 = new JComboBox();
         combo3.addItem("DHT3");
 
+        //System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(lab, true);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo, false);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo2, true);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+        lv.addComponent(combo3, false);
+        System.out.println("x : " + lv.getC().gridx + "y : " + lv.getC().gridy);
+
 
 
         jf.setContentPane(lv);
@@ -82,6 +113,5 @@ public class LibView /* extends InputView */{
 
 
     }
-        */
 
 }
