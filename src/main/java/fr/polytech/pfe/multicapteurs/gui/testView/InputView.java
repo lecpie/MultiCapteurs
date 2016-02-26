@@ -58,8 +58,8 @@ public class InputView extends JPanel {
 
         paramInputs.put(key, input);
 
-        addComponent(label, false);
-        addComponent(input, true);
+        addComponent(label, true);
+        addComponent(input, false);
     }
 
     private void addComponent(Component comp, boolean newLine){
