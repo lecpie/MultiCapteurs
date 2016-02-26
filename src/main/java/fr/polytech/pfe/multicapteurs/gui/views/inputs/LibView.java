@@ -11,20 +11,13 @@ import java.awt.*;
  * Created by Louis on 26/02/2016.
  */
 public class LibView extends SuperView{
-
-    private LibControler controler;
-
-    private GridBagLayout layout;
-    private GridBagConstraints c;
-
     private String currentLib;
 
     private JLabel libraryLabel;
     private JComboBox librarySelector;
 
-    private InputView args;
-
     public LibView(LibControler controler){
+        super(controler);
         layout = new GridBagLayout();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
@@ -33,8 +26,6 @@ public class LibView extends SuperView{
         c.gridx = 0;
         c.gridy = 0;
         this.setLayout(layout);
-
-        this.controler = controler;
 
         libraryLabel = new JLabel("Library");
         GridBagUtils.addComponent(this, c, libraryLabel, false);
@@ -45,14 +36,12 @@ public class LibView extends SuperView{
 
         currentLib = librarySelector.getItemAt(librarySelector.getSelectedIndex()).toString();
 
-        args = new InputView();
+
         args.addParams(controler.getRequiredArgs(currentLib));
         args.addParams(controler.getAccessibleArgs(currentLib));
         args.addParams(controler.getDefaultdArgs(currentLib));
 
         GridBagUtils.addComponent(this, c, args, true);
-
-
     }
 
     private void setCombo(){
