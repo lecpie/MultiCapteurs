@@ -11,26 +11,17 @@ import java.util.List;
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibView extends InputView{
+public class LibView /* extends InputView */{
 
-    private GridBagLayout layout;
-    private GridBagConstraints c;
-
+    /*
     private LibControler controler;
 
     private JLabel libraryLabel;
     private JComboBox librarySelector;
 
-    private List<Component> requiredArgs;
 
-    public LibView(LibControler controler){
-        layout = new GridBagLayout();
-        c = new GridBagConstraints();
-        c.fill = GridBagConstraints.HORIZONTAL;
-        c.weightx = 5.0;
-        c.gridwidth = GridBagConstraints.RELATIVE;
-        c.gridx = 0;
-        c.gridy = 0;
+    public LibView (LibControler controler){
+
 
         this.controler = controler;
 
@@ -40,21 +31,11 @@ public class LibView extends InputView{
         librarySelector = new JComboBox();
         setCombo();
 
-        requiredArgs = new ArrayList<>();
+        //requiredArgs = new ArrayList<>();
 
-        this.setLayout(layout);
     }
 
-    public void addComponent(Component comp, boolean newLine){
-        if(newLine){
-            c.gridx = 0;
-            c.gridy++;
-        }else{
-            c.gridx++;
-        }
-        requiredArgs.add(comp);
-        this.add(comp, c);
-    }
+
 
     public Component getComponentByName(String s){
         for(Component c : requiredArgs){
@@ -101,4 +82,6 @@ public class LibView extends InputView{
 
 
     }
+        */
+
 }
