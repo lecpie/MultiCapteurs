@@ -1,29 +1,47 @@
 package fr.polytech.pfe.multicapteurs.gui.testView;
 
+import fr.polytech.pfe.multicapteurs.App;
+import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Created by Louis on 26/02/2016.
  */
-public class LibView extends JPanel{
+public class LibView extends InputView{
 
     private GridBagLayout layout;
     private GridBagConstraints c;
-    private List<Component> components;
 
-    public LibView(){
+    private LibControler controler;
+
+    private JLabel libraryLabel;
+    private JComboBox librarySelector;
+
+    private List<Component> requiredArgs;
+
+    public LibView(LibControler controler){
         layout = new GridBagLayout();
-        components = new ArrayList<>();
         c = new GridBagConstraints();
         c.fill = GridBagConstraints.HORIZONTAL;
         c.weightx = 5.0;
         c.gridwidth = GridBagConstraints.RELATIVE;
         c.gridx = 0;
         c.gridy = 0;
+
+        this.controler = controler;
+
+        libraryLabel = new JLabel("Library");
+
+
+        librarySelector = new JComboBox();
+        setCombo();
+
+        requiredArgs = new ArrayList<>();
+
         this.setLayout(layout);
     }
 
@@ -34,12 +52,12 @@ public class LibView extends JPanel{
         }else{
             c.gridx++;
         }
-        components.add(comp);
+        requiredArgs.add(comp);
         this.add(comp, c);
     }
 
     public Component getComponentByName(String s){
-        for(Component c : components){
+        for(Component c : requiredArgs){
             if(c.getName().equals(s)){
                 return c;
             }
@@ -47,15 +65,23 @@ public class LibView extends JPanel{
         return null;
     }
 
+    private void setCombo(){
+        for(String s : controler.getLibNames()){
+            librarySelector.addItem(s);
+        }
+    }
+
     public List<Component> getAllComponents() {
-        return components;
+        return requiredArgs;
     }
 
     public static void main(String[] args) {
         JFrame jf = new JFrame();
         jf.setSize(new Dimension(800, 600));
 
-        LibView lv = new LibView();
+        App app = new App();
+
+        LibView lv = new LibView(new LibControler(app.getLoadedLibraries()));
 
         JLabel lab = new JLabel("Library");
 
@@ -68,10 +94,6 @@ public class LibView extends JPanel{
         JComboBox combo3 = new JComboBox();
         combo3.addItem("DHT3");
 
-        lv.addComponent(lab, false);
-        lv.addComponent(combo, false);
-        lv.addComponent(combo2, true);
-        lv.addComponent(combo3, true);
 
 
         jf.setContentPane(lv);
