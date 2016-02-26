@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.views;
+package fr.polytech.pfe.multicapteurs.gui.views.base;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;

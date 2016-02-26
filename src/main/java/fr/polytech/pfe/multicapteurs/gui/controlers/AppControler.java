@@ -65,7 +65,7 @@ public class AppControler {
         return null;
     }
 
-    public String  generateCode(Library lib, LibraryUse libUse, MeasureUse measureUse){
+    public String  generateCode(){
 
 
         //List<Library> libs = new ArrayList<>();
