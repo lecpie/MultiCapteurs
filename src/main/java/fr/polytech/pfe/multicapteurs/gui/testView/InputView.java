@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,8 @@ public class InputView extends JPanel {
     private GridBagConstraints c;
 
     private List <String> paramKeys;
+
+    private Map <String, JTextField> paramInputs;
 
 
     public InputView(List<String> paramKeys) {
@@ -36,6 +39,9 @@ public class InputView extends JPanel {
     }
 
     private void setupParams() {
+        paramInputs = new HashMap<>();
+        removeAll();
+
         for (String key : paramKeys) {
             addParam(key);
         }
@@ -47,14 +53,13 @@ public class InputView extends JPanel {
 
     private void addParam(String key, String defaultValue) {
         JLabel label = new JLabel(key);
-        JTextField input = new JTextField("2");
-        JTextField input2 = new JTextField("3");
-        input.setText(defaultValue);
+        JTextField input = new JTextField(defaultValue);
         input.setPreferredSize(new Dimension(120, 20));
+
+        paramInputs.put(key, input);
 
         addComponent(label, false);
         addComponent(input, true);
-        addComponent(input2, false);
     }
 
     private void addComponent(Component comp, boolean newLine){
@@ -70,7 +75,13 @@ public class InputView extends JPanel {
     }
 
     Map <String, String> getInput() {
-        return null;
+        Map <String, String> params = new HashMap<>();
+
+        for (String key : paramInputs.keySet()) {
+            params.put(key, paramInputs.get(key).getText());
+        }
+
+        return params;
     }
 
     public static void main(String[] args) {
@@ -81,18 +92,15 @@ public class InputView extends JPanel {
 
         window.add(inputView);
         window.add(button, BorderLayout.SOUTH);
-
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                Map <String, String> params = inputView.getInput();
-                if (params == null) {
-                    System.err.println("Null param map");
-                }
-                else {
-                    for (String key : params.keySet()) {
-                        System.out.println(key + " : " + params.get(key));
-                    }
+        
+        button.addActionListener(actionEvent -> {
+            Map <String, String> params = inputView.getInput();
+            if (params == null) {
+                System.err.println("Null param map");
+            }
+            else {
+                for (String key : params.keySet()) {
+                    System.out.println(key + " : " + params.get(key));
                 }
             }
         });
