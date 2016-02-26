@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.components;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
 import javax.swing.*;
 import java.awt.*;

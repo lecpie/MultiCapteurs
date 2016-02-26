@@ -1,6 +1,7 @@
-package fr.polytech.pfe.multicapteurs.gui.views;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
+import fr.polytech.pfe.multicapteurs.gui.trash.SetupView;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
 import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
 import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;

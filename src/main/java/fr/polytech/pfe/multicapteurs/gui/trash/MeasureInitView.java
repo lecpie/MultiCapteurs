@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.views;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
 import fr.polytech.pfe.multicapteurs.model.lib.Measure;
 

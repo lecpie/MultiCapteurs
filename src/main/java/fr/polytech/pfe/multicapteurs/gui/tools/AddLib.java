@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.testView.tools;
+package fr.polytech.pfe.multicapteurs.gui.tools;
 
 import javax.swing.*;
 

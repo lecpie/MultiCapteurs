@@ -1,11 +1,10 @@
-package fr.polytech.pfe.multicapteurs.gui.components;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
-import fr.polytech.pfe.multicapteurs.gui.views.ParamView;
+import fr.polytech.pfe.multicapteurs.gui.trash.ParamView;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**

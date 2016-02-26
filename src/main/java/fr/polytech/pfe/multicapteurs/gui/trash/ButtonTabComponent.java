@@ -1,4 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.tools;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
 /**
  * Created by fofo on 23/02/16.

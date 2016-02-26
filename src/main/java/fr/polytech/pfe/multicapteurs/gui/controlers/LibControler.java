@@ -1,11 +1,6 @@
 package fr.polytech.pfe.multicapteurs.gui.controlers;
 
-import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
-import fr.polytech.pfe.multicapteurs.gui.views.ParamView;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
-import fr.polytech.pfe.multicapteurs.model.lib.LibraryUse;
-import fr.polytech.pfe.multicapteurs.model.lib.Measure;
-import fr.polytech.pfe.multicapteurs.model.structural.Type;
 
 import java.util.*;
 

@@ -1,8 +1,8 @@
-package fr.polytech.pfe.multicapteurs.gui.testView;
+package fr.polytech.pfe.multicapteurs.gui.views;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
-import fr.polytech.pfe.multicapteurs.gui.testView.tools.AddLib;
+import fr.polytech.pfe.multicapteurs.gui.tools.AddLib;
 
 import javax.swing.*;
 import java.awt.*;

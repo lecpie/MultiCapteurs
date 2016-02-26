@@ -1,7 +1,7 @@
-package fr.polytech.pfe.multicapteurs.gui.views;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
-import fr.polytech.pfe.multicapteurs.gui.components.InputComponent;
 import fr.polytech.pfe.multicapteurs.gui.controlers.LibControler;
+
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

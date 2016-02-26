@@ -1,6 +1,4 @@
-package fr.polytech.pfe.multicapteurs.gui.views;
-
-import fr.polytech.pfe.multicapteurs.gui.components.ParamElement;
+package fr.polytech.pfe.multicapteurs.gui.trash;
 
 import javax.swing.*;
 import java.awt.*;
