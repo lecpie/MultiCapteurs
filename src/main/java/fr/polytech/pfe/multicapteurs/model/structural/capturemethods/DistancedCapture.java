@@ -1,14 +1,20 @@
 package fr.polytech.pfe.multicapteurs.model.structural.capturemethods;
 
 import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
-import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse;
 
 /**
  * Created by lecpie on 2/26/16.
  */
 public class DistancedCapture extends TriggeredCapture {
-
     private double distance;
+
+    public DistancedCapture() {
+        this(1.0);
+    }
+
+    public DistancedCapture(double meterDistance) {
+        this.distance = meterDistance;
+    }
 
     public double getDistance() {
         return distance;
@@ -23,6 +29,7 @@ public class DistancedCapture extends TriggeredCapture {
         visitor.expression(this);
     }
 
+    @Override
     public void global(Visitor visitor) {
         super.global(visitor);
         visitor.global(this);

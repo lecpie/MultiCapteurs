@@ -235,8 +235,25 @@ public class ToWiring extends Visitor<StringBuffer> {
             triggeredCapture.global(this);
         }
 
-        for (DistancedCapture distancedCapture : lastLatitudeVariable.keySet()) {
-            distancedCapture.global(this);
+        if (requiresGPS) {
+            w("double distance_to (double lat1, double long1, double lat2, double long2) {");
+            w("\tdouble delta = radians(long1-long2);");
+            w("\tdouble sdlong = sin(delta);");
+            w("\tdouble cdlong = cos(delta);");
+            w("\tlat1 = radians(lat1);");
+            w("\tlat2 = radians(lat2);lat2 = radians(lat2);");
+            w("\tdouble slat1 = sin(lat1);");
+            w("\tdouble clat1 = cos(lat1);");
+            w("\tdouble slat2 = sin(lat2);");
+            w("\tdouble clat2 = cos(lat2);");
+            w("\tdelta = (clat1 * slat2) - (slat1 * clat2 * cdlong);");
+            w("\tdelta = sq(delta);");
+            w("\tdelta += sq(clat2 * sdlong);");
+            w("\tdelta = sqrt(delta);");
+            w("\tdouble denom = (slat1 * slat2) + (clat1 * clat2 * cdlong);");
+            w("\tdelta = atan2(delta, denom);");
+            w("\treturn delta * 6372795;");
+            w("}");
         }
 
         w("void setup() {");
@@ -337,7 +354,7 @@ public class ToWiring extends Visitor<StringBuffer> {
                                            + "but is not implemented for output writing");
             }
 
-            if (!updatedMeasures.containsKey(measureUse) || updatedMeasures.get(measureUse)) {
+            if (!updatedMeasures.containsKey(measureUse) || !updatedMeasures.get(measureUse)) {
                 measureUse.update(this);
                 updatedMeasures.put(measureUse, true);
             }
@@ -349,7 +366,17 @@ public class ToWiring extends Visitor<StringBuffer> {
             if (measureUse.getCaptureMethod() instanceof PeriodicCapture) {
                 w("\t\t" + periodicQueryVariable.get((PeriodicCapture) captureMethod) + " = now;");
             }
+            else if (measureUse.getCaptureMethod() instanceof DistancedCapture) {
+                DistancedCapture distancedCapture = (DistancedCapture) captureMethod;
 
+                w("\t\t" + lastLatitudeVariable.get(distancedCapture) + " = ");
+                latitude.expression(this);
+                w(";");
+
+                w("\t\t" + lastLongitudeVariable.get(distancedCapture) + " = ");
+                longitude.expression(this);
+                w(";");
+            }
 
             w("\t}");
             w("\tput_separator();");

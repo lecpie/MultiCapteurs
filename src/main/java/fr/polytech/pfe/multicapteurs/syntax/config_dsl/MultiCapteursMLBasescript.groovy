@@ -6,6 +6,7 @@ import fr.polytech.pfe.multicapteurs.model.lib.MeasureUse
 import fr.polytech.pfe.multicapteurs.model.structural.Period
 import fr.polytech.pfe.multicapteurs.model.structural.Time
 import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.CaptureMethod
+import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.DistancedCapture
 import fr.polytech.pfe.multicapteurs.model.structural.capturemethods.PeriodicCapture
 
 abstract class MultiCapteursMLBasescript extends Script {
@@ -62,8 +63,14 @@ abstract class MultiCapteursMLBasescript extends Script {
                 measureUse.setCaptureMethod(captureMethod)
 
                 [every: {
-                    Period period ->
-                        measureUse.setCaptureMethod(new PeriodicCapture(period));
+                    what ->
+                        if (captureMethod instanceof PeriodicCapture) {
+                            measureUse.setCaptureMethod(new PeriodicCapture(what));
+                        }
+                        else if (captureMethod instanceof DistancedCapture) {
+                            System.err.println("lol")
+                            measureUse.setCaptureMethod(new DistancedCapture(what))
+                        }
 
                         [with: argsclosure, named: nameClosure]
                 },
