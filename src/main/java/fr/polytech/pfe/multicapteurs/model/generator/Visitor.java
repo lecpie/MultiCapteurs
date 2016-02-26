@@ -22,17 +22,15 @@ public abstract class Visitor<T> {
 	public abstract void update     (MeasureUse measureUse);
 	public abstract void expression (MeasureUse measureUse);
 
-	public abstract void visit (AsapCapture captureMethod);
-	public abstract void visit (PeriodicCapture captureMethod);
-	public abstract void visit (MetadataCapture captureMethod);
-
-	public abstract String readExpression(AsapCapture     captureMethod);
-	public abstract String readExpression(PeriodicCapture captureMethod);
+	public abstract void expression(AsapCapture      captureMethod);
+	public abstract void expression(PeriodicCapture  captureMethod);
+	public abstract void expression(DistancedCapture captureMethod);
 
 	public abstract void global(CaptureMethod    captureMethod);
 	public abstract void global(TriggeredCapture captureMethod);
 	public abstract void global(AsapCapture      captureMethod);
 	public abstract void global(PeriodicCapture  captureMethod);
+	public abstract void global(DistancedCapture captureMethod);
 
 	public abstract void update(TriggeredCapture captureMethod);
 

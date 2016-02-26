@@ -7,13 +7,8 @@ import fr.polytech.pfe.multicapteurs.model.generator.Visitor;
  */
 public class AsapCapture extends TriggeredCapture {
     @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
-    }
-
-    @Override
-    public String readExpression(Visitor visitor) {
-        return visitor.readExpression(this);
+    public void expression(Visitor visitor) {
+        visitor.expression(this);
     }
 
     @Override

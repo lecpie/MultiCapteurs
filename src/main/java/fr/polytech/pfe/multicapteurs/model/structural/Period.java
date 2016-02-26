@@ -50,4 +50,18 @@ public class Period {
         this.unit = unit;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Period period = (Period) o;
+
+        return getRateintoMS() == period.getRateintoMS();
+    }
+
+    @Override
+    public int hashCode() {
+        return getRateintoMS();
+    }
 }

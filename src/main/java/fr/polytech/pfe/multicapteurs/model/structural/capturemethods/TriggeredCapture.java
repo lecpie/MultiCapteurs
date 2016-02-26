@@ -9,15 +9,17 @@ import fr.polytech.pfe.multicapteurs.model.structural.Type;
 /**
  * Created by lecpie on 2/23/16.
  */
-public abstract class TriggeredCapture implements CaptureMethod, Global, Updatable {
-
-    public abstract String readExpression(Visitor visitor);
-
+public abstract class TriggeredCapture implements CaptureMethod, Global, Updatable, Expression {
+    
     public void global(Visitor visitor) {
         visitor.global(this);
     }
 
     public void update(Visitor visitor) {
         visitor.update(this);
+    }
+
+    public Type getType() {
+        return Type.DIGITAL;
     }
 }

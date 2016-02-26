@@ -10,17 +10,8 @@ import fr.polytech.pfe.multicapteurs.model.structural.Time;
 public class PeriodicCapture extends TriggeredCapture {
     private Period capturePeriod;
 
-    public PeriodicCapture() {
-
-    }
-
     public PeriodicCapture(Period capturePeriod) {
         this.capturePeriod = capturePeriod;
-    }
-
-    @Override
-    public void accept(Visitor visitor) {
-        visitor.visit(this);
     }
 
     public Period getCapturePeriod() {
@@ -38,13 +29,22 @@ public class PeriodicCapture extends TriggeredCapture {
     }
 
     @Override
-    public String readExpression(Visitor visitor) {
-        return visitor.readExpression(this);
+    public void expression(Visitor visitor) {
+        visitor.expression(this);
     }
 
     @Override
-    public void update(Visitor visitor) {
-        super.update(visitor);
-        visitor.update(this);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PeriodicCapture that = (PeriodicCapture) o;
+
+        return !(capturePeriod != null ? !capturePeriod.equals(that.capturePeriod) : that.capturePeriod != null);
+    }
+
+    @Override
+    public int hashCode() {
+        return capturePeriod.hashCode();
     }
 }

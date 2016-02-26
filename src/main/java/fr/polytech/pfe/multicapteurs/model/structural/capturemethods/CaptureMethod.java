@@ -7,6 +7,6 @@ import fr.polytech.pfe.multicapteurs.model.language.Visitable;
 /**
  * Created by lecpie on 2/23/16.
  */
-public interface CaptureMethod extends Visitable, Global {
+public interface CaptureMethod extends Global {
 
 }

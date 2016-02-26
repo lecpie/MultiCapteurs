@@ -1,5 +1,6 @@
 package fr.polytech.pfe.multicapteurs.model.generator;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import fr.polytech.pfe.multicapteurs.App;
 import fr.polytech.pfe.multicapteurs.CompilationError;
 import fr.polytech.pfe.multicapteurs.model.lib.Library;
@@ -21,10 +22,18 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     private VariableGenerator variableGenerator = new IncrementalVariableGenerator();
 
-    private Map <String, String>           updateExpressionToVariable;
-    private Map <TriggeredCapture, String> measureConditionalExpression;
     private Map <TriggeredCapture, String> measureConditionalVariable;
     private Map <PeriodicCapture, String>  periodicQueryVariable;
+    private Map <DistancedCapture, String> lastLatitudeVariable;
+    private Map <DistancedCapture, String> lastLongitudeVariable;
+
+    private Map <MeasureUse, Boolean> updatedMeasures;
+    private Map <String, Boolean>     updatedCaptureVariable;
+
+    MeasureUse latitude = null;
+    MeasureUse longitude = null;
+
+    boolean requiresGPS = false;
 
     public ToWiring() {
         this.result = new StringBuffer();
@@ -69,10 +78,12 @@ public class ToWiring extends Visitor<StringBuffer> {
 
 	@Override
 	public void visit(App app) {
-        measureConditionalExpression  = new HashMap<>();
-        measureConditionalVariable    = new HashMap<>();
-        periodicQueryVariable         = new HashMap<>();
-        updateExpressionToVariable    = new HashMap<>();
+        measureConditionalVariable = new HashMap<>();
+        periodicQueryVariable      = new HashMap<>();
+        lastLatitudeVariable       = new HashMap<>();
+        lastLongitudeVariable      = new HashMap<>();
+        updatedMeasures            = new HashMap<>();
+        updatedCaptureVariable     = new HashMap<>();
 
         include("Arduino.h");
         include("SD.h");
@@ -180,6 +191,14 @@ public class ToWiring extends Visitor<StringBuffer> {
             for (String var : measure.getVariables()) {
                 measureUse.getArgsValues().put(var, variableGenerator.genName());
             }
+
+            if ("latitude".equals(measureUse.getName())) {
+                latitude = measureUse;
+            }
+            else if ("longitude".equals(measureUse.getName())) {
+                longitude = measureUse;
+            }
+
         }
 
         for (MeasureUse measureUse : app.getOutput().getPrintedMeasures().values()) {
@@ -190,20 +209,23 @@ public class ToWiring extends Visitor<StringBuffer> {
             if (measureUse.getCaptureMethod() instanceof TriggeredCapture) {
                 TriggeredCapture triggeredCapture = (TriggeredCapture) measureUse.getCaptureMethod();
 
-                //TODO check code wrote with migraine
+                if (!measureConditionalVariable.containsKey(triggeredCapture)) {
+                    measureConditionalVariable.put(triggeredCapture, variableGenerator.genName());
+                }
+            }
 
-                String conditionExpression = triggeredCapture.readExpression(this);
+            if (measureUse.getCaptureMethod() instanceof DistancedCapture) {
+                DistancedCapture distancedCapture = (DistancedCapture) measureUse.getCaptureMethod();
 
-                measureConditionalExpression.put(triggeredCapture, conditionExpression);
-
-                if (!updateExpressionToVariable.containsKey(conditionExpression)) {
-                    updateExpressionToVariable.put(conditionExpression, variableGenerator.genName());
+                if (!lastLatitudeVariable.containsKey(distancedCapture)) {
+                    lastLatitudeVariable.put(distancedCapture, variableGenerator.genName());
                 }
 
-                String variable = updateExpressionToVariable.get(conditionExpression);
+                if (!lastLongitudeVariable.containsKey(distancedCapture)) {
+                    lastLongitudeVariable.put(distancedCapture, variableGenerator.genName());
+                }
 
-                measureConditionalExpression.put(triggeredCapture, conditionExpression);
-                measureConditionalVariable  .put(triggeredCapture, variable);
+                requiresGPS = true;
             }
         }
 
@@ -213,6 +235,9 @@ public class ToWiring extends Visitor<StringBuffer> {
             triggeredCapture.global(this);
         }
 
+        for (DistancedCapture distancedCapture : lastLatitudeVariable.keySet()) {
+            distancedCapture.global(this);
+        }
 
         w("void setup() {");
 
@@ -245,25 +270,37 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         for (String measureName : app.getOutput().getPrintedMeasures().keySet()) {
-            w("\t\tput_data(\"" + measureName + "\", " + measureName.length() + ");");
-            w("\t\tput_separator();");
+            w("\tput_data(\"" + measureName + "\", " + measureName.length() + ");");
+            w("\tput_separator();");
         }
 
-        w("\t\tput_endl();");
+        w("\tput_endl();");
 
         if (SDOUTPUT) {
-            w("\t\tdatafile.close();");
+            w("\tdatafile.close();");
         }
 
-        w("\t}");
+        w("}");
 
 
         w("void loop() {");
 
         w("\tlong now = millis();");
 
-        for (String updateExpression : updateExpressionToVariable.keySet()) {
-            w(updateExpressionToVariable.get(updateExpression) + " = " + updateExpression + ";");
+        if (requiresGPS) {
+            latitude.update(this);
+            longitude.update(this);
+
+            updatedMeasures.put(latitude,  true);
+            updatedMeasures.put(longitude, true);
+        }
+
+        for (TriggeredCapture triggeredCapture : measureConditionalVariable.keySet()) {
+            String variable = measureConditionalVariable.get(triggeredCapture);
+            if (!updatedCaptureVariable.containsKey(variable) || !updatedCaptureVariable.get(variable)) {
+                triggeredCapture.update(this);
+                updatedCaptureVariable.put(variable, true);
+            }
         }
 
         if (measureConditionalVariable.size() > 0) {
@@ -280,7 +317,6 @@ public class ToWiring extends Visitor<StringBuffer> {
             w(")");
             w("\t{");
         }
-
 
         if (SDOUTPUT) {
             w("\tdatafile = SD.open(output, FILE_WRITE);");
@@ -301,7 +337,10 @@ public class ToWiring extends Visitor<StringBuffer> {
                                            + "but is not implemented for output writing");
             }
 
-            measureUse.update(this);
+            if (!updatedMeasures.containsKey(measureUse) || updatedMeasures.get(measureUse)) {
+                measureUse.update(this);
+                updatedMeasures.put(measureUse, true);
+            }
             add("\tput_" + ctype + "(" );
             expression(measureUse);
             w(");");
@@ -327,36 +366,29 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         w("}");
-
 	}
 
     @Override
-    public void visit(AsapCapture captureMethod) {
+    public void expression(AsapCapture captureMethod) {
         add("true");
     }
 
     @Override
-    public void visit(PeriodicCapture captureMethod) {
-
+    public void expression(PeriodicCapture captureMethod) {
+        add("now > " + periodicQueryVariable.get(captureMethod) + " + " + captureMethod.getCapturePeriod().getRateintoMS());
     }
 
     @Override
-    public void visit(MetadataCapture captureMethod) {
+    public void expression(DistancedCapture captureMethod) {
+        w("distance_to(" + lastLatitudeVariable.get(captureMethod) + "," + lastLongitudeVariable.get(captureMethod) + ",");
 
-    }
+        latitude.expression(this);
 
-    @Override
-    public String readExpression(AsapCapture captureMethod) {
-        return "true";
-    }
+        w(",");
 
-    @Override
-    public String readExpression(PeriodicCapture captureMethod) {
-        if (!periodicQueryVariable.containsKey(captureMethod)) {
-            periodicQueryVariable.put(captureMethod, variableGenerator.genName());
-        }
+        longitude.expression(this);
 
-        return "now > " + periodicQueryVariable.get(captureMethod) + " + " + captureMethod.getCapturePeriod().getRateintoMS() + ";";
+        w(") > " + captureMethod.getDistance());
     }
 
     @Override
@@ -374,12 +406,32 @@ public class ToWiring extends Visitor<StringBuffer> {
 
     @Override
     public void global(PeriodicCapture captureMethod) {
+        if (!periodicQueryVariable.containsKey(captureMethod)) {
+            periodicQueryVariable.put(captureMethod, variableGenerator.genName());
+        }
+
         w("long " + periodicQueryVariable.get(captureMethod) + ";");
     }
 
     @Override
+    public void global(DistancedCapture captureMethod) {
+        String latitudeVar  = variableGenerator.genName();
+        String longitudeVar = variableGenerator.genName();
+
+        lastLatitudeVariable .put(captureMethod, latitudeVar);
+        lastLongitudeVariable.put(captureMethod, longitudeVar);
+
+        w("float " + latitudeVar  + ";");
+        w("float " + longitudeVar + ";");
+    }
+
+    @Override
     public void update(TriggeredCapture captureMethod) {
-        w(measureConditionalVariable.get(captureMethod) + " = " + measureConditionalExpression.get(captureMethod) + ";");
+        w(measureConditionalVariable.get(captureMethod) + " = ");
+
+        captureMethod.expression(this);
+
+        w(";");
     }
 
     private static String getCType(Type type) {
@@ -391,10 +443,6 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         return null;
-    }
-
-    private static String freqname(Integer frequency) {
-        return "f" + frequency;
     }
 
     @SafeVarargs
