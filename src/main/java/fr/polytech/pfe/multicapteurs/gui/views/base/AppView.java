@@ -2,8 +2,12 @@ package fr.polytech.pfe.multicapteurs.gui.views.base;
 
 import fr.polytech.pfe.multicapteurs.gui.controlers.AppControler;
 import fr.polytech.pfe.multicapteurs.gui.trash.SetupView;
+import fr.polytech.pfe.multicapteurs.gui.views.pannels.InputPannel;
+import fr.polytech.pfe.multicapteurs.gui.views.pannels.LibsPannel;
+import fr.polytech.pfe.multicapteurs.gui.views.pannels.MeasuresPannel;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +19,7 @@ public class AppView extends JPanel {
     private JFrame appFrame = new JFrame();
 
     private JPanel header = new JPanel();
+    private  CentralPanel centralPanel;
     private JPanel footer = new JPanel();
 
     private AppControler controler;
@@ -22,10 +27,11 @@ public class AppView extends JPanel {
     private TextArea arduinoCode;
 
     public AppView(AppControler controler){
-        appFrame.pack();
+        appFrame.setSize(new Dimension(1600, 1200));
         appFrame.setTitle("Auto-Drone-Multisensors");
         appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         appFrame.setResizable(true);
+
         this.controler = controler;
         this.setName("AppView");
         initComposant();
@@ -37,7 +43,7 @@ public class AppView extends JPanel {
         BorderLayout mainLayout = new BorderLayout();
         this.setLayout(mainLayout);
         initHeader();
-        //TODO : init libs pannel
+        initCentralPannel();
         initFooter();
     }
 
@@ -46,6 +52,22 @@ public class AppView extends JPanel {
         header.add(title);
         this.add(header, BorderLayout.NORTH);
     }
+
+    /*private void initLibsPannel(){
+        libsPannel = new LibsPannel(controler.getLibControler());
+        this.add(libsPannel, BorderLayout.WEST);
+    }
+
+    private void initMeasuresPannel(){
+        measuresPannel = new MeasuresPannel(controler.getLibControler());
+        this.add(measuresPannel, BorderLayout.EAST);
+    }*/
+
+    private void initCentralPannel(){
+        centralPanel = new CentralPanel(controler.getLibControler());
+        this.add(centralPanel, BorderLayout.CENTER);
+    }
+
 
     private void initFooter(){
         JButton generate = new JButton("Generate Code");

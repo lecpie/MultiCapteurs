@@ -18,16 +18,16 @@ public class LibsPannel extends InputPannel {
 
     private LibControler controler;
 
-    private AddLib addLib;
+
     private List<LibView> libViews;
 
 
     public LibsPannel(LibControler controler){
-        this.controler = controler;
+        super(controler);
+
         this.libViews = new ArrayList<>();
 
-        addLib = new AddLib();
-        this.addTab("+", addLib);
+
 
         addLibView(new LibView(controler));
     }

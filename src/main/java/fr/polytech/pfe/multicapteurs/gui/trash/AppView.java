@@ -133,7 +133,7 @@ public class AppView extends JPanel {
         LibraryUse libUse = new LibraryUse();
         MeasureUse measureUse = new MeasureUse();
 
-        return controler.generateCode(lib, libUse, measureUse);
+        return controler.generateCode();
     }
 
     public JPanel getHeader() {
