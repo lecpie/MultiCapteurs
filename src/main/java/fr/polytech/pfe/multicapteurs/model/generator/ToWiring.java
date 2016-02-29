@@ -241,7 +241,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             w("\tdouble sdlong = sin(delta);");
             w("\tdouble cdlong = cos(delta);");
             w("\tlat1 = radians(lat1);");
-            w("\tlat2 = radians(lat2);lat2 = radians(lat2);");
+            w("\tlat2 = radians(lat2);");
             w("\tdouble slat1 = sin(lat1);");
             w("\tdouble clat1 = cos(lat1);");
             w("\tdouble slat2 = sin(lat2);");

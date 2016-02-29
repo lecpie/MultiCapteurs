@@ -2,7 +2,7 @@ importlib "scripts/lib/DHT.groovy"
 importlib "scripts/lib/GPS.groovy"
 importlib "scripts/lib/TSL2561.groovy"
 
-sensor "GPS" with "rx" valued "2" and "tx" valued "1" and "baudrate" valued "4800"
+sensor "GPS" with "rx" valued "2" and "tx" valued "1"
 
 measure "latitude" captured meta
 measure "longitude" captured meta
@@ -15,6 +15,6 @@ measure "temperature" captured distanced every 7.m named "fahr" with "format" va
 
 sensor "TSL2561"
 
-measure "light" captured distanced every 1.m
+measure "light" captured distanced every 4.m
 
 export "distancedExample"

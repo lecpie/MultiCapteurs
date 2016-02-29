@@ -68,7 +68,6 @@ abstract class MultiCapteursMLBasescript extends Script {
                             measureUse.setCaptureMethod(new PeriodicCapture(what));
                         }
                         else if (captureMethod instanceof DistancedCapture) {
-                            System.err.println("lol")
                             measureUse.setCaptureMethod(new DistancedCapture(what))
                         }
 
