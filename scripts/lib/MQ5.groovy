@@ -3,5 +3,5 @@
 library "MQ5"
 requires "pin"
 
-measure "GasDensity" typed real
+measure "Gas" typed real
 reads "((float) analogRead(pin)) / 1024"
