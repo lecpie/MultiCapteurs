@@ -166,9 +166,11 @@ void setup()
 
 #if SDOUTPUT
     // Init CSV file
-    if (SD.exists(output)) {
-        SD.remove(output);
-    }
+    uint16_t ifile = 0;
+    do {
+        sprintf(output, "LOG%d.CSV", ifile++);
+    } while (SD.exists(output));
+
     // Write csv header
     datafile = SD.open(output, FILE_WRITE);
     #endif
