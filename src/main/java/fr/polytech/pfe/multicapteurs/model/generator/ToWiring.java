@@ -94,7 +94,7 @@ public class ToWiring extends Visitor<StringBuffer> {
             def("SDCHIPSELECT", "4");
             def("SDPIN",        "10");
 
-            w("char output[16];");
+            w("char output[] = \"" + app.getOutput().getPath() + "\";");
             w("File datafile;");
         }
 
@@ -280,11 +280,9 @@ public class ToWiring extends Visitor<StringBuffer> {
         }
 
         if (SDOUTPUT) {
-            w("\tuint16_t ifile = 0;");
-            w("\tdo {");
-            w("\t\tsprintf(output, \"LOG%d.CSV\", ifile++);");
-            w("} while (SD.exists(output));");
-
+            w("\tif (SD.exists(output)) {");
+            w("\t\tSD.remove(output);");
+            w("}");
             w("\tdatafile = SD.open(output, FILE_WRITE);");
         }
 
