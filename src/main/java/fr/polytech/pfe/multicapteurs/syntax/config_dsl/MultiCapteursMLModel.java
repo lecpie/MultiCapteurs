@@ -105,7 +105,7 @@ public class MultiCapteursMLModel {
         app.setUsedLibraries(usedLibraries);
 
         if (output == null) {
-            output = new Output("measures.txt");
+            output = new Output("measures.csv");
         }
 
         for (MeasureUse measureUse : usedMeasure) {
